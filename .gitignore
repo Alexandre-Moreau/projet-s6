@@ -1,6 +1,5 @@
 articles/*
+env.php
 
-!article
-!article/index.html
-
-# + le fichier avec les variables d'environnement
+!articles
+!articles/index.html
