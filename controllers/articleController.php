@@ -9,12 +9,16 @@ class ArticleController extends Controller{
 		}else{
 			$data['erreursSaisie']=[];
 			//var_dump($_FILES);
-			$fileType = explode("/", $_FILES['file']['type'])[1]; // application/pdf -> pdf
+
 			if($_FILES['file']['name']==''){
 				array_push($data['erreursSaisie'],"aucun fichier n'a été déposé");
-			}elseif($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != ''){
-				array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu");
+			}else{
+				$fileType = explode("/", $_FILES['file']['type'])[1]; // application/pdf -> pdf
+				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != ''){
+					array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu (".$fileType.")");
+				}
 			}
+
 			if($data['erreursSaisie']!=[]){
 				$this->render("formCreate",$data);
 			}else{
