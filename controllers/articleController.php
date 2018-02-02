@@ -1,38 +1,46 @@
 <?php
 
-//Auto-generated file
 class ArticleController extends Controller{
+	
 	public function create(){
 		$data=[];
-		if(!isset($_POST['submit'])){
-			$this->render("formCreate",$data);
+		$this->render("formCreate",$data);
+	}
+	
+	public function ajaxCreate(){
+		header('Content-type: application/json');
+		$data['erreursSaisie']=[];
+		
+		if($_POST['nom'] == ''){
+			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
+		}
+		if($_FILES == []){
+			array_push($data['erreursSaisie'],'aucun fichier n\'a été spécifié');
 		}else{
-			$data['erreursSaisie']=[];
-			//var_dump($_FILES);
-
-			if($_FILES['file']['name']==''){
-				array_push($data['erreursSaisie'],"aucun fichier n'a été déposé");
+			if(sizeof($_FILES) > 1){
+				array_push($data['erreursSaisie'],'trop de fichiers');
 			}else{
-				$fileType = explode("/", $_FILES['file']['type'])[1]; // application/pdf -> pdf
+				$fileType = explode("/", $_FILES['0']['type'])[1]; // application/pdf -> pdf, text/html -> html
 				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != ''){
 					array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu (".$fileType.")");
 				}
 			}
+		}
 
-			if($data['erreursSaisie']!=[]){
-				$this->render("formCreate",$data);
+		if($data['erreursSaisie']!=[]){
+			echo(json_encode($data['erreursSaisie']));
+		}else{
+			echo(json_encode('succes'));
+			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $_FILES['0']['name'])){
+				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $_FILES['0']['name'], $fileType);
+				Article::insert($newArticle);
+				//var_dump($newArticle);
+				//header('Location: ./?r=Article/showById&id='.db()->lastInsertId());
 			}else{
-				if(move_uploaded_file($_FILES['file']['tmp_name'], 'articles\\' . $_FILES['file']['name'])){
-					$newArticle = new Article('TODO name', 'articles\\\\'.$_FILES['file']['name'], $fileType);
-					Article::insert($newArticle);
-					//var_dump($newArticle);
-					header('Location: ./?r=Article/showById&id='.db()->lastInsertId());
-				}else{
-					echo 'Erreur upload file';
-				}
+				array_push($data['erreursSaisie'],'erreur upload file');
+				echo(json_encode($data['erreursSaisie']));
 			}
 		}
-		$this->render("formcreate");
 	}
 	
 	public function showAll(){

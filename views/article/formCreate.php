@@ -1,25 +1,80 @@
 
-<?php
-	if(isset($data['erreursSaisie'])){
-		echo "<p class='erreursSaisie'>Il y a des erreurs:<br/>";
-		foreach($data['erreursSaisie'] as $erreurSaisie){
-			echo "-".$erreurSaisie."<br/>";
-		}
-	echo "</p>";
-}
-?>
-<form action='./?r=Article/create' method='post' enctype="multipart/form-data">
-	<!--<label for='nom'>nom : <span class='requis'>*</span></label>
-	<input type='text' name='nom' id='nom' <?php if(isset($_POST['nom'])){echo "value='".$_POST['nom']."'";} ?> />
-	<label for='chemin'>chemin : <span class='requis'>*</span></label>
-	<input type='text' name='chemin' id='chemin' <?php if(isset($_POST['chemin'])){echo "value='".$_POST['chemin']."'";} ?> />
-	<label for='type'>type : <span class='requis'>*</span></label>
-	<input type='text' name='type' id='type' <?php if(isset($_POST['type'])){echo "value='".$_POST['type']."'";} ?> />-->
-	<input name="file" type="file" accept=".pdf,.html,.htm">
-	<div class="form_boutons">
-		<input type='submit' name='submit' value='Confirmer' id='submit'/><!--
-		--><input type='submit' name='cancel' value='Annuler' id='cancel'/>
-	</div>
+			<div id="divErreursForm">
+				<ul>
+				</ul>
+			</div>
+			<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
+				<label for="nom">nom : <span class="requis">*</span></label>
+				<input type="text" name="nom" id="nom"/>
+				<input type="file" name='file' id='file' accept=".pdf,.html,.htm">
+				<div class="form_boutons">
+					<input type="submit" value="Confirmer"><!--
+					--><button>Annuler</button>
+				</div>
+			</form>
+			<!--<progress></progress>-->
+			<span class='requis'>*</span> Champ requis
 
-</form>
-<span class='requis'>*</span> Champ requis
+			<script>
+				var erreursForm = [];
+				
+				function refreshDivErreursForm(){
+					$('#divErreursForm #messgError').remove();
+					$('#divErreursForm ul').empty();
+					
+					if(erreursForm.length > 0){
+						$('#divErreursForm').prepend('<p id="messgError">Il y a des erreurs dans le formulaire:</p>'); //On ajoute avant la liste de la div
+						if($.isArray(erreursForm)){
+							erreursForm.forEach(function(element){
+								$('#divErreursForm ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
+							});
+						}else{
+							console.log(erreursForm);
+						}
+					}
+				}
+				
+				$(document).ready(function () {
+					refreshDivErreursForm();
+					
+					var form = $('form')
+					
+					
+					
+					form.on('submit', function(e) {
+						
+						erreursForm = [];
+						var data = new FormData();
+						
+						data.append('nom', $('#nom').val());
+						$.each($('#file')[0].files, function(i, file) {
+							data.append(i, file);
+						});
+					
+						e.preventDefault();
+						$.ajax({
+							url: form.attr('action'),
+							type: form.attr('method'),						
+							data: data,
+							
+							cache: false,
+							processData: false,
+							contentType: false,
+							
+							success: function (reponse) {
+								if(reponse != "succes"){
+									erreursForm = reponse;
+								}
+								refreshDivErreursForm();
+								//console.log(reponse);
+							},
+							error: function (xhr, textStatus, errorThrown) {
+								console.log(xhr.responseText);
+							}
+						});
+					});
+					
+				});
+
+			</script>
+	

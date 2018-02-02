@@ -25,11 +25,20 @@ if (isset(parameters()["r"])) {
 	else
 		list($controller, $action) = explode("/", $route);
 	$controller = ucfirst($controller)."Controller";
-	$c = new $controller();
-	$c->$action();
+	if(strpos($action,"ajax") === FALSE){
+		include_once "views/header.php";
+		$c = new $controller();
+		$c->$action();
+		include_once "views/footer.php";
+	}else{
+		$c = new $controller();
+		$c->$action();
+	}
 } else {
+	include_once "views/header.php";
 	$c = new SiteController();
 	$c->index();
+	include_once "views/footer.php";
 }
 
 ?>

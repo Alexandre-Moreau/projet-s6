@@ -7,7 +7,6 @@
 
 	<body>
 		<header>
-			<span id="test">Avant</span>
 			<a href=".?r=site/index">Accueil</a>
 			<ul>
 				<li><a href=".?r=Site/index">Site/index</a></li>
@@ -22,4 +21,4 @@
 			print_r($_SESSION);
 		*/
 		?>
-		<div id="content">
+<div id="content">

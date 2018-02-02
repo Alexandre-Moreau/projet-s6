@@ -11,9 +11,8 @@ include_once "tools.php";
 
 session_start();
 
-include_once "views/header.php";
+
 date_default_timezone_set('Europe/Paris');
 include_once "controllers/route.php";
-include_once "views/footer.php";
 
 ?>
