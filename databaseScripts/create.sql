@@ -57,4 +57,4 @@ ADD CONSTRAINT fk_reference_concept_id FOREIGN KEY (concept_id) REFERENCES conce
 
 ALTER TABLE concepPere
 ADD CONSTRAINT fk_conceptPere_conceptPere_id FOREIGN KEY (conceptPere_id) REFERENCES concept(id),
-ADD CONSTRAINT fk_conceptPere_conceptFIls_id FOREIGN KEY (conceptFils_id) REFERENCES concept(id);
+ADD CONSTRAINT fk_conceptPere_conceptFils_id FOREIGN KEY (conceptFils_id) REFERENCES concept(id);
