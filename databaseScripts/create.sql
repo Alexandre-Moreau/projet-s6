@@ -1,4 +1,3 @@
-/* Auto-generated file */
 DROP TABLE IF EXISTS terme;
 DROP TABLE IF EXISTS reference;
 DROP TABLE IF EXISTS article;
