@@ -7,10 +7,18 @@ INSERT INTO `langue`(`id`, `nom`) VALUES (DEFAULT, 'cn');
 INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Vehicule');
 INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Habitation');
 
+INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Voiture');
+INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Camping Car');
+INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Maison');
+INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Immeuble');
+
+
 /* Concepts Peres */
 
 
 /* Termes */
+
+/*
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'camping car', '1', '1');
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'camping car', '2', '1');
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'voiture', '1', '1');
@@ -22,3 +30,4 @@ INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'building', '1', '2');
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'camping car', '1', '2');
 INSERT INTO `terme`(`id`, `motCle`, `langue_id`, `concept_id`) VALUES (DEFAULT, 'camping car', '2', '2');
+*/
