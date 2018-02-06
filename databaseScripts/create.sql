@@ -29,6 +29,7 @@ CREATE TABLE terme (
 	id int AUTO_INCREMENT,
 	motCle varchar(30) DEFAULT '',
 	langue_id int,
+	concept_id int,
 	CONSTRAINT pk_terme_id PRIMARY KEY (id)
 );
 
@@ -41,9 +42,9 @@ CREATE TABLE reference (
 );
 
 ALTER TABLE terme
-ADD CONSTRAINT fk_terme_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id);
+ADD CONSTRAINT fk_terme_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id),
+ADD CONSTRAINT fk_terme_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id);
 
 ALTER TABLE reference
 ADD CONSTRAINT fk_reference_article_id FOREIGN KEY (article_id) REFERENCES article(id),
 ADD CONSTRAINT fk_reference_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id);
-
