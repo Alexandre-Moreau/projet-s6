@@ -1,6 +1,6 @@
-<form action="#" method="POST">
-	
-	<input type="text" />
-	<button id="rechercher">Rechercher</button>
+<form action="#" method="POST" class="form-inline my-2 my-lg-0">
+
+	<input class="form-control mr-sm-2" type="text" placeholder="Search">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
 </form>

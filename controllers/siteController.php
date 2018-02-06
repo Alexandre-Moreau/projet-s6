@@ -10,6 +10,10 @@ class SiteController extends Controller{
 	public function rechercher(){
 		$this->render("rechercher");
 	}
+
+	public function creerOntoterminologie(){
+		$this->render("formCreerOntoterminologie");
+	}
 	
 }
 

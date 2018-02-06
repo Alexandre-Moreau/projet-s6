@@ -4,12 +4,20 @@
 				</ul>
 			</div>
 			<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
-				<label for="nom">nom : <span class="requis">*</span></label>
-				<input type="text" name="nom" id="nom"/>
-				<input type="file" name='file' id='file' accept=".pdf,.html,.htm">
-				<div class="form_boutons">
-					<input type="submit" value="Confirmer"><!--
-					--><button>Annuler</button>
+				<div class="form-group">
+					<label for="nom">Nom : <span class="requis">*</span></label>
+					<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
+				</div>
+				<div class="form-group">
+					<input type="file" name='file' id='file' accept=".pdf,.html,.htm" class="form-control">
+					<!--<label class="custom-file">
+						<input type="file" id="file" name="file" accept=".pdf,.html,.htm" class="form-control custom-file-input">
+						<span class="custom-file-control"></span>
+					</label>-->
+				</div>
+				<div class="form-group form_boutons">
+					<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
+					--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
 				</div>
 			</form>
 			<!--<progress></progress>-->
