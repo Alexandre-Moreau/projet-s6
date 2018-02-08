@@ -17,3 +17,7 @@ object{
 	height: 100%;
 	margin: auto;
 }
+
+div .onto{
+	width: 33%;
+}

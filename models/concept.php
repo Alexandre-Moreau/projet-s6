@@ -4,12 +4,14 @@
 class Concept extends Model{
 
 	static public $tableName = "concept";
-	private $id;
-	private $nom;
+	protected $id;
+	protected $nom;
+	protected $conceptsFils;
 
-	public function __construct($pNom, $pId = null){
+	public function __construct($pNom, $conceptsFils=null, $pId = null){
 		$this->id = $pId;
 		$this->nom = $pNom;
+		$this->conceptsFils = $conceptsFils;
 	}
 
 	static public function findById($pId){
@@ -19,13 +21,65 @@ class Concept extends Model{
 			$row = $query->fetch(PDO::FETCH_ASSOC);
 			$id = $row['id'];
 			$nom = $row['nom'];
-			return new Concept($nom, $id);
+			$conceptsFils = [];
+			return new Concept($nom, $conceptsFils, $id);
+		}
+		return null;
+	}
+	
+	static public function findByIdWithChildrens($pId){
+		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE id = ".$pId."");
+		$query->execute();
+		if ($query->rowCount() > 0){
+			$row = $query->fetch(PDO::FETCH_ASSOC);
+			$id = $row['id'];
+			$nom = $row['nom'];
+			//récupération des concepts fils
+			$query = db()->prepare("SELECT conceptFrom_id FROM relation WHERE type=\"isA\" and conceptTo_id=".$pId);
+			$query->execute();
+			$conceptsFils = [];
+			if ($query->rowCount() > 0){
+				$results = $query->fetchAll();
+				foreach ($results as $row) {
+					array_push($conceptsFils, self::findByIdWithChildrens($row["conceptFrom_id"]));
+				}
+			}
+			return new Concept($nom, $conceptsFils, $id);
 		}
 		return null;
 	}
 
-	static public function findAll($pId){
+	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
+		$query->execute();
+		$returnList = [];
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+	
+	static public function findAllWithChildrens(){
+		$requete = "SELECT id FROM concept WHERE concept.id NOT IN(SELECT conceptFrom_id FROM relation WHERE type=\"isA\")";
+		$query = db()->prepare($requete);
+		$query->execute();
+		$returnList = [];
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::findByIdWithChildrens($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+	
+	static public function findRoots(){
+		$requete = "SELECT id FROM concept WHERE concept.id NOT IN(SELECT conceptFrom_id FROM relation WHERE type=\"isA\")";
+		echo $requete;
+		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = array();
 		if ($query->rowCount() > 0){

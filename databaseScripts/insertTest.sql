@@ -1,19 +1,41 @@
 /* Langues fr/en/cn */
-INSERT INTO `langue`(`id`, `nom`) VALUES (DEFAULT, 'fr');
-INSERT INTO `langue`(`id`, `nom`) VALUES (DEFAULT, 'en');
-INSERT INTO `langue`(`id`, `nom`) VALUES (DEFAULT, 'cn');
+INSERT INTO langue VALUES (DEFAULT, 'fr');
+INSERT INTO langue VALUES (DEFAULT, 'en');
+INSERT INTO langue VALUES (DEFAULT, 'cn');
 
 /* Concepts */
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Vehicule');
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Habitation');
+INSERT INTO concept VALUES (DEFAULT, 'Vehicule');
+INSERT INTO concept VALUES (DEFAULT, 'Vehicule à roues');
+INSERT INTO concept VALUES (DEFAULT, 'Habitation');
+INSERT INTO concept VALUES (DEFAULT, 'Voiture');
+INSERT INTO concept VALUES (DEFAULT, 'Camping Car');
+INSERT INTO concept VALUES (DEFAULT, 'Maison');
+INSERT INTO concept VALUES (DEFAULT, 'Immeuble');
 
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Voiture');
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Camping Car');
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Maison');
-INSERT INTO `concept`(`id`, `nom`) VALUES (DEFAULT, 'Immeuble');
+
+/* Relations DEFAULT = "isA" */
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Vehicule à roues'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Voiture'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Maison'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Immeuble'), (SELECT id FROM concept WHERE nom='Habitation'));
 
 
-/* Concepts Peres */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* Termes */

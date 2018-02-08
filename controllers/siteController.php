@@ -8,7 +8,8 @@ class SiteController extends Controller{
 	}
 
 	public function rechercher(){
-		$this->render("rechercher");
+		$data['onto'] = Concept::findAllWithChildrens();
+		$this->render("rechercher", $data);
 	}
 
 	public function creerOntoterminologie(){

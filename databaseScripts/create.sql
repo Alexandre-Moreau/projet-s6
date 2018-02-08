@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS langue;
 DROP TABLE IF EXISTS concept;
 DROP TABLE IF EXISTS concepPere;
+DROP TABLE IF EXISTS relation;
 
 CREATE TABLE article (
 	id int AUTO_INCREMENT,
@@ -28,22 +29,23 @@ CREATE TABLE concept (
 CREATE TABLE terme (
 	id int AUTO_INCREMENT,
 	motCle varchar(30) DEFAULT '',
-	langue_id int,
-	concept_id int,
+	langue_id int NOT NULL,
+	concept_id int NOT NULL,
 	CONSTRAINT pk_terme_id PRIMARY KEY (id)
 );
 
 CREATE TABLE reference (
 	id int AUTO_INCREMENT,
-	nombreRef int,
-	article_id int,
-	concept_id int,
+	nombreRef int DEFAULT 1,
+	article_id int NOT NULL,
+	concept_id int NOT NULL,
 	CONSTRAINT pk_reference_id PRIMARY KEY (id)
 );
 
-CREATE TABLE concepPere (
-	conceptFils_id int,
-	conceptPere_id int
+CREATE TABLE relation (
+	type varchar(15) DEFAULT 'isA',
+	conceptFrom_id int NOT NULL,
+	conceptTo_id int NOT NULL
 );
 
 ALTER TABLE terme
@@ -54,6 +56,6 @@ ALTER TABLE reference
 ADD CONSTRAINT fk_reference_article_id FOREIGN KEY (article_id) REFERENCES article(id),
 ADD CONSTRAINT fk_reference_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id);
 
-ALTER TABLE concepPere
-ADD CONSTRAINT fk_conceptPere_conceptPere_id FOREIGN KEY (conceptPere_id) REFERENCES concept(id),
-ADD CONSTRAINT fk_conceptPere_conceptFils_id FOREIGN KEY (conceptFils_id) REFERENCES concept(id);
+ALTER TABLE relation
+ADD CONSTRAINT fk_relation_conceptFrom_id FOREIGN KEY (conceptFrom_id) REFERENCES concept(id),
+ADD CONSTRAINT fk_relation_conceptFroms_id FOREIGN KEY (conceptTo_id) REFERENCES concept(id);
