@@ -9,6 +9,7 @@
 		}
 		echo('</table>');
 	}else{
-		echo('Aucun article');
+		echo '<p>Aucun article</p>';
+		echo '<a href=".?r=Article/create"><button class="btn btn-outline-success my-2 my-sm-0">Ajouter un article</button></a>';
 	}
 ?>
