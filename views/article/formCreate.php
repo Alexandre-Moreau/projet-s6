@@ -1,7 +1,5 @@
 
-			<div id="divErreursForm">
-				<ul>
-				</ul>
+			<div id="formStatus" >
 			</div>
 			<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
 				<div class="form-group">
@@ -24,30 +22,41 @@
 			<span class='requis'>*</span> Champ requis
 
 			<script>
-				var erreursForm = [];
+				var formAnswer = [];
+				formAnswer['erreursSaisie'] = [];
 				
-				function refreshDivErreursForm(){
-					$('#divErreursForm #messgError').remove();
-					$('#divErreursForm ul').empty();
+				function refreshDivFormStatus(){
+					$('#formStatus').removeClass('alert alert-danger alert-success');
+					$('#formStatus #statusMessage').remove();
+					$('#formStatus ul').remove();
 					
-					if(erreursForm.length > 0){
-						$('#divErreursForm').prepend('<p id="messgError">Il y a des erreurs dans le formulaire:</p>'); //On ajoute avant la liste de la div
-						if($.isArray(erreursForm)){
-							erreursForm.forEach(function(element){
-								$('#divErreursForm ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
+					if(formAnswer['statut'] == 'echec'){
+						$('#formStatus').addClass('alert alert-danger');
+						$('#formStatus').append('<strong id="statusMessage">Il y a des erreurs dans le formulaire</strong>');
+						$('#formStatus').append('<ul/>');
+						if($.isArray(formAnswer['erreursSaisie'])){
+							formAnswer['erreursSaisie'].forEach(function(element){
+								$('#formStatus ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
 							});
 						}else{
-							console.log(erreursForm);
+							console.log(formAnswer);
 						}
+					}else if(formAnswer['statut'] == 'succes'){
+						$('#formStatus').addClass('alert alert-success');
+						$('#formStatus').append('<strong id="statusMessage">L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a>');
+					}else{
+						
 					}
 				}
 				
+				function askRedirect(articleId){
+					
+				}
+				
 				$(document).ready(function () {
-					refreshDivErreursForm();
+					refreshDivFormStatus();
 					
-					var form = $('form')
-					
-					
+					var form = $('form');
 					
 					form.on('submit', function(e) {
 						
@@ -70,13 +79,15 @@
 							contentType: false,
 							
 							success: function (reponse) {
-								if(reponse != "succes"){
-									erreursForm = reponse;
-								}
-								refreshDivErreursForm();
 								//console.log(reponse);
+								if(reponse['statut'] == "succes"){
+									askRedirect(reponse['articleId']);							
+								}
+								formAnswer = reponse;
+								refreshDivFormStatus();
 							},
 							error: function (xhr, textStatus, errorThrown) {
+								console.log(errorThrown);
 								console.log(xhr.responseText);
 							}
 						});

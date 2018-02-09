@@ -28,17 +28,19 @@ class ArticleController extends Controller{
 		}
 
 		if($data['erreursSaisie']!=[]){
-			echo(json_encode($data['erreursSaisie']));
+			$data['statut'] = 'echec';
+			echo(json_encode($data));
 		}else{
-			echo(json_encode('succes'));
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $_FILES['0']['name'])){
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $_FILES['0']['name'], $fileType);
 				Article::insert($newArticle);
-				//var_dump($newArticle);
-				//header('Location: ./?r=Article/showById&id='.db()->lastInsertId());
+				$data['statut'] = 'succes';
+				$data['articleId'] = db()->lastInsertId();
+				echo(json_encode($data));
 			}else{
+				$data['statut'] = 'echec';
 				array_push($data['erreursSaisie'],'erreur upload file');
-				echo(json_encode($data['erreursSaisie']));
+				echo(json_encode($data));
 			}
 		}
 	}
