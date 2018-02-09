@@ -6,9 +6,9 @@ html, body{
 
 #content{
 	width: 100%;
-	height: 100%;
 	display: block;
 	padding: 16px;
+	min-height: 66vh;
 }
 
 object{
@@ -25,10 +25,16 @@ div .onto{
 footer{
 	padding: 20px;
 	text-align:center;
-	background-color: #4c5b5c;
+	background-color: grey;
 	color: white;
 }
 
 footer a{
 	color:#42f0f0;
+}
+
+#footerBtg{
+	vertical-align: middle;
+	margin-left: 5px;
+	font-weight: bold;
 }

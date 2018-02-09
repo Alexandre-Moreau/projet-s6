@@ -1,7 +1,7 @@
 	</div>
 	</body>
 		<footer>
-			<p><image src="./images/favicon-big.png"><span style="vertical-align:middle">BTG</span></p>
+			<p><image src="./images/favicon-big.png"><span id="footerBtg">BTG</span></p>
 			<p>
 				BTG est un projet réalisé dans le cadre de la L3 Informatique.<br/>
 				Le code complet est disponible sur GitHub à <a href="https://github.com/Alexandre-Moreau/projet-s6">cette adresse</a>.
