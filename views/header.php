@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>BTG</title>
+		<link rel="shortcut icon" type="image/png" href="./images/favicon.png"/>
+		<!-- https://www.flaticon.com/packs/space-3 -->
+	
 		<!-- jQuery -->
 		<script src="lib/jquery/jquery-3.3.1.min.js"></script>
 		
