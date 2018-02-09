@@ -26,7 +26,7 @@
 				formAnswer['erreursSaisie'] = [];
 				
 				function refreshDivFormStatus(){
-					$('#formStatus').removeClass('alert alert-danger alert-success');
+					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
 					$('#formStatus #statusMessage').remove();
 					$('#formStatus ul').remove();
 					
@@ -45,7 +45,8 @@
 						$('#formStatus').addClass('alert alert-success');
 						$('#formStatus').append('<strong id="statusMessage">L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a>');
 					}else{
-						
+						$('#formStatus').addClass('alert alert-warning');
+						$('#formStatus').append(formAnswer['info']);
 					}
 				}
 				

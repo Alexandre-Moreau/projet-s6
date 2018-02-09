@@ -31,8 +31,10 @@ class ArticleController extends Controller{
 			$data['statut'] = 'echec';
 			echo(json_encode($data));
 		}else{
-			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $_FILES['0']['name'])){
-				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $_FILES['0']['name'], $fileType);
+			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
+			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){
+				
+				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType);
 				Article::insert($newArticle);
 				$data['statut'] = 'succes';
 				$data['articleId'] = db()->lastInsertId();
