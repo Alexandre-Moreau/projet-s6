@@ -44,7 +44,7 @@
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
 						$('#formStatus').append('<strong id="statusMessage">L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a>');
-					}else{
+					}else if(formAnswer['statut'] == 'warning'{
 						$('#formStatus').addClass('alert alert-warning');
 						$('#formStatus').append(formAnswer['info']);
 					}
