@@ -4,7 +4,7 @@ function __autoload($name) {
 	$dir = "models";
 	if (strpos($name,"Controller") !== FALSE)
 		$dir = "controllers";
-	include_once $dir."/".$name.".php";
+	include_once $dir."/".lcfirst($name).".php";
 }
 
 function cleanString($text) {

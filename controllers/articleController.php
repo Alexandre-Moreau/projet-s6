@@ -50,13 +50,13 @@ class ArticleController extends Controller{
 	public function showAll(){
 		$articles = Article::FindAll();
 		$data['articles'] = $articles;
-		$this->render("tableshowAll", $data);
+		$this->render("tableShowAll", $data);
 	}
 	
 	public function showById(){
 		$article = Article::FindById($_GET['id']);
 		$data['article'] = $article;
-		$this->render("tableshowById", $data);
+		$this->render("tableShowById", $data);
 	}
 }
 
