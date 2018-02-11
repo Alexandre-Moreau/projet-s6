@@ -13,6 +13,22 @@
 						<span class="custom-file-control"></span>
 					</label>-->
 				</div>
+				<div class="form-group">
+					<label for="langue">Langue :</label>
+					<select id="langue">
+						<?php
+							foreach($data['langues'] as $langue){
+								if($langue->nom == $data['langueDefaut']){
+									echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
+								}else{
+									echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+								}
+								
+							}
+						?>
+						<option value="null">autre (le texte ne sera pas référencé)</option>
+					</select>
+				</div>
 				<div class="form-group form_boutons">
 					<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
 					--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
@@ -44,7 +60,7 @@
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
 						$('#formStatus').append('<strong id="statusMessage">L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a>');
-					}else if(formAnswer['statut'] == 'warning'{
+					}else if(formAnswer['statut'] == 'warning'){
 						$('#formStatus').addClass('alert alert-warning');
 						$('#formStatus').append(formAnswer['info']);
 					}
@@ -65,6 +81,7 @@
 						var data = new FormData();
 						
 						data.append('nom', $('#nom').val());
+						data.append('langue', $('#langue').find(":selected").text());
 						$.each($('#file')[0].files, function(i, file) {
 							data.append(i, file);
 						});
@@ -80,7 +97,7 @@
 							contentType: false,
 							
 							success: function (reponse) {
-								//console.log(reponse);
+								console.log(reponse);
 								if(reponse['statut'] == "succes"){
 									askRedirect(reponse['articleId']);							
 								}

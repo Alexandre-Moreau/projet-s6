@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS terme;
+DROP TABLE IF EXISTS concepPere;
+DROP TABLE IF EXISTS relation;
 DROP TABLE IF EXISTS reference;
+DROP TABLE IF EXISTS terme;
 DROP TABLE IF EXISTS article;
 DROP TABLE IF EXISTS langue;
 DROP TABLE IF EXISTS concept;
-DROP TABLE IF EXISTS concepPere;
-DROP TABLE IF EXISTS relation;
 
 CREATE TABLE article (
 	id int AUTO_INCREMENT,
@@ -16,7 +16,7 @@ CREATE TABLE article (
 
 CREATE TABLE langue (
 	id int AUTO_INCREMENT,
-	nom varchar(30) DEFAULT '',
+	nom varchar(30) DEFAULT '' UNIQUE,
 	CONSTRAINT pk_langue_id PRIMARY KEY (id)
 );
 
@@ -43,9 +43,11 @@ CREATE TABLE reference (
 );
 
 CREATE TABLE relation (
+	id int AUTO_INCREMENT,
 	type varchar(15) DEFAULT 'isA',
 	conceptFrom_id int NOT NULL,
-	conceptTo_id int NOT NULL
+	conceptTo_id int NOT NULL,
+	CONSTRAINT pk_relation_id PRIMARY KEY (id)
 );
 
 ALTER TABLE terme

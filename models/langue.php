@@ -24,7 +24,7 @@ class Langue extends Model{
 		return null;
 	}
 
-	static public function findAll($pId){
+	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
 		$returnList = array();

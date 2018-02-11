@@ -12,26 +12,40 @@ INSERT INTO concept VALUES (DEFAULT, 'Camping Car');
 INSERT INTO concept VALUES (DEFAULT, 'Maison');
 INSERT INTO concept VALUES (DEFAULT, 'Immeuble');
 
+/* Relations (DEFAULT = "isA") */
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Vehicule à roues'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Voiture'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Maison'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO relation VALUES (DEFAULT, DEFAULT, (SELECT id FROM concept WHERE nom='Immeuble'), (SELECT id FROM concept WHERE nom='Habitation'));
 
-/* Relations DEFAULT = "isA" */
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Vehicule à roues'), (SELECT id FROM concept WHERE nom='Vehicule'));
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Voiture'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Vehicule à roues'));
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Camping Car'), (SELECT id FROM concept WHERE nom='Habitation'));
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Maison'), (SELECT id FROM concept WHERE nom='Habitation'));
-INSERT INTO relation VALUES (DEFAULT, (SELECT id FROM concept WHERE nom='Immeuble'), (SELECT id FROM concept WHERE nom='Habitation'));
+/* Termes */
+INSERT INTO terme VALUES(DEFAULT, 'véhicule', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO terme VALUES(DEFAULT, 'véhicules', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO terme VALUES(DEFAULT, 'vehicule', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO terme VALUES(DEFAULT, 'vehicules', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO terme VALUES(DEFAULT, 'vehicle', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Vehicule'));
+INSERT INTO terme VALUES(DEFAULT, 'vehicles', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Vehicule'));
 
+INSERT INTO terme VALUES(DEFAULT, 'voiture', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Voiture'));
+INSERT INTO terme VALUES(DEFAULT, 'voitures', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Voiture'));
+INSERT INTO terme VALUES(DEFAULT, 'car', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Voiture'));
+INSERT INTO terme VALUES(DEFAULT, 'cars', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Voiture'));
 
+INSERT INTO terme VALUES(DEFAULT, 'habitation', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO terme VALUES(DEFAULT, 'habitations', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO terme VALUES(DEFAULT, 'home', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO terme VALUES(DEFAULT, 'homes', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
 
+INSERT INTO terme VALUES(DEFAULT, 'maison', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Maison'));
+INSERT INTO terme VALUES(DEFAULT, 'maisons', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Maison'));
+INSERT INTO terme VALUES(DEFAULT, 'house', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Maison'));
+INSERT INTO terme VALUES(DEFAULT, 'houses', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Maison'));
 
-
-
-
-
-
-
-
-
+INSERT INTO terme VALUES(DEFAULT, 'camping car', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Camping car'));
+INSERT INTO terme VALUES(DEFAULT, 'camping car', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Camping car'));
+INSERT INTO terme VALUES(DEFAULT, 'camping cars', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Camping car'));
 
 
 

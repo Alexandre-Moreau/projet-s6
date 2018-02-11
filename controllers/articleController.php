@@ -4,6 +4,8 @@ class ArticleController extends Controller{
 	
 	public function create(){
 		$data=[];
+		$data['langues'] = Langue::FindAll();
+		$data['langueDefaut'] = $_ENV['langue'];
 		$this->render("formCreate",$data);
 	}
 	
