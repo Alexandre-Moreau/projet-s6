@@ -12,6 +12,7 @@ class ArticleController extends Controller{
 	public function ajaxCreate(){
 		header('Content-type: application/json');
 		$data['erreursSaisie']=[];
+		$data['log'] = [];
 		
 		if($_POST['nom'] == ''){
 			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
@@ -34,10 +35,10 @@ class ArticleController extends Controller{
 			echo(json_encode($data));
 		}else{
 			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
-			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){
-				
+			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType);
-				Article::insert($newArticle);
+				ArticleModel::insert($newArticle);
+				$data['log'] = self::processContent($newArticle);
 				$data['statut'] = 'succes';
 				$data['articleId'] = db()->lastInsertId();
 				echo(json_encode($data));
@@ -50,15 +51,22 @@ class ArticleController extends Controller{
 	}
 	
 	public function showAll(){
-		$articles = Article::FindAll();
+		$articles = ArticleModel::FindAll();
 		$data['articles'] = $articles;
 		$this->render("tableShowAll", $data);
 	}
 	
 	public function showById(){
-		$article = Article::FindById($_GET['id']);
+		$article = ArticleModel::FindById($_GET['id']);
 		$data['article'] = $article;
-		$this->render("tableShowById", $data);
+		$this->render('tableShowById', $data);
+	}
+	
+	private static function processContent ($article){
+		include_once('Smalot\PdfParser\Parser.php'); 
+		$parser = new Parser();
+		$pdf = $parser->parseFile($article->chemin);
+		return $pdf->getText();
 	}
 }
 

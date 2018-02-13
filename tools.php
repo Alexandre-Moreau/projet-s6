@@ -1,10 +1,18 @@
 <?php
 
 function __autoload($name) {
-	$dir = "models";
-	if (strpos($name,"Controller") !== FALSE)
-		$dir = "controllers";
-	include_once $dir."/".lcfirst($name).".php";
+	$dir = 'models\\';
+	if (strpos($name,'Controller') !== FALSE){
+		$dir = 'controllers\\';
+	}
+	/*if (strpos($name,'Model') !== FALSE){
+		$dir = 'models\\';
+	}*/
+	include_once $dir.lcfirst($name).".php";
+	/*if (explode("\\", $name)[0] == "root"){
+		$dir = "";
+		$name = substr($name, strpos($name, "\\") + 1);
+	}*/
 }
 
 function cleanString($text) {

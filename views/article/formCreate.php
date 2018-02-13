@@ -59,7 +59,7 @@
 						}
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
-						$('#formStatus').append('<strong id="statusMessage">L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a>');
+						$('#formStatus').append('<span id="statusMessage" <strong>L\'article a été créé avec succès</strong> <a href=".?r=Article/showById&id=' + formAnswer['articleId'] + '">Y accéder</a></span>');
 					}else if(formAnswer['statut'] == 'warning'){
 						$('#formStatus').addClass('alert alert-warning');
 						$('#formStatus').append(formAnswer['info']);
@@ -97,6 +97,9 @@
 							contentType: false,
 							
 							success: function (reponse) {
+								if(reponse['log'].length != 0){
+									console.log(reponse['log']);
+								}
 								console.log(reponse);
 								if(reponse['statut'] == "succes"){
 									askRedirect(reponse['articleId']);							
@@ -105,7 +108,6 @@
 								refreshDivFormStatus();
 							},
 							error: function (xhr, textStatus, errorThrown) {
-								console.log(errorThrown);
 								console.log(xhr.responseText);
 							}
 						});
