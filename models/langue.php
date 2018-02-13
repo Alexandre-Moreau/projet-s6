@@ -55,6 +55,11 @@ class Langue extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$langue->id);
 		$query->execute();
 	}
+
+	static public function deleteAll(){
+		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query->execute();
+	}
 }
 
 ?>
