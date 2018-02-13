@@ -1,3 +1,25 @@
+	<div class="container">
+		<h3>Créer une nouvelle ontoterminologie</h3>
+		<hr style="border-top: 3px double grey"><br>
+		<div id="formStatus" >
+		</div>
+		<form method="post" action =".?r=Site/ajaxCreate" enctype="multipart/form-data" class="col">
+			<div class="form-group">
+				<label for="nom">Nom : <span class="requis">*</span></label>
+				<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
+			</div>
+			<div class="form-group">
+				<input type="file" name='file' id='file' accept=".pdf,.html,.htm" class="form-control">
+			</div>
+			<div class="form-group form_boutons">
+				<input id="submit" type="submit" value="Confirmer" class="btn btn-primary" disabled="true"><!--
+				--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
+			</div>
+		</form>
+		<br>
+		<span class='requis'>*</span> Champ requis
+	</div>
+
 <?php
 	// Le fichier test.xml contient un document XML avec un élément racine
 	// et au moins un élément /[racine]/title.
