@@ -37,7 +37,7 @@ class ArticleController extends Controller{
 			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType);
-				ArticleModel::insert($newArticle);
+				Article::insert($newArticle);
 				$data['log'] = self::processContent($newArticle);
 				$data['statut'] = 'succes';
 				$data['articleId'] = db()->lastInsertId();
@@ -57,16 +57,15 @@ class ArticleController extends Controller{
 	}
 	
 	public function showById(){
-		$article = ArticleModel::FindById($_GET['id']);
+		$article = Article::FindById($_GET['id']);
 		$data['article'] = $article;
 		$this->render('tableShowById', $data);
 	}
 	
 	private static function processContent ($article){
-		include_once('Smalot\PdfParser\Parser.php'); 
-		$parser = new Parser();
-		$pdf = $parser->parseFile($article->chemin);
-		return $pdf->getText();
+		include_once('pdfParser.php');
+		
+		return pdf2text($article->chemin);
 	}
 }
 
