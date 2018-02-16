@@ -109,6 +109,11 @@ class Concept extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$concept->id);
 		$query->execute();
 	}
+
+	static public function deleteAll(){
+		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query->execute();
+	}
 }
 
 ?>

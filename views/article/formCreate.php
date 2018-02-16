@@ -1,41 +1,46 @@
 
-			<div id="formStatus" >
-			</div>
-			<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
-				<div class="form-group">
-					<label for="nom">Nom : <span class="requis">*</span></label>
-					<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
+			<div class="container">
+				<h3>Créer un nouvel article</h3>
+				<hr style="border-top: 3px double grey"><br>
+				<div id="formStatus" >
 				</div>
-				<div class="form-group">
-					<input type="file" name='file' id='file' accept=".pdf,.html,.htm" class="form-control">
-					<!--<label class="custom-file">
-						<input type="file" id="file" name="file" accept=".pdf,.html,.htm" class="form-control custom-file-input">
-						<span class="custom-file-control"></span>
-					</label>-->
-				</div>
-				<div class="form-group">
-					<label for="langue">Langue :</label>
-					<select id="langue">
-						<?php
-							foreach($data['langues'] as $langue){
-								if($langue->nom == $data['langueDefaut']){
-									echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
-								}else{
-									echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
+					<div class="form-group">
+						<label for="nom">Nom : <span class="requis">*</span></label>
+						<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
+					</div>
+					<div class="form-group">
+						<input type="file" name='file' id='file' accept=".pdf,.html,.htm" class="form-control">
+						<!--<label class="custom-file">
+							<input type="file" id="file" name="file" accept=".pdf,.html,.htm" class="form-control custom-file-input">
+							<span class="custom-file-control"></span>
+						</label>-->
+					</div>
+					<div class="form-group">
+						<label for="langue">Langue :</label>
+						<select id="langue">
+							<?php
+								foreach($data['langues'] as $langue){
+									if($langue->nom == $data['langueDefaut']){
+										echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
+									}else{
+										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+									}
+									
 								}
-								
-							}
-						?>
-						<option value="null">autre (le texte ne sera pas référencé)</option>
-					</select>
-				</div>
-				<div class="form-group form_boutons">
-					<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
-					--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
-				</div>
-			</form>
-			<!--<progress></progress>-->
-			<span class='requis'>*</span> Champ requis
+							?>
+							<option value="null">autre (le texte ne sera pas référencé)</option>
+						</select>
+					</div>
+					<div class="form-group form_boutons">
+						<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
+						--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
+					</div>
+				</form>
+				<!--<progress></progress>-->
+				<br>
+				<span class='requis'>*</span> Champ requis
+			</div>
 
 			<script>
 				var formAnswer = [];
