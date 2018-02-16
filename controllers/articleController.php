@@ -51,7 +51,7 @@ class ArticleController extends Controller{
 	}
 	
 	public function showAll(){
-		$articles = ArticleModel::FindAll();
+		$articles = Article::FindAll();
 		$data['articles'] = $articles;
 		$this->render("tableShowAll", $data);
 	}
@@ -63,9 +63,11 @@ class ArticleController extends Controller{
 	}
 	
 	private static function processContent ($article){
-		include_once('pdfParser.php');
-		
-		return pdf2text($article->chemin);
+		/*$parser = new Parser();
+		$pdf = $parser->parseFile($article->chemin);  
+		$text = $pdf->getText();
+		return $text;*/
+		return phpversion();
 	}
 }
 

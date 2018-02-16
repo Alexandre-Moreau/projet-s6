@@ -98,9 +98,8 @@
 							
 							success: function (reponse) {
 								if(reponse['log'].length != 0){
-//									console.log(reponse['log']);
+									console.log(reponse['log']);
 								}
-								console.log(reponse['log']);
 								if(reponse['statut'] == "succes"){
 									askRedirect(reponse['articleId']);							
 								}

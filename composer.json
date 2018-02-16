@@ -1,0 +1,11 @@
+{
+    "require": {
+        "smalot/pdfparser": "0.11"
+    },
+	"autoload" : {
+		"classmap": [
+			"models",
+			"controllers";
+		]
+	}
+}

@@ -1,19 +1,23 @@
 <?php
 
-function __autoload($name) {
-	$dir = 'models\\';
+/*function __autoload($name) {
+	echo "|".$name.",";
 	if (strpos($name,'Controller') !== FALSE){
 		$dir = 'controllers\\';
+		$file = $name;
+	}else{
+		$dir = substr($name, 0,strrpos($name, '\\')).'\\';
+		$file = explode('\\', $name)[1] ;
 	}
-	/*if (strpos($name,'Model') !== FALSE){
+	if (strpos($name,'Model') !== FALSE){
 		$dir = 'models\\';
-	}*/
-	include_once $dir.lcfirst($name).".php";
-	/*if (explode("\\", $name)[0] == "root"){
+	}
+	if (explode("\\", $name)[0] == "root"){
 		$dir = "";
 		$name = substr($name, strpos($name, "\\") + 1);
-	}*/
-}
+	}
+	include_once $dir.lcfirst($file).".php";
+}*/
 
 function cleanString($text) {
 	//https://stackoverflow.com/questions/14114411/remove-all-special-characters-from-a-string
