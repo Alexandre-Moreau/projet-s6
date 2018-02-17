@@ -24,24 +24,24 @@
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<a class="navbar-brand" href=".?r=Site/index">BTG</a>
+				<a class="navbar-brand" href=".?r=site/index">BTG</a>
 
 				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=Site/index">Accueil <span class="sr-only">(current)</span></a>
+							<a class="nav-link" href=".?r=site/index">Accueil <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=Site/rechercher">Rechercher</a>
+							<a class="nav-link" href=".?r=site/rechercher">Rechercher</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=Article/showAll">Articles</a>
+							<a class="nav-link" href=".?r=article/showAll">Articles</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=Article/create">Nouvel article</a>
+							<a class="nav-link" href=".?r=article/create">Nouvel article</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=Site/creerOntoterminologie">Nouvelle ontoterminologie</a>
+							<a class="nav-link" href=".?r=site/creerOntoterminologie">Nouvelle ontoterminologie</a>
 						</li>
 					</ul>
 				
