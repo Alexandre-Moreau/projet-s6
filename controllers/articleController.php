@@ -63,11 +63,10 @@ class ArticleController extends Controller{
 	}
 	
 	private static function processContent ($article){
-		/*$parser = new Parser();
+		$parser = new Smalot\PdfParser\Parser();
 		$pdf = $parser->parseFile($article->chemin);  
 		$text = $pdf->getText();
-		return $text;*/
-		return phpversion();
+		return $text;
 	}
 }
 

@@ -10,6 +10,8 @@ include_once 'env.php';
 include_once 'db.php';
 include_once 'tools.php';
 
+require_once('vendor/autoload.php');
+
 session_start();
 
 
