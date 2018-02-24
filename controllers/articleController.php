@@ -14,7 +14,7 @@ class ArticleController extends Controller{
 		$data['erreursSaisie']=[];
 		$data['log'] = [];
 		
-		if($_POST['nom'] == ''){
+		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
 			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
 		}
 		if($_FILES == []){
@@ -48,6 +48,13 @@ class ArticleController extends Controller{
 				echo(json_encode($data));
 			}
 		}
+	}
+
+	public function ajaxRecherche(){
+		header('Content-type: application/json');
+		$data = [];
+		$data['log'] = $_POST['query'];
+		echo(json_encode($data));
 	}
 	
 	public function showAll(){
