@@ -47,9 +47,12 @@ INSERT INTO terme VALUES(DEFAULT, 'camping car', (SELECT id FROM langue WHERE no
 INSERT INTO terme VALUES(DEFAULT, 'camping car', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Camping car'));
 INSERT INTO terme VALUES(DEFAULT, 'camping cars', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Camping car'));
 
+/* Articles */
+INSERT INTO article VALUES(DEFAULT, 'maison', 'articles/maison1.pdf', 'pdf', 39);
 
-
-
+/* Références */
+INSERT INTO reference VALUES(DEFAULT, 2, (SELECT id FROM article WHERE chemin='articles/maison1.pdf'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO reference VALUES(DEFAULT, 3, (SELECT id FROM article WHERE chemin='articles/maison1.pdf'), (SELECT id FROM concept WHERE nom='Maison'));
 
 
 /* Termes */

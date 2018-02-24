@@ -4,10 +4,10 @@
 class Reference extends Model{
 
 	static public $tableName = "reference";
-	private $id;
-	private $nombreRef;
-	private $article;
-	private $concept;
+	protected $id;
+	protected $nombreRef;
+	protected $article;
+	protected $concept;
 
 	public function __construct($pNombreRef, $pArticle, $pConcept, $pId = null){
 		$this->id = $pId;
@@ -32,6 +32,19 @@ class Reference extends Model{
 
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
+		$query->execute();
+		$returnList = array();
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+
+	static public function findByArticle($article){
+		$query = db()->prepare("SELECT id FROM ".self::$tableName." WHERE article_id=".$article->id." ORDER BY nombreRef DESC");
 		$query->execute();
 		$returnList = array();
 		if ($query->rowCount() > 0){

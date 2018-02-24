@@ -13,9 +13,13 @@ html, body{
 
 object{
 	display: block;
+}
+
+object, .object{
 	width: 672px;
 	height: 40vh;
 	margin: auto;
+
 }
 
 div .onto{

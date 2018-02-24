@@ -43,6 +43,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href=".?r=site/creerOntoterminologie">Nouvelle ontoterminologie</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href=".?r=maintenance/statut">Maintenance</a>
+						</li>
 					</ul>
 				
 				</div>

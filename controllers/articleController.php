@@ -59,6 +59,7 @@ class ArticleController extends Controller{
 	public function showById(){
 		$article = Article::FindById($_GET['id']);
 		$data['article'] = $article;
+		$data['references'] = Reference::FindByArticle($article);
 		$this->render('tableShowById', $data);
 	}
 	

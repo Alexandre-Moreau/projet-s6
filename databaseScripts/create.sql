@@ -9,8 +9,9 @@ DROP TABLE IF EXISTS concept;
 CREATE TABLE article (
 	id int AUTO_INCREMENT,
 	nom varchar(25) DEFAULT '',
-	chemin varchar(75) DEFAULT '',
+	chemin varchar(75) DEFAULT '' UNIQUE,
 	type varchar(30) DEFAULT '',
+	nbMots int DEFAULT -1,
 	CONSTRAINT pk_article_id PRIMARY KEY (id)
 );
 

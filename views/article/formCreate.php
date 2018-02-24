@@ -113,6 +113,7 @@
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
+								refreshDivFormStatus();
 							}
 						});
 					});

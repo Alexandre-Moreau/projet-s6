@@ -8,12 +8,14 @@ class Article extends Model{
 	protected $nom;
 	protected $chemin;
 	protected $type;
+	protected $nbMots;
 
-	public function __construct($pNom, $pChemin, $pType, $pId = null){
+	public function __construct($pNom, $pChemin, $pType, $pNbMots, $pId = null){
 		$this->id = $pId;
 		$this->nom = $pNom;
 		$this->chemin = $pChemin;
 		$this->type = $pType;
+		$this->nbMots = $pNbMots;
 	}
 
 	static public function findById($pId){
@@ -25,7 +27,8 @@ class Article extends Model{
 			$nom = $row['nom'];
 			$chemin = $row['chemin'];
 			$type = $row['type'];
-			return new Article($nom, $chemin, $type, $id);
+			$nbMots = $row['nbMots'];
+			return new Article($nom, $chemin, $type, $nbMots, $id);
 		}
 		return null;
 	}

@@ -1,4 +1,4 @@
-<?php
+       <?php
 
 //Auto-generated file
 class SiteController extends Controller{
