@@ -36,7 +36,7 @@ class ArticleController extends Controller{
 		}else{
 			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
-				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType);
+				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1);
 				Article::insert($newArticle);
 				$data['log'] = self::processContent($newArticle);
 				$data['statut'] = 'succes';
