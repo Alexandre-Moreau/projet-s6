@@ -1,6 +1,5 @@
 <?php
 
-//Auto-generated file
 $host = "localhost";
 $databaseName = "projet-s6";
 $user = $_ENV["db_user"];

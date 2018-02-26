@@ -47,7 +47,7 @@ class Article extends Model{
 	}
 
 	static public function insert($article) {
-		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."')";
+		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();

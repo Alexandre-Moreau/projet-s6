@@ -37,8 +37,13 @@ class ArticleController extends Controller{
 			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1);
+				$text = self::processContent($newArticle);
+				$count = self::countWords($text);
+				$newArticle->nbMots = $count;
 				Article::insert($newArticle);
-				$data['log'] = self::processContent($newArticle);
+				//$data['log'] = self::processContent($newArticle)." [".$count." mots]";
+				$references = self::reference($text);
+				$data['log'] = $references;
 				$data['statut'] = 'succes';
 				$data['articleId'] = db()->lastInsertId();
 				echo(json_encode($data));
@@ -70,11 +75,60 @@ class ArticleController extends Controller{
 		$this->render('tableShowById', $data);
 	}
 	
-	private static function processContent ($article){
-		$parser = new Smalot\PdfParser\Parser();
-		$pdf = $parser->parseFile($article->chemin);  
-		$text = $pdf->getText();
+	private static function processContent($article){
+		if($article->type == "pdf"){
+			$parser = new Smalot\PdfParser\Parser();
+			$pdf = $parser->parseFile($article->chemin);
+			$text = $pdf->getText();
+			$text = self::parseContentPdf($text);
+		}elseif($article->type == "html"){
+			//Non testé
+			$text = file_get_contents($article->chemin);
+			$text = self::parseContentHtml($text);
+		}
 		return $text;
+	}
+	
+	private static function parseContentPdf($pText){
+		//Il faudrait grace à une regex identifier les titres, les identifier grace a des caractères [[titre]] par exemple pour qu'ils montent dans le référencement (1 occurence dans le titre = 2 occurences par exemple)
+		//Remplacer les \n par des ' ' pour espacer les titres
+		
+		$text = str_replace(["'","&#39;"], "' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
+		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
+		$textArray = explode(' ', $text);
+		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
+		$text = implode(' ', $textArray);
+		return $text;
+	}
+	
+	private static function parseContentHtml($pText){
+		//Gérer d'autres trucs que juste le contenu des balises p du body?
+		//Gérer les listes peut être
+		//Gérer les <h> avec des [[ ]] ( voir parseContentPdf)
+		
+		$xml = simplexml_load_string($pText);
+		$text = '';
+		foreach($xml->body->p as $p){
+			$text .= (string)$p.' ';
+		}
+		
+		$text = str_replace(["'","&#39;"], "' ", $text); // on ajoute un ' ' derrière les "'" (avec le caractère html)
+		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
+		$textArray = explode(' ', $text);
+		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
+		$text = implode(' ', $textArray);
+		
+		return $text;
+	}
+	
+	private static function countWords($text){
+		//return str_word_count($text); // ?
+		return count(explode(' ', $text));
+	}
+	
+	private static function reference($pText){
+		$references = [];
+		return $references;
 	}
 }
 

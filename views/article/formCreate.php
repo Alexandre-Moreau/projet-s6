@@ -1,4 +1,3 @@
-
 			<div class="container">
 				<h3>Créer un nouvel article</h3>
 				<hr style="border-top: 3px double grey"><br>
