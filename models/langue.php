@@ -23,6 +23,18 @@ class Langue extends Model{
 		}
 		return null;
 	}
+	
+	static public function findByName($pNom){
+		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE nom = '".$pNom."'");
+		$query->execute();
+		if ($query->rowCount() > 0){
+			$row = $query->fetch(PDO::FETCH_ASSOC);
+			$id = $row['id'];
+			$nom = $row['nom'];
+			return new Langue($nom, $id);
+		}
+		return null;
+	}
 
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);

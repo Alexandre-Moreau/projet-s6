@@ -1,6 +1,5 @@
 <?php
 
-//Auto-generated file
 class Reference extends Model{
 
 	static public $tableName = "reference";
@@ -23,8 +22,8 @@ class Reference extends Model{
 			$row = $query->fetch(PDO::FETCH_ASSOC);
 			$id = $row['id'];
 			$nombreRef = $row['nombreRef'];
-			$article = Article::FindById($row['article_id']);
-			$concept = Concept::FindById($row['concept_id']);
+			$article = Article::findById($row['article_id']);
+			$concept = Concept::findById($row['concept_id']);
 			return new Reference($nombreRef, $article, $concept, $id);
 		}
 		return null;

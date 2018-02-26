@@ -41,11 +41,13 @@ class ArticleController extends Controller{
 				$count = self::countWords($text);
 				$newArticle->nbMots = $count;
 				Article::insert($newArticle);
+				$newArticle->id = db()->lastInsertId();
 				//$data['log'] = self::processContent($newArticle)." [".$count." mots]";
-				$references = self::reference($text);
+				$references = self::reference($text, $_POST['langue'], $newArticle);
 				$data['log'] = $references;
 				$data['statut'] = 'succes';
-				$data['articleId'] = db()->lastInsertId();
+				$arteicleId = $newArticle->id;
+				$data['articleId'] = $arteicleId;
 				echo(json_encode($data));
 			}else{
 				$data['statut'] = 'echec';
@@ -95,6 +97,8 @@ class ArticleController extends Controller{
 		
 		$text = str_replace(["'","&#39;"], "' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
 		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
+		$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
+		$text = preg_replace('(\.)', '', $text); // on efface les points
 		$textArray = explode(' ', $text);
 		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
 		$text = implode(' ', $textArray);
@@ -114,6 +118,8 @@ class ArticleController extends Controller{
 		
 		$text = str_replace(["'","&#39;"], "' ", $text); // on ajoute un ' ' derrière les "'" (avec le caractère html)
 		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
+		$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
+		$text = preg_replace('(\.)', '', $text); // on efface les points
 		$textArray = explode(' ', $text);
 		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
 		$text = implode(' ', $textArray);
@@ -122,13 +128,27 @@ class ArticleController extends Controller{
 	}
 	
 	private static function countWords($text){
-		//return str_word_count($text); // ?
+		//return str_word_count($text); // ? -> compte bizarrement
 		return count(explode(' ', $text));
 	}
 	
-	private static function reference($pText){
+	private static function reference($text, $pLangue, $article){
 		$references = [];
-		return $references;
+		$textArray = explode(' ', $text);
+		$langue = Langue::findByName($pLangue);
+		$termes = Terme::findByMotCleLangue($textArray, $langue);
+		$concepts = [];
+		foreach($termes as $terme){
+			if(!in_array($terme->concept, $concepts)){
+				array_push($concepts, $terme->concept);
+			}
+		}
+		foreach($concepts as $concept){
+			// Mettre le numéro correct
+			$newRefenrence = new Reference(-1, $article, $concept);
+			Reference::insert($newRefenrence);
+		}
+		return $termes;
 	}
 }
 
