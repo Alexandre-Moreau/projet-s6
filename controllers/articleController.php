@@ -27,6 +27,11 @@ class ArticleController extends Controller{
 				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != ''){
 					array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu (".$fileType.")");
 				}
+				//Nom de l'article sans caractère spéciaux
+				$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
+				if(Article::findByChemin('articles\\' . $newName) == null){
+					array_push($data['erreursSaisie'],'ce fichier est déjà dans la base de données');
+				}
 			}
 		}
 
@@ -34,7 +39,6 @@ class ArticleController extends Controller{
 			$data['statut'] = 'echec';
 			echo(json_encode($data));
 		}else{
-			$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1);
 				$text = self::processContent($newArticle);

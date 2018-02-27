@@ -32,7 +32,21 @@ class Article extends Model{
 		}
 		return null;
 	}
-
+	
+	static public function findByChemin($pChemin){
+		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE chemin = '".$pChemin."'");
+		$query->execute();
+		if ($query->rowCount() > 0){
+			$row = $query->fetch(PDO::FETCH_ASSOC);
+			$id = $row['id'];
+			$nom = $row['nom'];
+			$chemin = $row['chemin'];
+			$type = $row['type'];
+			$nbMots = $row['nbMots'];
+			return new Article($nom, $chemin, $type, $nbMots, $id);
+		}
+		return null;
+	}
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
@@ -45,8 +59,10 @@ class Article extends Model{
 		}
 		return $returnList;
 	}
+	
+	
 
-	static public function insert($article) {
+	static public function insert($article){
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.")";
 		//echo $requete;
 		$query = db()->prepare($requete);
