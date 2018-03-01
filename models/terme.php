@@ -3,9 +3,9 @@
 class Terme extends Model{
 
 	static public $tableName = "terme";
-	private $id;
-	private $motCle;
-	private $langue;
+	protected $id;
+	protected $motCle;
+	protected $langue;
 
 	public function __construct($pMotCle, $pLangue, $pConcept, $pId = null){
 		$this->id = $pId;
@@ -41,6 +41,7 @@ class Terme extends Model{
 		return $returnList;
 	}
 	
+	//Basé sur le findAll (résultats multiples possibles)
 	static public function FindByMotCleLangue($textArray, $langue){
 		$requete = "SELECT id FROM ".self::$tableName." WHERE langue_id=".$langue->id;
 		$i = 0;

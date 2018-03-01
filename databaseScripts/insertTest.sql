@@ -35,8 +35,8 @@ INSERT INTO terme VALUES(DEFAULT, 'cars', (SELECT id FROM langue WHERE nom='en')
 
 INSERT INTO terme VALUES(DEFAULT, 'habitation', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Habitation'));
 INSERT INTO terme VALUES(DEFAULT, 'habitations', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Habitation'));
-INSERT INTO terme VALUES(DEFAULT, 'home', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
-INSERT INTO terme VALUES(DEFAULT, 'homes', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO terme VALUES(DEFAULT, 'dwelling', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
+INSERT INTO terme VALUES(DEFAULT, 'dwellings', (SELECT id FROM langue WHERE nom='en'), (SELECT id FROM concept WHERE nom='Habitation'));
 
 INSERT INTO terme VALUES(DEFAULT, 'maison', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Maison'));
 INSERT INTO terme VALUES(DEFAULT, 'maisons', (SELECT id FROM langue WHERE nom='fr'), (SELECT id FROM concept WHERE nom='Maison'));

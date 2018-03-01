@@ -13,6 +13,7 @@ class ArticleController extends Controller{
 		header('Content-type: application/json');
 		$data['erreursSaisie']=[];
 		$data['log'] = [];
+		$newName = "";
 		
 		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
 			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
@@ -29,7 +30,7 @@ class ArticleController extends Controller{
 				}
 				//Nom de l'article sans caractère spéciaux
 				$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
-				if(Article::findByChemin('articles\\' . $newName) == null){
+				if(Article::findByChemin('articles\\' . $newName) != null){
 					array_push($data['erreursSaisie'],'ce fichier est déjà dans la base de données');
 				}
 			}
@@ -46,9 +47,8 @@ class ArticleController extends Controller{
 				$newArticle->nbMots = $count;
 				Article::insert($newArticle);
 				$newArticle->id = db()->lastInsertId();
-				//$data['log'] = self::processContent($newArticle)." [".$count." mots]";
 				$references = self::reference($text, $_POST['langue'], $newArticle);
-				$data['log'] = $references;
+				//$data['log'] = $references;
 				$data['statut'] = 'succes';
 				$arteicleId = $newArticle->id;
 				$data['articleId'] = $arteicleId;
@@ -139,19 +139,45 @@ class ArticleController extends Controller{
 	private static function reference($text, $pLangue, $article){
 		$references = [];
 		$textArray = explode(' ', $text);
+		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
+		
 		$langue = Langue::findByName($pLangue);
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
-		$concepts = [];
-		foreach($termes as $terme){
-			if(!in_array($terme->concept, $concepts)){
-				array_push($concepts, $terme->concept);
+		
+		// Uniquement les mots qui correspondent à des termes trouvés
+		$motsUtiles = [];		
+		foreach($textArray as $mot){
+			foreach($termes as $terme){
+				if (strtolower($mot) == strtolower($terme->motCle)){
+					array_push($motsUtiles, $mot);
+					break;
+				}
 			}
 		}
-		foreach($concepts as $concept){
-			// Mettre le numéro correct
-			$newRefenrence = new Reference(-1, $article, $concept);
+		
+		$concepts = [];
+		foreach($motsUtiles as $mot){
+			// Gérer les termes avec des espaces
+			
+			// termes correspondants au mot actuel $mot
+			$termesRestreints = Terme::FindByMotCleLangue(array($mot),$langue);
+			
+			foreach($termesRestreints as $terme){
+				if(!isset($concepts[$terme->concept->id])){
+					$concepts[$terme->concept->id] = 1;
+				}else{
+					$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
+				}
+			}
+			
+		}
+		foreach($concepts as $conceptId => $nombreOccurence){
+			$newRefenrence = new Reference($nombreOccurence, $article, Concept::findById($conceptId));
 			Reference::insert($newRefenrence);
 		}
+		
+		// Ajouter un correcteur de référence?
+		
 		return $termes;
 	}
 }

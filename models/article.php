@@ -34,7 +34,7 @@ class Article extends Model{
 	}
 	
 	static public function findByChemin($pChemin){
-		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE chemin = '".$pChemin."'");
+		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE chemin = '".addslashes($pChemin)."'");
 		$query->execute();
 		if ($query->rowCount() > 0){
 			$row = $query->fetch(PDO::FETCH_ASSOC);
