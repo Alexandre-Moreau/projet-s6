@@ -50,8 +50,8 @@ class ArticleController extends Controller{
 				$references = self::reference($text, $_POST['langue'], $newArticle);
 				//$data['log'] = $references;
 				$data['statut'] = 'succes';
-				$arteicleId = $newArticle->id;
-				$data['articleId'] = $arteicleId;
+				$articleId = $newArticle->id;
+				$data['articleId'] = $articleId;
 				echo(json_encode($data));
 			}else{
 				$data['statut'] = 'echec';
@@ -61,6 +61,33 @@ class ArticleController extends Controller{
 		}
 	}
 
+	public function ajaxModifier(){
+		header('Content-type: application/json');
+		$data = [];
+		$data['erreursSaisie']=[];
+		$data['log'] = $_POST;
+		$article = Article::FindById($_POST['id']);
+		
+		//print_r($f)
+		
+		//controle de saisie
+		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
+			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
+		}
+		if($data['erreursSaisie']!=[]){
+			$data['statut'] = 'echec';
+			echo(json_encode($data));
+		}else{
+			//modification du nom de l'objet article
+			$article->nom = $_POST['nom'];
+			//utilisation de article::update
+			Article::update($article);
+			$data['statut'] = 'succes';
+			echo(json_encode($data));
+		}
+		
+	}
+	
 	public function ajaxRecherche(){
 		header('Content-type: application/json');
 		$data = [];
@@ -79,6 +106,13 @@ class ArticleController extends Controller{
 		$data['article'] = $article;
 		$data['references'] = Reference::FindByArticle($article);
 		$this->render('tableShowById', $data);
+	}
+	
+	public function modifier(){
+		$data = [];
+		$data['langues'] = Langue::FindAll();
+ 		$data['article'] = Article::FindById($_GET['id']);
+		$this->render("formModifier", $data);
 	}
 	
 	private static function processContent($article){

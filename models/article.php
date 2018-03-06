@@ -70,7 +70,7 @@ class Article extends Model{
 	}
 
 	static public function update($article){
-		$requete = "UPDATE ".self::$tableName." SET nom='".$article->nom."', chemin='".$article->chemin."', type='".$article->type."' WHERE id=".$article->id;
+		$requete = "UPDATE ".self::$tableName." SET nom='".$article->nom."', chemin='".addslashes($article->chemin)."', type='".$article->type."' WHERE id=".$article->id;
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();

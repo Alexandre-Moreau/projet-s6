@@ -13,6 +13,7 @@
 		echo '</div>';
 	}
 ?>
+<a href=".?r=article/modifier&id=<?php echo $_GET['id']; ?>">Modifier</a>
 <div>
 	<h3 class="display-5">
 		Références:
