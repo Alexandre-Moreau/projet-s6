@@ -41,7 +41,7 @@ class ArticleController extends Controller{
 			echo(json_encode($data));
 		}else{
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
-				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1);
+				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
 				$text = self::processContent($newArticle);
 				$count = self::countWords($text);
 				$newArticle->nbMots = $count;

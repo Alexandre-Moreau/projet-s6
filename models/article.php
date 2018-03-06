@@ -9,13 +9,15 @@ class Article extends Model{
 	protected $chemin;
 	protected $type;
 	protected $nbMots;
+	protected $langue;
 
-	public function __construct($pNom, $pChemin, $pType, $pNbMots, $pId = null){
+	public function __construct($pNom, $pChemin, $pType, $pNbMots, $pLangue, $pId = null){
 		$this->id = $pId;
 		$this->nom = $pNom;
 		$this->chemin = $pChemin;
 		$this->type = $pType;
 		$this->nbMots = $pNbMots;
+		$this->langue = $pLangue;
 	}
 
 	static public function findById($pId){
@@ -28,7 +30,8 @@ class Article extends Model{
 			$chemin = $row['chemin'];
 			$type = $row['type'];
 			$nbMots = $row['nbMots'];
-			return new Article($nom, $chemin, $type, $nbMots, $id);
+			$langue = Langue::findById($row['langue_id']);
+			return new Article($nom, $chemin, $type, $nbMots, $langue, $id);
 		}
 		return null;
 	}
@@ -43,7 +46,8 @@ class Article extends Model{
 			$chemin = $row['chemin'];
 			$type = $row['type'];
 			$nbMots = $row['nbMots'];
-			return new Article($nom, $chemin, $type, $nbMots, $id);
+			$langue = Langue::findById($row['langue_id']);
+			return new Article($nom, $chemin, $type, $nbMots, $langue, $id);
 		}
 		return null;
 	}
@@ -63,14 +67,14 @@ class Article extends Model{
 	
 
 	static public function insert($article){
-		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.")";
+		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.", ".$article->langue->id.")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 	}
 
 	static public function update($article){
-		$requete = "UPDATE ".self::$tableName." SET nom='".$article->nom."', chemin='".addslashes($article->chemin)."', type='".$article->type."' WHERE id=".$article->id;
+		$requete = "UPDATE ".self::$tableName." SET nom='".$article->nom."', chemin='".addslashes($article->chemin)."', type='".$article->type."', langue_id='".$article->langue->id."' WHERE id=".$article->id;
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();

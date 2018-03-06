@@ -53,7 +53,7 @@
 							}
 						}else if(formAnswer['statut'] == 'succes'){
 							$('#formStatus').addClass('alert alert-success');
-							$('#formStatus').append('<span id="statusMessage" <strong>L\'article a été modifié avec succès</strong> <a href=".?r=article/showById&id=' + <?php echo $_GET['id']; ?> + '">Y accéder</a></span>');
+							$('#formStatus').append('<span id="statusMessage" <strong>L\'article a été modifié avec succès</strong> <a href=".?r=article/showById&id=' + <?php echo $_GET['id']; ?> + '">Accéder à l\'article</a></span>');
 						}else if(formAnswer['statut'] == 'warning'){
 							$('#formStatus').addClass('alert alert-warning');
 							$('#formStatus').append(formAnswer['info']);
