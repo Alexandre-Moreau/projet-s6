@@ -8,6 +8,9 @@
 		<!-- jQuery -->
 		<script src="lib/jquery/jquery-3.3.1.min.js"></script>
 		
+		<!-- Tether 1.3.3 -->
+		<script src="lib/tether/tether.min.js"></script>
+
 		<!-- Bootstrap 4.0 -->
 		<link rel="stylesheet" href="lib/bootstrap4/css/bootstrap.min.css">
 		<script src="lib/bootstrap4/js/bootstrap.min.js"></script>

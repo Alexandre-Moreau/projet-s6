@@ -18,10 +18,10 @@ class SiteController extends Controller{
 		
 		// Début du parsing
 		$data['nom']= $xml['name'];
-		$domaine = $xml->domain;
-		$auteur = $xml->author;
-		$dateCreation = $xml->creationDate;
-		$derniereModification = $xml->lastVersionDate;
+		$data['domaine'] = $xml->domain;
+		$data['auteur'] = $xml->author;
+		$data['dateCreation'] = $xml->creationDate;
+		$data['derniereModification'] = $xml->lastVersionDate;
 
 		$data['xml'] = $xml;
 		$data['concepts'] = [];
@@ -32,6 +32,7 @@ class SiteController extends Controller{
 
 		$languages = [];
 
+		//1er passage pour les concepts et les langues
 		foreach($xml->concept as $concept){
 			// 1 - créer des objets concepts
 			$newConcept = new Concept((string) $concept['name']);
@@ -41,24 +42,38 @@ class SiteController extends Controller{
 			Concept::insert($newConcept);
 
 			// 3 - gérer les mots clés
+
 			foreach($concept->language as $language){
-				if (!in_array($language['name'], $languages)){
-					array_push($languages, $language['name']);
+				if (!in_array((string) $language['name'], $languages)){
+					array_push($languages, (string) $language['name']);
 					Langue::insert(new Langue((string) $language['name']));
 				}
-				/*foreach ($language->term as $term) {
+			}
 
-					echo "..........terme: " . $term['name'] . "<br/>";
-					if (isset($term->definition)) {
-						echo "...............definition: " . $term->definition . "<br/>";
+		}
+
+		//2eme passage pour les termes
+		foreach($xml->concept as $concept){
+			foreach($concept->language as $language){
+				foreach ($language->term as $term) {
+
+					$languageId = Langue::findByName((string) $language['name']);
+					$conceptId = Concept::findByName((string) $concept['name']);
+					
+					$newTerm = new Terme((string) $term['name'], $languageId, $conceptId);
+
+					Terme::insert($newTerm);
+
+					/*if (isset($term->definition)) {
+						// Traitement definition
 					}
 					if (isset($term->inflectedForm)) {
-						echo "...............inflectedForm: " . $term->inflectedForm . "<br/>";
+						// Traitement inflectedForm
 					}
 					if (isset($term->status)) {
-						echo "................status: " . $term->status . "<br/>";
-					}
-				}*/
+						// Traitement status
+					}*/
+				}
 			}
 
 			// 4 - gérer les isA

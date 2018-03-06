@@ -4,6 +4,6 @@
 	<hr class="my-4">
 	<p>Découvrez le moteur de recherche qui deviendra le plus utilisé de l'Internet d'ici quelques semaines...</p>
 	<p class="lead">
-	<a class="btn btn-primary btn-lg" href=".?r=Site/rechercher" role="button">Plus d'infos</a>
+	<a class="btn btn-primary btn-lg" href=".?r=site/rechercher" role="button">Plus d'infos</a>
 	</p>
 </div>

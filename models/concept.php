@@ -8,7 +8,7 @@ class Concept extends Model{
 	protected $nom;
 	protected $conceptsFils;
 
-	public function __construct($pNom, $conceptsFils=null, $pId = null){
+	public function __construct($pNom, $pId = null, $conceptsFils=null){
 		$this->id = $pId;
 		$this->nom = $pNom;
 		$this->conceptsFils = $conceptsFils;
@@ -22,7 +22,7 @@ class Concept extends Model{
 			$id = $row['id'];
 			$nom = $row['nom'];
 			$conceptsFils = [];
-			return new Concept($nom, $conceptsFils, $id);
+			return new Concept($nom, $id, $conceptsFils);
 		}
 		return null;
 	}
@@ -44,7 +44,19 @@ class Concept extends Model{
 					array_push($conceptsFils, self::findByIdWithChildrens($row["conceptFrom_id"]));
 				}
 			}
-			return new Concept($nom, $conceptsFils, $id);
+			return new Concept($nom, $id, $conceptsFils);
+		}
+		return null;
+	}
+
+	static public function findByName($pNom){
+		$query = db()->prepare("SELECT * FROM ".self::$tableName." WHERE nom = '".$pNom."'");
+		$query->execute();
+		if ($query->rowCount() > 0){
+			$row = $query->fetch(PDO::FETCH_ASSOC);
+			$id = $row['id'];
+			$nom = $row['nom'];
+			return new Concept($nom, $id);
 		}
 		return null;
 	}

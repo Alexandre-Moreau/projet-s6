@@ -23,7 +23,7 @@ CREATE TABLE langue (
 
 CREATE TABLE concept (
 	id int AUTO_INCREMENT,
-	nom varchar(30) DEFAULT '',
+	nom varchar(200) DEFAULT '',
 	CONSTRAINT pk_concept_id PRIMARY KEY (id)
 );
 

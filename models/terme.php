@@ -6,10 +6,11 @@ class Terme extends Model{
 	protected $id;
 	protected $motCle;
 	protected $langue;
+	protected $concept;
 
 	public function __construct($pMotCle, $pLangue, $pConcept, $pId = null){
 		$this->id = $pId;
-		$this->motCle = $pMotCle;
+		$this->motCle = addslashes($pMotCle);
 		$this->langue = $pLangue;
 		$this->concept = $pConcept;
 	}
@@ -20,7 +21,7 @@ class Terme extends Model{
 		if ($query->rowCount() > 0){
 			$row = $query->fetch(PDO::FETCH_ASSOC);
 			$id = $row['id'];
-			$motCle = $row['motCle'];
+			$motCle = addslashes($row['motCle']);
 			$langue = Langue::findById($row['langue_id']);
 			$concept = Concept::findById($row['concept_id']);
 			return new Terme($motCle, $langue, $concept, $id);
@@ -71,14 +72,14 @@ class Terme extends Model{
 	}
 
 	static public function insert($terme) {
-		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$terme->motCle."', ".$terme->langue->id.", ".$terme->concept->id.")";
+		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".addslashes($terme->motCle)."', ".$terme->langue->id.", ".$terme->concept->id.")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 	}
 
 	static public function update($terme){
-		$requete = "UPDATE ".self::$tableName." SET motCle='".$terme->motCle."', langue_id=".$terme->langue->id.", ".$terme->concept->id." WHERE id=".$terme->id;
+		$requete = "UPDATE ".self::$tableName." SET motCle='".addslashes($terme->motCle)."', langue_id=".$terme->langue->id.", ".$terme->concept->id." WHERE id=".$terme->id;
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
