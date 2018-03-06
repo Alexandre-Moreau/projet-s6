@@ -12,6 +12,7 @@ CREATE TABLE article (
 	chemin varchar(75) DEFAULT '' UNIQUE,
 	type varchar(30) DEFAULT '',
 	nbMots int DEFAULT -1,
+	langue_id int NOT NULL,
 	CONSTRAINT pk_article_id PRIMARY KEY (id)
 );
 
@@ -50,6 +51,9 @@ CREATE TABLE relation (
 	conceptTo_id int NOT NULL,
 	CONSTRAINT pk_relation_id PRIMARY KEY (id)
 );
+
+ALTER TABLE article
+ADD CONSTRAINT fk_article_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id);
 
 ALTER TABLE terme
 ADD CONSTRAINT fk_terme_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id),
