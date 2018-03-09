@@ -6,7 +6,7 @@ html, body{
 
 #content{
 	width: 100%;
-	display: block;
+	display: inline-block;
 	padding: 16px;
 	min-height: 66vh;
 }
@@ -26,8 +26,10 @@ object, .object{
 
 }
 
-div .onto{
-	width: 33%;
+div .third{
+	width: 30%;
+	float: left;
+	margin: 0.5%;
 }
 
 footer{

@@ -11,7 +11,7 @@ class SiteController extends Controller{
 		$data['onto'] = Concept::findAllWithChildrens();
 		$this->render("rechercher", $data);
 	}
-
+	
 	public function creerOntoterminologie(){
 		$data = [];
 		$xml = simplexml_load_file('sieges.ote');

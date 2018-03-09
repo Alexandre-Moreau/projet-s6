@@ -4,12 +4,12 @@
 class Article extends Model{
 
 	static public $tableName = "article";
-	protected $id;
-	protected $nom;
-	protected $chemin;
-	protected $type;
-	protected $nbMots;
-	protected $langue;
+	public $id;
+	public $nom;
+	public $chemin;
+	public $type;
+	public $nbMots;
+	public $langue;
 
 	public function __construct($pNom, $pChemin, $pType, $pNbMots, $pLangue, $pId = null){
 		$this->id = $pId;
@@ -51,6 +51,7 @@ class Article extends Model{
 		}
 		return null;
 	}
+	
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
@@ -64,8 +65,6 @@ class Article extends Model{
 		return $returnList;
 	}
 	
-	
-
 	static public function insert($article){
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.", ".$article->langue->id.")";
 		//echo $requete;
@@ -83,6 +82,14 @@ class Article extends Model{
 	static public function delete($pId){
 		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
 		$query->execute();
+	}
+	
+	static public function toArray($article){
+		$array = (array) $article;
+		$array['langue'] = $article->langue->nom;
+		// $langue = $article->langue;
+		//$array['langue'] = (array) $langue;
+		return $array;
 	}
 }
 

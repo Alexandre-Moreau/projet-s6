@@ -86,12 +86,27 @@ class ArticleController extends Controller{
 			echo(json_encode($data));
 		}
 		
+	}	
+
+	public function ajaxRechercher(){
+		header('Content-type: application/json');
+		$data['log'] = [];
+		$data['articles'] = [];
+		$articles = Article::findAll();
+		foreach($articles as $article){
+			array_push($data['articles'], Article::toArray($article));
+		}
+		echo(json_encode($data));
 	}
 	
-	public function ajaxRecherche(){
+	public function ajaxOverview(){
 		header('Content-type: application/json');
-		$data = [];
-		$data['log'] = $_POST['query'];
+		$data['log'] = [];
+		$data['references'] = [];
+		$references = Reference::findByArticle(Article::FindById($_POST['articleId']));
+		foreach($references as $reference){
+			array_push($data['references'], Reference::toArray($reference));
+		}
 		echo(json_encode($data));
 	}
 	

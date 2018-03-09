@@ -126,6 +126,13 @@ class Concept extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName);
 		$query->execute();
 	}
+	
+	static public function toArray($concept){
+		$array = [];
+		$array['id'] = $concept->id;
+		$array['nom'] = $concept->nom;
+		return $array;
+	}
 }
 
 ?>
