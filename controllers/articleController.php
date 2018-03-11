@@ -43,21 +43,28 @@ class ArticleController extends Controller{
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
 				$text = self::processContent($newArticle);
-				$count = self::countWords($text);
-				$newArticle->nbMots = $count;
-				Article::insert($newArticle);
-				$newArticle->id = db()->lastInsertId();
-				$log = self::reference($text, $_POST['langue'], $newArticle);
-				$data['log'] = $log;
-				$data['statut'] = 'succes';
-				$articleId = $newArticle->id;
-				$data['articleId'] = $articleId;
-				echo(json_encode($data));
+				if($text == 'encoding_error'){
+					$data['statut'] = 'echec';
+					array_push($data['erreursSaisie'],'erreur d\'encodage: les doivent être encodé en UTF-8');
+				}else if($text == 'parsing_error'){
+					$data['statut'] = 'echec';
+					array_push($data['erreursSaisie'],'erreur de parsing: le document n\'est pas correct');
+				}else{
+					$count = self::countWords($text);
+					$newArticle->nbMots = $count;
+					Article::insert($newArticle);
+					$newArticle->id = db()->lastInsertId();
+					$log = self::reference($text, $_POST['langue'], $newArticle);
+					$data['log'] = $log;
+					$data['statut'] = 'succes';
+					$articleId = $newArticle->id;
+					$data['articleId'] = $articleId;
+				}
 			}else{
 				$data['statut'] = 'echec';
 				array_push($data['erreursSaisie'],'erreur upload file');
-				echo(json_encode($data));
 			}
+			echo(json_encode($data));
 		}
 	}
 
@@ -139,7 +146,12 @@ class ArticleController extends Controller{
 		}elseif($article->type == "html"){
 			//Non testé
 			$text = file_get_contents($article->chemin);
-			$text = self::parseContentHtml($text);
+			// Si le fichier est mal encodé
+			if(!mb_detect_encoding($text, 'UTF-8', true)){
+				return 'encoding_error';
+			}else{
+				$text = self::parseContentHtml($text);
+			}
 		}
 		return $text;
 	}
@@ -163,7 +175,15 @@ class ArticleController extends Controller{
 		//Gérer les listes peut être
 		//Gérer les <h> avec des [[ ]] ( voir parseContentPdf)
 		
+		// Traitement des erreurs de parsing
+		libxml_use_internal_errors(true);
+		
 		$xml = simplexml_load_string($pText);
+		
+		if(!$xml) {
+			return 'parsing_error';
+		}
+		
 		$text = '';
 		foreach($xml->body->p as $p){
 			$text .= (string)$p.' ';
