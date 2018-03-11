@@ -53,16 +53,16 @@ CREATE TABLE relation (
 );
 
 ALTER TABLE article
-ADD CONSTRAINT fk_article_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id);
+ADD CONSTRAINT fk_article_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id) ON DELETE CASCADE;
 
 ALTER TABLE terme
-ADD CONSTRAINT fk_terme_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id),
-ADD CONSTRAINT fk_terme_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id);
+ADD CONSTRAINT fk_terme_langue_id FOREIGN KEY (langue_id) REFERENCES langue(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_terme_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id) ON DELETE CASCADE;
 
 ALTER TABLE reference
-ADD CONSTRAINT fk_reference_article_id FOREIGN KEY (article_id) REFERENCES article(id),
-ADD CONSTRAINT fk_reference_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id);
+ADD CONSTRAINT fk_reference_article_id FOREIGN KEY (article_id) REFERENCES article(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_reference_concept_id FOREIGN KEY (concept_id) REFERENCES concept(id) ON DELETE CASCADE;
 
 ALTER TABLE relation
-ADD CONSTRAINT fk_relation_conceptFrom_id FOREIGN KEY (conceptFrom_id) REFERENCES concept(id),
-ADD CONSTRAINT fk_relation_conceptFroms_id FOREIGN KEY (conceptTo_id) REFERENCES concept(id);
+ADD CONSTRAINT fk_relation_conceptFrom_id FOREIGN KEY (conceptFrom_id) REFERENCES concept(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_relation_conceptFroms_id FOREIGN KEY (conceptTo_id) REFERENCES concept(id) ON DELETE CASCADE;

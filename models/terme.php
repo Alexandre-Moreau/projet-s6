@@ -70,6 +70,34 @@ class Terme extends Model{
 		}
 		return $returnList;
 	}
+	
+	static public function findByMotCleLangueSpace($textArray, $langue){
+		$requete = "SELECT id FROM ".self::$tableName." WHERE langue_id=".$langue->id;
+		$i = 0;
+		$len = count($textArray);
+		$requete .= " AND";
+		if($len == 0){
+			$requete .= "1 = 2"; //Ne retourne aucun élément
+		}
+		foreach($textArray as $word){
+			$requete .= " LOWER(motCle) LIKE LOWER('".addslashes($word)." %')";
+			if($i != $len-1){
+				$requete .= " OR";
+			}
+			$i++;
+		}
+		//echo $requete;
+		$query = db()->prepare($requete);
+		$query->execute();
+		$returnList = [];
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
 
 	static public function insert($terme) {
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".addslashes($terme->motCle)."', ".$terme->langue->id.", ".$terme->concept->id.")";

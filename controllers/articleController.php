@@ -47,8 +47,8 @@ class ArticleController extends Controller{
 				$newArticle->nbMots = $count;
 				Article::insert($newArticle);
 				$newArticle->id = db()->lastInsertId();
-				$references = self::reference($text, $_POST['langue'], $newArticle);
-				//$data['log'] = $references;
+				$log = self::reference($text, $_POST['langue'], $newArticle);
+				$data['log'] = $log;
 				$data['statut'] = 'succes';
 				$articleId = $newArticle->id;
 				$data['articleId'] = $articleId;
@@ -186,40 +186,72 @@ class ArticleController extends Controller{
 	}
 	
 	private static function reference($text, $pLangue, $article){
-		$references = [];
+		$log = [];
 		$textArray = explode(' ', $text);
 		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
 		
 		$langue = Langue::findByName($pLangue);
-		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		
-		// Uniquement les mots qui correspondent à des termes trouvés
-		$motsUtiles = [];		
-		foreach($textArray as $mot){
-			foreach($termes as $terme){
-				if (strtolower($mot) == strtolower($terme->motCle)){
-					array_push($motsUtiles, $mot);
-					break;
-				}
-			}
-		}
+		// On récupère les termes qui correspondent au texte pour travailler sur un nombre réduit d'élément (et pas faire de requête à chaque mot du texte)
+		$termes = Terme::findByMotCleLangue($textArray, $langue);
+		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 		
 		$concepts = [];
-		foreach($motsUtiles as $mot){
-			// Gérer les termes avec des espaces
+		
+		$i = 0;
+		
+		while($i < count($textArray)){
 			
-			// termes correspondants au mot actuel $mot
-			$termesRestreints = Terme::FindByMotCleLangue(array($mot),$langue);
+			// Si le mot courant a été traité dans le traitement des termes avec espace
+			$motEspaceTraite = false;
 			
-			foreach($termesRestreints as $terme){
-				if(!isset($concepts[$terme->concept->id])){
-					$concepts[$terme->concept->id] = 1;
-				}else{
-					$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
+			$mot = $textArray[$i];
+			
+			// Traitement des termes avec espace: on regarde si chaque mot du terme avec des espace concorde avec le texte depuis $mot
+			foreach($termesEspace as $termeEspace){
+				$j = 0;				
+				foreach(explode(' ', $termeEspace->motCle) as $motCourantTermeEspace){
+					// si chaque mot du terme avec des espace concorde avec le texte depuis $mot
+					if($i+$j < count($textArray) && strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace)){						
+						// si on a réussi à faire concorder jusqu'à la fin du terme
+						if($j == count(explode(' ', $termeEspace->motCle))-1){
+							// on ajoute $termeEspace aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
+							if(!isset($concepts[$termeEspace->concept->id])){
+								$concepts[$termeEspace->concept->id] = 1;
+							}else{
+								$concepts[$termeEspace->concept->id] = $termeEspace[$terme->concept->id]+1;
+							}
+							// On sort, on a identifié le mot, on va sauter j prochains mots
+							$i = $i+$j;
+							$motEspaceTraite = true;
+							break;
+						}
+						$j++;						
+					}else{
+						// On sort, le mot n' a pas été identifié
+						break;
+					}
 				}
 			}
 			
+			// Traitement des termes sans espace
+			if(!$motEspaceTraite){
+				foreach($termes as $terme){
+					if (strtolower($mot) == strtolower($terme->motCle)){
+						// on ajoute $terme aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
+						if(!isset($concepts[$terme->concept->id])){
+							$concepts[$terme->concept->id] = 1;
+						}else{
+							$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
+						}
+						break;
+					}
+				}
+			}
+			
+			$i++;
 		}
+		
 		foreach($concepts as $conceptId => $nombreOccurence){
 			$newRefenrence = new Reference($nombreOccurence, $article, Concept::findById($conceptId));
 			Reference::insert($newRefenrence);
@@ -227,7 +259,7 @@ class ArticleController extends Controller{
 		
 		// Ajouter un correcteur de référence?
 		
-		return $termes;
+		return $log;
 	}
 }
 
