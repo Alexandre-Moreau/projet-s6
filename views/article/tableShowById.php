@@ -18,13 +18,13 @@
 	<h3 class="display-5">
 		Références:
 	</h3>
+	<ul class="list-group">
 	<?php
 		foreach($data['references'] as $reference){
-			echo '<div>';
-			echo $reference->concept->nom.': '.$reference->nombreRef;
-			echo '</div>';
+			echo '<li class="list-group-item justify-content-between" style="width: 40%">'.$reference->concept->nom.'<span class="badge badge-default badge-pill">'.$reference->nombreRef.'</span></li>';
 		}
 	?>
+	</ul>
 	<div>
 	</div>
 </div>
