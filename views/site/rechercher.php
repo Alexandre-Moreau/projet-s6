@@ -56,39 +56,42 @@
 					}
 					for(var i in reponse['articles']) {
 						var article = reponse['articles'][i];
-						$('#articlesList ul').append('<li id="li'+article.id+'" class="list-group-item justify-content-between"><a href="#">' + article.nom + '</a><span class="badge badge-default badge-pill">score -1</span></li>');
-						$('#articlesList ul').on('click','#li'+article.id, function(event){
+						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">score -1</span></li>');
+						$('#articlesList ul').on('click','#liArticle'+article.id, function(event){
 							$('#referencesList ul').empty();
-							var articleId = event.target.id.split("li")[1];
-							
-							var data2 = new FormData();
-							data2.append('articleId', articleId);
-							
-							$.ajax({
-								url: './?r=article/ajaxOverview',
-								type: form.attr('method'),						
-								data: data2,
+							// Si l'id de l'élément cliqué commence par liArticle (si on a cliqué sur l'article mais pas sur son nom)
+							var articleId = event.target.id.split("liArticle");
+							if(articleId.length>1){
+								articleId = articleId[1];
+								var data2 = new FormData();
+								data2.append('articleId', articleId);								
+								$.ajax({
+									url: './?r=article/ajaxOverview',
+									type: form.attr('method'),						
+									data: data2,
 
-								cache: false,
-								processData: false,
-								contentType: false,
-								success: function (reponse2) {
-									answer = reponse2;
-									if(reponse2['log'].length != 0){
-										console.log(reponse2['log']);
+									cache: false,
+									processData: false,
+									contentType: false,
+									success: function (reponse2) {
+										answer = reponse2;
+										if(reponse2['log'].length != 0){
+											console.log(reponse2['log']);
+										}
+										for(var j in reponse2['references']) {
+											var reference = reponse2['references'][j];										
+											$('#referencesList ul').append('<li class="list-group-item justify-content-between"><a href="#">' + reference.concept.nom + '</a><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
+											
+										}
+									},
+									error: function (xhr, textStatus, errorThrown) {
+										console.log(xhr.responseText);
 									}
-									for(var j in reponse2['references']) {
-										var reference = reponse2['references'][j];
-										
-										$('#referencesList ul').append('<li class="list-group-item justify-content-between"><a href="#">' + reference.concept.nom + '</a><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
-										
-										console.log(reference);
-									}
-								},
-								error: function (xhr, textStatus, errorThrown) {
-									console.log(xhr.responseText);
-								}
-							});
+								});
+							}else{
+								$('#referencesList ul').empty();
+							}
+							
 						})
 					}
 				},
