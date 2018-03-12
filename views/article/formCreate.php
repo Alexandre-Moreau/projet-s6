@@ -70,6 +70,14 @@
 					}
 				}
 				
+				function resetForm(){
+					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
+					$('#formStatus #statusMessage').remove();
+					$('#formStatus ul').remove();
+
+					formAnswer = [];
+				}
+
 				function askRedirect(articleId){
 					
 				}
@@ -79,6 +87,10 @@
 					
 					var form = $('form');
 					
+					form.on('reset', function(e){
+						resetForm();
+					});
+
 					form.on('submit', function(e) {
 						
 						erreursForm = [];

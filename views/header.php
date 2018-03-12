@@ -15,9 +15,13 @@
 		<link rel="stylesheet" href="lib/bootstrap4/css/bootstrap.min.css">
 		<script src="lib/bootstrap4/js/bootstrap.min.js"></script>
 
-		<!-- styles -->
+		<!-- Styles -->
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<script src="js/main.js" type="text/javascript"></script>
+
+		<!-- Animate -->
+		<link rel="stylesheet" type="text/css" href="lib/animate/animate.css">
+
 	</head>
 
 	<body>
