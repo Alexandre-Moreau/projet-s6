@@ -43,6 +43,12 @@ footer a{
 	color:#42f0f0;
 }
 
+.fileIconDiv{
+	width: 100px;
+	text-align: center;
+	float: left;
+}
+
 #footerBtg{
 	vertical-align: middle;
 	margin-left: 5px;
