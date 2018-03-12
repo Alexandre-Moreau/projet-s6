@@ -25,7 +25,8 @@ class ArticleController extends Controller{
 				array_push($data['erreursSaisie'],'trop de fichiers');
 			}else{
 				$fileType = explode("/", $_FILES['0']['type'])[1]; // application/pdf -> pdf, text/html -> html
-				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != ''){
+				// html, pdf, txt (text/plain)
+				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != 'plain' && $fileType != ''){
 					array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu (".$fileType.")");
 				}
 				//Nom de l'article sans caractère spéciaux
@@ -40,7 +41,8 @@ class ArticleController extends Controller{
 			$data['statut'] = 'echec';
 			echo(json_encode($data));
 		}else{
-			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){				
+			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){
+				if($fileType == 'plain'){$fileType = 'txt';}
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
 				$text = self::processContent($newArticle);
 				if($text == 'encoding_error'){
@@ -151,6 +153,11 @@ class ArticleController extends Controller{
 				return 'encoding_error';
 			}else{
 				$text = self::parseContentHtml($text);
+			}
+		}elseif($article->type == "txt"){
+			$text = file_get_contents($article->chemin);
+			if(!mb_detect_encoding($text, 'UTF-8', true)){
+				return 'encoding_error';
 			}
 		}
 		return $text;

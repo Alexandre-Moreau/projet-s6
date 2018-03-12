@@ -9,9 +9,9 @@
 						<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
 					</div>
 					<div class="form-group">
-						<input type="file" name='file' id='file' accept=".pdf,.html,.htm" class="form-control">
+						<input type="file" name='file' id='file' accept=".pdf,.html,.htm,.txt" class="form-control">
 						<!--<label class="custom-file">
-							<input type="file" id="file" name="file" accept=".pdf,.html,.htm" class="form-control custom-file-input">
+							<input type="file" id="file" name="file" accept=".pdf,.html,.htm,.txt" class="form-control custom-file-input">
 							<span class="custom-file-control"></span>
 						</label>-->
 					</div>
