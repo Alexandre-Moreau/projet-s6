@@ -139,6 +139,11 @@ class ArticleController extends Controller{
 		$this->render("formModifier", $data);
 	}
 	
+	public function supprimer(){
+		Article::Delete($_GET['id']);
+		header("Location: .?r=article/showAll");
+	}
+	
 	private static function processContent($article){
 		if($article->type == "pdf"){
 			$parser = new Smalot\PdfParser\Parser();
