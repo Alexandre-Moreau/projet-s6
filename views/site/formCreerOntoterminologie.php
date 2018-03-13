@@ -27,7 +27,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Abandonner</button>
-							<input id="submit" type="submit" value="Confirmer" class="btn btn-success" disabled="true" />
+							<input id="submit" type="submit" value="Confirmer" class="btn btn-success" />
 						</div>
 					</div>
 				</div>
@@ -35,3 +35,45 @@
 		</form>
 		<br>
 	</div>
+			<script>
+				var formAnswer = [];
+				formAnswer['erreursSaisie'] = [];
+				
+				$(document).ready(function () {
+					
+					var form = $('form');
+
+					form.on('submit', function(e) {
+						
+						erreursForm = [];
+						var data = new FormData();
+						
+						$.each($('#file')[0].files, function(i, file) {
+							data.append('file'+i, file);
+						});
+					
+						e.preventDefault();
+						$.ajax({
+							url: form.attr('action'),
+							type: form.attr('method'),						
+							data: data,
+							
+							cache: false,
+							processData: false,
+							contentType: false,
+							
+							success: function (reponse) {
+								if(reponse['log'].length != 0){
+									console.log(reponse['log']);
+								}
+								window.location.replace('.?r=site/rechercher');
+							},
+							error: function (xhr, textStatus, errorThrown) {
+								console.log(xhr.responseText);
+							}
+						});
+					});
+					
+				});
+
+			</script>

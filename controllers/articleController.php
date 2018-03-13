@@ -57,7 +57,7 @@ class ArticleController extends Controller{
 					Article::insert($newArticle);
 					$newArticle->id = db()->lastInsertId();
 					$log = self::reference($text, $_POST['langue'], $newArticle);
-					$data['log'] = $log;
+					$data['log'] = $_POST;
 					$data['statut'] = 'succes';
 					$articleId = $newArticle->id;
 					$data['articleId'] = $articleId;
