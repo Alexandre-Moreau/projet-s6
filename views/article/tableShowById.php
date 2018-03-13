@@ -14,6 +14,7 @@
 	}
 ?>
 <a href=".?r=article/modifier&id=<?php echo $_GET['id']; ?>">Modifier</a>
+<a href=".?r=article/supprimer&id=<?php echo $_GET['id']; ?>">Supprimer</a>
 <div>
 	<h3 class="display-5">
 		Références:

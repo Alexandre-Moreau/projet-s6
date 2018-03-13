@@ -80,7 +80,7 @@ class Article extends Model{
 	}
 
 	static public function delete($pId){
-		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
+		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$pId);
 		$query->execute();
 	}
 	
