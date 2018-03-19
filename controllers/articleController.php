@@ -120,9 +120,8 @@ class ArticleController extends Controller{
 	}
 	
 	public function showAll(){
-		$articles = Article::FindAll();
-		$data['articles'] = $articles;
-		$this->render("tableShowAll", $data);
+		$data['articles'] = Article::FindAll();
+		$this->render('tableShowAll', $data);
 	}
 	
 	public function showById(){

@@ -38,7 +38,7 @@
 				</form>
 				<!--<progress></progress>-->
 				<br>
-				<span class='requis'>*</span> Champ requis
+				<span class="requis">*</span> Champ requis
 			</div>
 
 			<script>
