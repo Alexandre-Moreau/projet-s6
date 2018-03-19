@@ -57,7 +57,7 @@ class ArticleController extends Controller{
 					Article::insert($newArticle);
 					$newArticle->id = db()->lastInsertId();
 					$log = self::reference($text, $_POST['langue'], $newArticle);
-					$data['log'] = $log;
+					$data['log'] = $_POST;
 					$data['statut'] = 'succes';
 					$articleId = $newArticle->id;
 					$data['articleId'] = $articleId;
@@ -136,6 +136,11 @@ class ArticleController extends Controller{
 		$data['langues'] = Langue::FindAll();
  		$data['article'] = Article::FindById($_GET['id']);
 		$this->render("formModifier", $data);
+	}
+	
+	public function supprimer(){
+		Article::Delete($_GET['id']);
+		header("Location: .?r=article/showAll");
 	}
 	
 	private static function processContent($article){
