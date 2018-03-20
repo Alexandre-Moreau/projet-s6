@@ -84,6 +84,11 @@ class Article extends Model{
 		$query->execute();
 	}
 	
+	static public function deleteAll(){
+		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query->execute();
+	}
+	
 	static public function toArray($article){
 		$array = (array) $article;
 		$array['langue'] = $article->langue->nom;

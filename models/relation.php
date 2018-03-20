@@ -61,6 +61,11 @@ class Relation extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$relation->id);
 		$query->execute();
 	}
+
+	static public function deleteAll(){
+		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query->execute();
+	}
 }
 
 ?>

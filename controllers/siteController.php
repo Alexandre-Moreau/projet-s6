@@ -33,9 +33,15 @@ class SiteController extends Controller{
 		$data['xml'] = $xml;
 		$data['concepts'] = [];
 
+		// TODO: A enlever
+		include_once "models/Relation.php";
+
+		Article::deleteAll();
+		Relation::deleteAll();
 		Concept::deleteAll();
 		Langue::deleteAll();
 		Terme::deleteAll();
+		Reference::deleteAll();
 
 		$languages = [];
 
@@ -63,7 +69,6 @@ class SiteController extends Controller{
 		foreach($xml->concept as $concept){
 
 			$conceptFrom = Concept::findByName((string) $concept['name']);
-			include_once "models/Relation.php";
 
 			// Traitement des relations isA
 			foreach ($concept->isa as $isa) {
@@ -99,6 +104,8 @@ class SiteController extends Controller{
 				}
 			}
 		}
+
+
 	}
 
 	public function ajaxCreate(){

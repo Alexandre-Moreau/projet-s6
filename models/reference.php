@@ -74,6 +74,11 @@ class Reference extends Model{
 		$query->execute();
 	}
 	
+	static public function deleteAll(){
+		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query->execute();
+	}
+	
 	static public function toArray($reference){
 		$array = [];
 		$array['id'] = $reference->id;
