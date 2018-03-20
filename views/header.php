@@ -54,7 +54,9 @@
 							<a class="nav-link" href=".?r=maintenance/statut"><?php echo _MAINTENANCE;?></a>
 						</li>
 					</ul>
-				
+					<button type="button" class="btn btn-info btn-sm">fr</button>
+					<button type="button" class="btn btn-info btn-sm">en</button>
+					<button type="button" class="btn btn-info btn-sm">cn</button>
 				</div>
 			</nav>
 

@@ -37,6 +37,7 @@
 	</div>
 			<script>
 				var formAnswer = [];
+				var answer;
 				formAnswer['erreursSaisie'] = [];
 				
 				$(document).ready(function () {
@@ -63,10 +64,16 @@
 							contentType: false,
 							
 							success: function (reponse) {
+								answer = reponse;
 								if(reponse['log'].length != 0){
 									console.log(reponse['log']);
 								}
-								window.location.replace('.?r=site/rechercher');
+								if(reponse['statut'] !== 'echec'){
+									window.location.replace('.?r=site/rechercher');
+								}else{
+									// traiter erreur dans un div dismissable
+									console.log('dans le else ECHEC');
+								}
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);

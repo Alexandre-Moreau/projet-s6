@@ -1,4 +1,4 @@
-       <?php
+<?php
 
 //Auto-generated file
 class SiteController extends Controller{
@@ -14,6 +14,9 @@ class SiteController extends Controller{
 
 	private static function creationOnto($fichier){
 		$data = [];
+
+		// Traitement des erreurs de parsing
+		libxml_use_internal_errors(true);
 
 		$xml = simplexml_load_file($fichier);
 		if(!$xml){
@@ -53,12 +56,25 @@ class SiteController extends Controller{
 					Langue::insert(new Langue((string) $language['name']));
 				}
 			}
-
 		}
 
-		//2eme passage pour les termes
+
+		//2ème passage pour les termes et les relations isA
 		foreach($xml->concept as $concept){
+
+			$conceptFrom = Concept::findByName((string) $concept['name']);
+			include_once "models/Relation.php";
+
+			// Traitement des relations isA
+			foreach ($concept->isa as $isa) {
+				$conceptTo = Concept::findByName((string) $isa);
+				
+				$relation = new Relation('isA', $conceptFrom, $conceptTo);
+				Relation::insert($relation);
+			}
+
 			foreach($concept->language as $language){
+				// Traitement des termes
 				foreach ($language->term as $term) {
 
 					$languageId = Langue::findByName((string) $language['name']);
@@ -82,16 +98,16 @@ class SiteController extends Controller{
 					}
 				}
 			}
-
-			// 4 - gérer les isA
-
 		}
 	}
 
 	public function ajaxCreate(){
+		$data['log'] = [];
 		header('Content-type: application/json');
-		$data['log'] = $_FILES['file0']['tmp_name'];
-		self::creationOnto($_FILES['file0']['tmp_name']);
+		$statut = self::creationOnto($_FILES['file0']['tmp_name']);
+		if($statut == 'erreur_parsing'){
+			$data['statut'] = 'echec';
+		}
 		echo(json_encode($data));
 	}
 	

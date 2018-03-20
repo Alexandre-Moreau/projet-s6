@@ -5,234 +5,234 @@
 <!-- Updated: 26 janvier 2018 -->
 
 <ontoterminology name="Terminologie des Sièges">
-    <domain>Meubles</domain>
-    <author>Christophe</author>
-    <creationDate>29 juin 2017</creationDate>
-    <lastVersionDate>26 janvier 2018</lastVersionDate>
-    <concept name="Matière artificielle">
-        <essChar>/artificiel/</essChar>
-        <essChar>/matière/</essChar>
-        <isa>Matière</isa>
-    </concept>
-    <concept name="Matière composite">
-        <essChar>/composite/</essChar>
-        <essChar>/matière/</essChar>
-        <isa>Matière</isa>
-    </concept>
-    <concept name="Matière naturelle minérale">
-        <essChar>/matière/</essChar>
-        <essChar>/minéral/</essChar>
-        <essChar>/naturel/</essChar>
-        <isa>Matière naturelle</isa>
-    </concept>
-    <concept name="Matière naturelle végétale ">
-        <essChar>/matière/</essChar>
-        <essChar>/naturel/</essChar>
-        <essChar>/végétal/</essChar>
-        <isa>Matière naturelle</isa>
-    </concept>
-    <concept name="Matière naturelle">
-        <essChar>/matière/</essChar>
-        <essChar>/naturel/</essChar>
-        <isa>Matière</isa>
-    </concept>
-    <concept name="Matière">
-        <type>root</type>
-        <essChar>/matière/</essChar>
-    </concept>
-    <concept name="Siège avec pieds">
-        <essChar>/avec pieds/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège</isa>
-    </concept>
-    <concept name="Siège plusieurs personnes avec pieds dossier et bras">
-        <essChar>/avec bras/</essChar>
-        <essChar>/avec dossier/</essChar>
-        <essChar>/avec pieds/</essChar>
-        <essChar>/plusieurs personnes/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège plusieurs personnes avec pieds</isa>
-        <language name="fr">
-            <term name="canapé">
-                <definition>Siège avec pieds, dossier et bras pour plusieurs personnes.</definition>
-                <inflectedForm>canapés</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="couch">
-                <inflectedForm>couches</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="cn">
-            <term name="长椅">
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège plusieurs personnes avec pieds sans bras sans dossier">
-        <essChar>/avec pieds/</essChar>
-        <essChar>/plusieurs personnes/</essChar>
-        <essChar>/sans bras/</essChar>
-        <essChar>/sans dossier/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège plusieurs personnes avec pieds</isa>
-        <language name="fr">
-            <term name="banc">
-                <definition>Siège avec pieds sans dossier et sans bras pour plusieurs personnes.</definition>
-                <inflectedForm>bancs</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="bench">
-                <inflectedForm>benches</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="cn">
-            <term name="长凳">
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège plusieurs personnes avec pieds">
-        <essChar>/avec pieds/</essChar>
-        <essChar>/plusieurs personnes/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège avec pieds</isa>
-        <isa>Siège plusieurs personnes</isa>
-    </concept>
-    <concept name="Siège plusieurs personnes">
-        <essChar>/plusieurs personnes/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège</isa>
-    </concept>
-    <concept name="Siège sans pieds">
-        <essChar>/sans pieds/</essChar>
-        <essChar>/siège/</essChar>
-        <isa>Siège</isa>
-    </concept>
-    <concept name="Siège une personne avec pieds dossier et bras">
-        <essChar>/avec bras/</essChar>
-        <essChar>/avec dossier/</essChar>
-        <essChar>/avec pieds/</essChar>
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège une personne avec pieds</isa>
-        <language name="fr">
-            <term name="fauteuil">
-                <definition>Siège avec pieds, dossier et bras pour une personne.</definition>
-                <inflectedForm>fauteuils</inflectedForm>
-                <status>preferred</status>
-            </term>
-            <term name="bergère">
-                <definition>Fauteuil large et profond, muni de joues pleines, dont le siège est pourvu d'un coussin.</definition>
-                <status>alternative</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="armchair">
-                <inflectedForm>armchairs</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège une personne avec pieds dossier et sans bras">
-        <essChar>/avec dossier/</essChar>
-        <essChar>/avec pieds/</essChar>
-        <essChar>/sans bras/</essChar>
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège une personne avec pieds</isa>
-        <language name="fr">
-            <term name="chaise">
-                <definition>Siège sans bras avec pieds et dossier pour une personne.</definition>
-                <inflectedForm>chaises</inflectedForm>
-                <status>preferred</status>
-            </term>
-            <term name="chaise d'intérieur">
-                <inflectedForm>chaises d'intérieur</inflectedForm>
-                <status>alternative</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="chair">
-                <inflectedForm>chairs</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="cn">
-            <term name="椅子">
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège une personne avec pieds sans dossier sans bras">
-        <essChar>/avec pieds/</essChar>
-        <essChar>/sans bras/</essChar>
-        <essChar>/sans dossier/</essChar>
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège une personne avec pieds</isa>
-        <language name="fr">
-            <term name="tabouret">
-                <definition>Siège avec pieds, sans dossier et sans bras pour une personne.</definition>
-                <inflectedForm>tabourets</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="stool">
-                <inflectedForm>stools</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège une personne avec pieds">
-        <essChar>/avec pieds/</essChar>
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège avec pieds</isa>
-        <isa>Siège une personne</isa>
-    </concept>
-    <concept name="Siège une personne sans pieds sans dossier et sans bras">
-        <essChar>/sans bras/</essChar>
-        <essChar>/sans dossier/</essChar>
-        <essChar>/sans pieds/</essChar>
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège sans pieds</isa>
-        <isa>Siège une personne</isa>
-        <language name="fr">
-            <term name="pouf">
-                <definition>Siège sans pieds sans dossier et sans bras pour une personne.</definition>
-                <inflectedForm>poufs</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
-    <concept name="Siège une personne">
-        <essChar>/siège/</essChar>
-        <essChar>/une personne/</essChar>
-        <isa>Siège</isa>
-    </concept>
-    <concept name="Siège">
-        <type>root</type>
-        <essChar>/siège/</essChar>
-        <language name="fr">
-            <term name="siège">
-                <definition>Meuble où on s'assied.</definition>
-                <inflectedForm>sièges</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-        <language name="en">
-            <term name="seat">
-                <inflectedForm>seats</inflectedForm>
-                <status>preferred</status>
-            </term>
-        </language>
-    </concept>
+	<domain>Meubles</domain>
+	<author>Christophe</author>
+	<creationDate>29 juin 2017</creationDate>
+	<lastVersionDate>26 janvier 2018</lastVersionDate>
+	<concept name="Matière artificielle">
+		<essChar>/artificiel/</essChar>
+		<essChar>/matière/</essChar>
+		<isa>Matière</isa>
+	</concept>
+	<concept name="Matière composite">
+		<essChar>/composite/</essChar>
+		<essChar>/matière/</essChar>
+		<isa>Matière</isa>
+	</concept>
+	<concept name="Matière naturelle minérale">
+		<essChar>/matière/</essChar>
+		<essChar>/minéral/</essChar>
+		<essChar>/naturel/</essChar>
+		<isa>Matière naturelle</isa>
+	</concept>
+	<concept name="Matière naturelle végétale ">
+		<essChar>/matière/</essChar>
+		<essChar>/naturel/</essChar>
+		<essChar>/végétal/</essChar>
+		<isa>Matière naturelle</isa>
+	</concept>
+	<concept name="Matière naturelle">
+		<essChar>/matière/</essChar>
+		<essChar>/naturel/</essChar>
+		<isa>Matière</isa>
+	</concept>
+	<concept name="Matière">
+		<type>root</type>
+		<essChar>/matière/</essChar>
+	</concept>
+	<concept name="Siège avec pieds">
+		<essChar>/avec pieds/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège</isa>
+	</concept>
+	<concept name="Siège plusieurs personnes avec pieds dossier et bras">
+		<essChar>/avec bras/</essChar>
+		<essChar>/avec dossier/</essChar>
+		<essChar>/avec pieds/</essChar>
+		<essChar>/plusieurs personnes/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège plusieurs personnes avec pieds</isa>
+		<language name="fr">
+			<term name="canapé">
+				<definition>Siège avec pieds, dossier et bras pour plusieurs personnes.</definition>
+				<inflectedForm>canapés</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="couch">
+				<inflectedForm>couches</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="cn">
+			<term name="长椅">
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège plusieurs personnes avec pieds sans bras sans dossier">
+		<essChar>/avec pieds/</essChar>
+		<essChar>/plusieurs personnes/</essChar>
+		<essChar>/sans bras/</essChar>
+		<essChar>/sans dossier/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège plusieurs personnes avec pieds</isa>
+		<language name="fr">
+			<term name="banc">
+				<definition>Siège avec pieds sans dossier et sans bras pour plusieurs personnes.</definition>
+				<inflectedForm>bancs</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="bench">
+				<inflectedForm>benches</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="cn">
+			<term name="长凳">
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège plusieurs personnes avec pieds">
+		<essChar>/avec pieds/</essChar>
+		<essChar>/plusieurs personnes/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège avec pieds</isa>
+		<isa>Siège plusieurs personnes</isa>
+	</concept>
+	<concept name="Siège plusieurs personnes">
+		<essChar>/plusieurs personnes/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège</isa>
+	</concept>
+	<concept name="Siège sans pieds">
+		<essChar>/sans pieds/</essChar>
+		<essChar>/siège/</essChar>
+		<isa>Siège</isa>
+	</concept>
+	<concept name="Siège une personne avec pieds dossier et bras">
+		<essChar>/avec bras/</essChar>
+		<essChar>/avec dossier/</essChar>
+		<essChar>/avec pieds/</essChar>
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège une personne avec pieds</isa>
+		<language name="fr">
+			<term name="fauteuil">
+				<definition>Siège avec pieds, dossier et bras pour une personne.</definition>
+				<inflectedForm>fauteuils</inflectedForm>
+				<status>preferred</status>
+			</term>
+			<term name="bergère">
+				<definition>Fauteuil large et profond, muni de joues pleines, dont le siège est pourvu d'un coussin.</definition>
+				<status>alternative</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="armchair">
+				<inflectedForm>armchairs</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège une personne avec pieds dossier et sans bras">
+		<essChar>/avec dossier/</essChar>
+		<essChar>/avec pieds/</essChar>
+		<essChar>/sans bras/</essChar>
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège une personne avec pieds</isa>
+		<language name="fr">
+			<term name="chaise">
+				<definition>Siège sans bras avec pieds et dossier pour une personne.</definition>
+				<inflectedForm>chaises</inflectedForm>
+				<status>preferred</status>
+			</term>
+			<term name="chaise d'intérieur">
+				<inflectedForm>chaises d'intérieur</inflectedForm>
+				<status>alternative</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="chair">
+				<inflectedForm>chairs</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="cn">
+			<term name="椅子">
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège une personne avec pieds sans dossier sans bras">
+		<essChar>/avec pieds/</essChar>
+		<essChar>/sans bras/</essChar>
+		<essChar>/sans dossier/</essChar>
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège une personne avec pieds</isa>
+		<language name="fr">
+			<term name="tabouret">
+				<definition>Siège avec pieds, sans dossier et sans bras pour une personne.</definition>
+				<inflectedForm>tabourets</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="stool">
+				<inflectedForm>stools</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège une personne avec pieds">
+		<essChar>/avec pieds/</essChar>
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège avec pieds</isa>
+		<isa>Siège une personne</isa>
+	</concept>
+	<concept name="Siège une personne sans pieds sans dossier et sans bras">
+		<essChar>/sans bras/</essChar>
+		<essChar>/sans dossier/</essChar>
+		<essChar>/sans pieds/</essChar>
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège sans pieds</isa>
+		<isa>Siège une personne</isa>
+		<language name="fr">
+			<term name="pouf">
+				<definition>Siège sans pieds sans dossier et sans bras pour une personne.</definition>
+				<inflectedForm>poufs</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
+	<concept name="Siège une personne">
+		<essChar>/siège/</essChar>
+		<essChar>/une personne/</essChar>
+		<isa>Siège</isa>
+	</concept>
+	<concept name="Siège">
+		<type>root</type>
+		<essChar>/siège/</essChar>
+		<language name="fr">
+			<term name="siège">
+				<definition>Meuble où on s'assied.</definition>
+				<inflectedForm>sièges</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+		<language name="en">
+			<term name="seat">
+				<inflectedForm>seats</inflectedForm>
+				<status>preferred</status>
+			</term>
+		</language>
+	</concept>
 </ontoterminology>
