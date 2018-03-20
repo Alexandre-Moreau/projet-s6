@@ -36,22 +36,22 @@
 				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=site/index">Accueil <span class="sr-only">(current)</span></a>
+							<a class="nav-link" href=".?r=site/index"><?php echo _ACCUEIL;?> <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=site/rechercher">Rechercher</a>
+							<a class="nav-link" href=".?r=site/rechercher"><?php echo _RECHERCHER;?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=article/showAll">Articles</a>
+							<a class="nav-link" href=".?r=article/showAll"><?php echo _ARTICLES;?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=article/create">Nouvel article</a>
+							<a class="nav-link" href=".?r=article/create"><?php echo _ARTICLES_NEW;?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=site/creerOntoterminologie">Nouvelle ontoterminologie</a>
+							<a class="nav-link" href=".?r=site/creerOntoterminologie"><?php echo _ONTO_NEW;?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=maintenance/statut">Maintenance</a>
+							<a class="nav-link" href=".?r=maintenance/statut"><?php echo _MAINTENANCE;?></a>
 						</li>
 					</ul>
 				
