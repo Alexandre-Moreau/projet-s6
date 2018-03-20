@@ -1,6 +1,6 @@
 			<div class="container">
 				<h3>Créer un nouvel article</h3>
-				<hr style="border-top: 3px double grey"><br>
+				<hr><br>
 				<div id="formStatus" >
 				</div>
 				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
@@ -89,6 +89,7 @@
 							// On récupère le nom du fichier avant le point
 							nom = nom.substring(0, nom.indexOf('.'));
 							$('input#nom').val(nom);
+							$('input#nom').focus();
 						}
 					});
   

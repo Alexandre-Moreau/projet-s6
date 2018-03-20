@@ -1,6 +1,6 @@
 			<div class="container">
 				<h3>Modifier un article</h3>
-				<hr style="border-top: 3px double grey"><br>
+				<hr><br>
 				<div id="formStatus" >
 				</div>
 				<form method="post" action =".?r=Article/ajaxModifier" enctype="multipart/form-data">

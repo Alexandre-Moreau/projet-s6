@@ -33,9 +33,6 @@ class SiteController extends Controller{
 		$data['xml'] = $xml;
 		$data['concepts'] = [];
 
-		// TODO: A enlever
-		//include_once "models/Relation.php";
-
 		Article::deleteAll();
 		Relation::deleteAll();
 		Concept::deleteAll();
