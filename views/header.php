@@ -54,9 +54,20 @@
 							<a class="nav-link" href=".?r=maintenance/statut"><?php echo _MAINTENANCE;?></a>
 						</li>
 					</ul>
-					<button type="button" class="btn btn-info btn-sm">fr</button>
-					<button type="button" class="btn btn-info btn-sm">en</button>
-					<button type="button" class="btn btn-info btn-sm">cn</button>
+					
+
+					<div class="dropdown" id="dropdownLangues">
+						<a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLangues" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Langue
+						</a>
+
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuLangues">
+							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg" height="18px" style="border-radius: 50%;" /> fr</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/us.svg" height="18px" style="border-radius: 50%;" /> en</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg" height="18px" style="border-radius: 50%;" /> cn</a>
+						</div>
+					</div>
+
 				</div>
 			</nav>
 
