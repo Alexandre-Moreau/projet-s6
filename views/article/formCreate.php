@@ -86,7 +86,6 @@
 						if($('input#nom').val() == '' || $('input#nom').val() == nom){
 							// On récupère le nom du fichier après le fakepath
 							nom = $(this).val().substring($(this).val().lastIndexOf('\\')+1);
-							console.log(nom);
 							// On récupère le nom du fichier avant le point
 							nom = nom.substring(0, nom.indexOf('.'));
 							$('input#nom').val(nom);
