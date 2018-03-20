@@ -5,3 +5,4 @@ $(document).ready(function() {
 	var r = new URL(window.location.href).searchParams.get("r");
 	$('a[href=".?r=' + r + '"]').closest('li').addClass('active');
 });
+
