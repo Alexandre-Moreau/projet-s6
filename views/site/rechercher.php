@@ -33,9 +33,13 @@
 
 		form.on('submit', function(e) {
 			
-			var data = new FormData();
 			e.preventDefault();
+
+			// traitement des $_POST
+			var data = new FormData();
 			data.append('query', $('#query').val());
+
+
 
 			$.ajax({
 				url: form.attr('action'),
@@ -47,6 +51,7 @@
 				contentType: false,
 
 				success: function (reponse) {
+
 					$('#articlesList ul').empty();
 					$('#referencesList ul').empty();
 					//reponse = JSON.parse(reponse);
@@ -56,7 +61,7 @@
 					}
 					for(var i in reponse['articles']) {
 						var article = reponse['articles'][i];
-						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">score -1</span></li>');
+						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item list-group-item-action justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">score -1</span></li>');
 						$('#articlesList ul').on('click','#liArticle'+article.id, function(event){
 							$('#referencesList ul').empty();
 							// Si l'id de l'élément cliqué commence par liArticle (si on a cliqué sur l'article mais pas sur son nom)
@@ -78,9 +83,13 @@
 										if(reponse2['log'].length != 0){
 											console.log(reponse2['log']);
 										}
+										
+										$('#referencesList ul').empty();
+
 										for(var j in reponse2['references']) {
-											var reference = reponse2['references'][j];										
-											$('#referencesList ul').append('<li class="list-group-item justify-content-between"><a href="#">' + reference.concept.nom + '</a><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
+											var reference = reponse2['references'][j];
+
+											$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><a href="#">' + reference.concept.nom + '</a><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
 											
 										}
 									},
@@ -92,7 +101,7 @@
 								$('#referencesList ul').empty();
 							}
 							
-						})
+						});
 					}
 				},
 				error: function (xhr, textStatus, errorThrown) {
