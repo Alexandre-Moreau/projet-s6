@@ -17,6 +17,7 @@ return array(
     'PDF417' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
     'QRcode' => $vendorDir . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
     'Reference' => $baseDir . '/models/reference.php',
+    'Relation' => $baseDir . '/models/relation.php',
     'SiteController' => $baseDir . '/controllers/siteController.php',
     'TCPDF' => $vendorDir . '/tecnickcom/tcpdf/tcpdf.php',
     'TCPDF2DBarcode' => $vendorDir . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',

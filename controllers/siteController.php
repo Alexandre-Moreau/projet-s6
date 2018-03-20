@@ -34,7 +34,7 @@ class SiteController extends Controller{
 		$data['concepts'] = [];
 
 		// TODO: A enlever
-		include_once "models/Relation.php";
+		//include_once "models/Relation.php";
 
 		Article::deleteAll();
 		Relation::deleteAll();

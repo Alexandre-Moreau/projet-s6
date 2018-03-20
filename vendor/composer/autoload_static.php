@@ -28,6 +28,7 @@ class ComposerStaticInit665d00703d8a3b386086b1c14ebcc2f4
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'Reference' => __DIR__ . '/../..' . '/models/reference.php',
+        'Relation' => __DIR__ . '/../..' . '/models/relation.php',
         'SiteController' => __DIR__ . '/../..' . '/controllers/siteController.php',
         'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
         'TCPDF2DBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',

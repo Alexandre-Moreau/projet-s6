@@ -77,12 +77,22 @@
 
 					formAnswer = [];
 				}
-
-				function askRedirect(articleId){
-					
-				}
 				
 				$(document).ready(function () {
+					
+					var nom;
+					
+					$('input:file').change(function (){
+						if($('input#nom').val() == '' || $('input#nom').val() == nom){
+							// On récupère le nom du fichier après le fakepath
+							nom = $(this).val().substring($(this).val().lastIndexOf('\\')+1);
+							console.log(nom);
+							// On récupère le nom du fichier avant le point
+							nom = nom.substring(0, nom.indexOf('.'));
+							$('input#nom').val(nom);
+						}
+					});
+  
 					refreshDivFormStatus();
 					
 					var form = $('form');
@@ -115,9 +125,6 @@
 							success: function (reponse) {
 								if(reponse['log'].length != 0){
 									console.log(reponse['log']);
-								}
-								if(reponse['statut'] == "succes"){
-									askRedirect(reponse['articleId']);							
 								}
 								formAnswer = reponse;
 								refreshDivFormStatus();
