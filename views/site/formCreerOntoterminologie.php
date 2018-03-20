@@ -1,6 +1,6 @@
 	<div class="container">
 		<h3>Créer une nouvelle ontoterminologie</h3>
-		<hr style="border-top: 3px double grey"><br>
+		<hr><br>
 		<div id="formStatus" >
 		</div>
 		<form method="post" action =".?r=Site/ajaxCreate" enctype="multipart/form-data" class="col">

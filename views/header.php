@@ -28,12 +28,12 @@
 		<header>
 
 			<nav id="nav" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<a class="navbar-brand" href=".?r=site/index">BTG</a>
 
-				<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<div class="collapse navbar-collapse" id="navbarToggler">
 					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 						<li class="nav-item">
 							<a class="nav-link" href=".?r=site/index"><?php echo _ACCUEIL;?> <span class="sr-only">(current)</span></a>
@@ -62,9 +62,9 @@
 						</a>
 
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLangues">
-							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg" height="18px" style="border-radius: 50%;" /> fr</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/us.svg" height="18px" style="border-radius: 50%;" /> en</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg" height="18px" style="border-radius: 50%;" /> cn</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg" /> fr</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/us.svg" /> en</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg" /> cn</a>
 						</div>
 					</div>
 
