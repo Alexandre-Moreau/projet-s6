@@ -90,8 +90,6 @@ class Article extends Model{
 			$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			// On regarde le nombre d'occurences par nombre de mots
 			
-			// On passe le score sur 100
-			$returnList[$key][1] = 
 		}
 		
 		// Liste ordonnée par score
