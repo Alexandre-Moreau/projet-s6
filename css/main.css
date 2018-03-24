@@ -63,3 +63,7 @@ footer a{
 	margin-left: 5px;
 	font-weight: bold;
 }
+
+.ontoTerminologieElement span.refConcept{
+	cursor:pointer;
+}

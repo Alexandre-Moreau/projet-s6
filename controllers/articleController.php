@@ -57,7 +57,6 @@ class ArticleController extends Controller{
 					Article::insert($newArticle);
 					$newArticle->id = db()->lastInsertId();
 					$log = self::reference($text, $_POST['langue'], $newArticle);
-					$data['log'] = $_POST;
 					$data['statut'] = 'succes';
 					$articleId = $newArticle->id;
 					$data['articleId'] = $articleId;
@@ -100,10 +99,10 @@ class ArticleController extends Controller{
 	public function ajaxRechercher(){
 		header('Content-type: application/json');
 		$data['log'] = [];
-		$data['articles'] = [];
-		$articles = Article::findAll();
-		foreach($articles as $article){
-			array_push($data['articles'], Article::toArray($article));
+		$data['articlesScore'] = [];
+		$articlesScore = Article::findByQuery($_POST['query']);
+		foreach($articlesScore as $articleScore){
+			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1]]);
 		}
 		echo(json_encode($data));
 	}

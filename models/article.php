@@ -65,6 +65,45 @@ class Article extends Model{
 		return $returnList;
 	}
 	
+	static public function findByQuery($query){
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$query."')";
+		//echo $requete;
+		$query = db()->prepare($requete);
+		$query->execute();
+		$returnList = [];
+		$maxNbRef = 0;
+		
+		// Récupération des objets
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, [self::FindById($row['article_id']), $row['nombreRef']]);
+				if($row['nombreRef'] > $maxNbRef){
+					$maxNbRef = $row['nombreRef'];
+				}
+			}
+		}
+		
+		// Calcul du score
+		foreach ($returnList as $key => $value){
+			// On regarde le nombre d'occurences par rapport au max
+			$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
+			// On regarde le nombre d'occurences par nombre de mots
+			
+			// On passe le score sur 100
+			$returnList[$key][1] = 
+		}
+		
+		// Liste ordonnée par score
+		usort($returnList, "self::compareScore");
+		
+		return $returnList;
+	}
+	
+	static private function compareScore($articleScore0, $articleScore1){
+		return ($articleScore0[1] > $articleScore1[1]) ? -1 : 1;
+	}
+	
 	static public function insert($article){
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.", ".$article->langue->id.")";
 		//echo $requete;
