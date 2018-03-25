@@ -43,8 +43,18 @@ function cleanString($text) {
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
+
+function keepOnlyText($pText){
+	$text = str_replace(["'","&#39;"], "\' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
+	$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
+	$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
+	$text = str_replace('.', '' , $text); // on efface les points
+	$text = str_replace(',', '' , $text); // on efface les virgules
+	return $text;
+}
 	
 function processContent($article){
+	$text = -1;
 	if($article->type == "pdf"){
 		$parser = new Smalot\PdfParser\Parser();
 		$pdf = $parser->parseFile($article->chemin);
@@ -63,19 +73,19 @@ function processContent($article){
 		$text = file_get_contents($article->chemin);
 		if(!mb_detect_encoding($text, 'UTF-8', true)){
 			return 'encoding_error';
+		}else{
+			$text = parseContentText($text);
+			
 		}
 	}
 	return $text;
 }
 
-function parseContentPdf($pText){
+function parseContentText($pText){
 	//Il faudrait grace à une regex identifier les titres, les identifier grace a des caractères [[titre]] par exemple pour qu'ils montent dans le référencement (1 occurence dans le titre = 2 occurences par exemple)
 	//Remplacer les \n par des ' ' pour espacer les titres
 	
-	$text = str_replace(["'","&#39;"], "' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
-	$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
-	$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-	$text = preg_replace('(\.)', '', $text); // on efface les points
+	$text = keepOnlyText($pText);
 	$textArray = explode(' ', $text);
 	$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
 	$text = implode(' ', $textArray);
@@ -101,10 +111,7 @@ function parseContentHtml($pText){
 		$text .= (string)$p.' ';
 	}
 	
-	$text = str_replace(["'","&#39;"], "' ", $text); // on ajoute un ' ' derrière les "'" (avec le caractère html)
-	$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
-	$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-	$text = preg_replace('(\.)', '', $text); // on efface les points
+	$text = keepOnlyText($text);
 	$textArray = explode(' ', $text);
 	$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
 	$text = implode(' ', $textArray);

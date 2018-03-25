@@ -47,6 +47,11 @@
 
 		form.on('submit', function(e) {
 			
+			// Mise en gras de l'élément sélectionné
+			$('.ontoTerminologieElement span.refConcept').prop('style','font-weight:normal');
+			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).prop('style','font-weight:bold');
+			
+			
 			e.preventDefault();
 
 			// traitement des $_POST
@@ -120,6 +125,7 @@
 					}
 				},
 				error: function (xhr, textStatus, errorThrown) {
+					console.log('Les print_r causent des erreurs');
 					console.log(xhr.responseText);
 				}
 			});

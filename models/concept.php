@@ -102,6 +102,23 @@ class Concept extends Model{
 		}
 		return $returnList;
 	}
+	
+	static public function verticalDistance($concept_from, $concept_to, $iteration = 0){
+		// calcule la distance verticale du contept $concept_from vers $concept_to
+		// on regarde si $concept_to est un sous-concept de $concept_from
+		// renvoie -1 si $concept_to n'est pas un sous-concept de $concept_from
+		
+		$conceptWithChildrens = self::findByIdWithChildrens($concept_from->id);
+		
+		foreach($conceptWithChildrens->conceptsFils as $conceptFils){
+			if($conceptFils == $concept_to){
+				return 1;
+			}
+		}
+		
+		return -1;
+		
+	}
 
 	static public function insert($concept) {
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$concept->nom."')";

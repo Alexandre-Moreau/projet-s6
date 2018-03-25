@@ -90,7 +90,7 @@ class Article extends Model{
 			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScore($returnList[$key][0], Concept::findByName($requeteConcept));
+			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($requeteConcept));
 		}
 		
 		// Liste ordonnée par score
@@ -103,13 +103,76 @@ class Article extends Model{
 		return ($articleScore0[1] > $articleScore1[1]) ? -1 : 1;
 	}
 	
-	static public function calculeScore($article, $conept){
+	static public function calculeScoreContexte($article, $concept){
+		$score = 0;
+		//Basé sur le référencement (articleController::reference)
+		$text = processContent($article);
+		$textArray = explode(' ', $text);
+		$langue = $article->langue;
 		
-		return -1;
-	}
-	
-	static public function getTextContent($article){
+		$termes = Terme::findByMotCleLangue($textArray, $langue);
+		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 		
+		$concepts = [];
+		
+		$i = 0;		
+		while($i < count($textArray)){
+			$motEspaceTraite = false;			
+			$mot = $textArray[$i];
+			
+			foreach($termesEspace as $termeEspace){
+				$j = 0;				
+				foreach(explode(' ', $termeEspace->motCle) as $motCourantTermeEspace){
+					if($i+$j < count($textArray) && strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace)){
+						if($j == count(explode(' ', $termeEspace->motCle))-1){
+							if(!isset($concepts[$termeEspace->concept->id])){
+								// On ajoute la longueur du terme ($j) et non 1 (pour après regarder le pourcentage de couverture du terme dans l'article)
+								$concepts[$termeEspace->concept->id] = $j;
+							}else{
+								$concepts[$termeEspace->concept->id] = $termeEspace[$terme->concept->id]+$j;
+							}
+							$i = $i+$j;
+							$motEspaceTraite = true;
+							break;
+						}
+						$j++;						
+					}else{
+						break;
+					}
+				}
+			}
+			
+			if(!$motEspaceTraite){
+				foreach($termes as $terme){
+					if (strtolower($mot) == strtolower($terme->motCle)){
+						if(!isset($concepts[$terme->concept->id])){
+							$concepts[$terme->concept->id] = 1;
+						}else{
+							$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
+						}
+						break;
+					}
+				}
+			}			
+			$i++;
+		}
+		
+		foreach($concepts as $conceptId => $nombreOccurence){			
+			if($conceptId == $concept->id){
+				$score+=$nombreOccurence;
+			}else{
+				//On regade si le concept de la boucle fait partie des sous concept du concept à calculer
+				if(Concept::verticalDistance($concept, Concept::findById($conceptId))>0){
+					$score+=$nombreOccurence*1000;
+				}
+			}
+			
+		}
+		
+		$score = round($score/$article->nbMots*100, 1);
+		
+		
+		return $score;
 	}
 	
 	static public function insert($article){

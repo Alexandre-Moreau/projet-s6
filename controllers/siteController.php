@@ -32,13 +32,13 @@ class SiteController extends Controller{
 
 		$data['xml'] = $xml;
 		$data['concepts'] = [];
-
+		
+		Reference::deleteAll();		
 		Article::deleteAll();
-		Relation::deleteAll();
-		Concept::deleteAll();
-		Langue::deleteAll();
+		Relation::deleteAll();		
 		Terme::deleteAll();
-		Reference::deleteAll();
+		Concept::deleteAll();		
+		Langue::deleteAll();
 
 		$languages = [];
 
