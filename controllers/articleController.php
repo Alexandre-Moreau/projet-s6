@@ -44,7 +44,7 @@ class ArticleController extends Controller{
 			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){
 				if($fileType == 'plain'){$fileType = 'txt';}
 				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
-				$text = self::processContent($newArticle);
+				$text = processContent($newArticle);
 				if($text == 'encoding_error'){
 					$data['statut'] = 'echec';
 					array_push($data['erreursSaisie'],'erreur d\'encodage: les doivent être encodé en UTF-8');
@@ -52,7 +52,7 @@ class ArticleController extends Controller{
 					$data['statut'] = 'echec';
 					array_push($data['erreursSaisie'],'erreur de parsing: le document n\'est pas correct');
 				}else{
-					$count = self::countWords($text);
+					$count = countWords($text);
 					$newArticle->nbMots = $count;
 					Article::insert($newArticle);
 					$newArticle->id = db()->lastInsertId();
@@ -101,6 +101,7 @@ class ArticleController extends Controller{
 		$data['log'] = [];
 		$data['articlesScore'] = [];
 		$articlesScore = Article::findByQuery($_POST['query']);
+		//print_r($articlesScore);
 		foreach($articlesScore as $articleScore){
 			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1]]);
 		}
@@ -140,79 +141,6 @@ class ArticleController extends Controller{
 	public function supprimer(){
 		Article::Delete($_GET['id']);
 		header("Location: .?r=article/showAll");
-	}
-	
-	private static function processContent($article){
-		if($article->type == "pdf"){
-			$parser = new Smalot\PdfParser\Parser();
-			$pdf = $parser->parseFile($article->chemin);
-			$text = $pdf->getText();
-			$text = self::parseContentPdf($text);
-		}elseif($article->type == "html"){
-			//Non testé
-			$text = file_get_contents($article->chemin);
-			// Si le fichier est mal encodé
-			if(!mb_detect_encoding($text, 'UTF-8', true)){
-				return 'encoding_error';
-			}else{
-				$text = self::parseContentHtml($text);
-			}
-		}elseif($article->type == "txt"){
-			$text = file_get_contents($article->chemin);
-			if(!mb_detect_encoding($text, 'UTF-8', true)){
-				return 'encoding_error';
-			}
-		}
-		return $text;
-	}
-	
-	private static function parseContentPdf($pText){
-		//Il faudrait grace à une regex identifier les titres, les identifier grace a des caractères [[titre]] par exemple pour qu'ils montent dans le référencement (1 occurence dans le titre = 2 occurences par exemple)
-		//Remplacer les \n par des ' ' pour espacer les titres
-		
-		$text = str_replace(["'","&#39;"], "' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
-		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
-		$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-		$text = preg_replace('(\.)', '', $text); // on efface les points
-		$textArray = explode(' ', $text);
-		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
-		$text = implode(' ', $textArray);
-		return $text;
-	}
-	
-	private static function parseContentHtml($pText){
-		//Gérer d'autres trucs que juste le contenu des balises p du body?
-		//Gérer les listes peut être
-		//Gérer les <h> avec des [[ ]] ( voir parseContentPdf)
-		
-		// Traitement des erreurs de parsing
-		libxml_use_internal_errors(true);
-		
-		$xml = simplexml_load_string($pText);
-		
-		if(!$xml) {
-			return 'parsing_error';
-		}
-		
-		$text = '';
-		foreach($xml->body->p as $p){
-			$text .= (string)$p.' ';
-		}
-		
-		$text = str_replace(["'","&#39;"], "' ", $text); // on ajoute un ' ' derrière les "'" (avec le caractère html)
-		$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
-		$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-		$text = preg_replace('(\.)', '', $text); // on efface les points
-		$textArray = explode(' ', $text);
-		$textArray = array_filter($textArray); // on retire les éléments vides du tableau (revient à supprimer les suite d'espace)
-		$text = implode(' ', $textArray);
-		
-		return $text;
-	}
-	
-	private static function countWords($text){
-		//return str_word_count($text); // ? -> compte bizarrement
-		return count(explode(' ', $text));
 	}
 	
 	private static function reference($text, $pLangue, $article){

@@ -65,8 +65,8 @@ class Article extends Model{
 		return $returnList;
 	}
 	
-	static public function findByQuery($query){
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$query."')";
+	static public function findByQuery($requeteConcept){
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$requeteConcept."')";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
@@ -87,9 +87,10 @@ class Article extends Model{
 		// Calcul du score
 		foreach ($returnList as $key => $value){
 			// On regarde le nombre d'occurences par rapport au max
-			$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
-			// On regarde le nombre d'occurences par nombre de mots
+			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
+			// On regarde le nombre d'occurences par nombre de mots
+			$returnList[$key][1] = self::calculeScore($returnList[$key][0], Concept::findByName($requeteConcept));
 		}
 		
 		// Liste ordonnée par score
@@ -100,6 +101,15 @@ class Article extends Model{
 	
 	static private function compareScore($articleScore0, $articleScore1){
 		return ($articleScore0[1] > $articleScore1[1]) ? -1 : 1;
+	}
+	
+	static public function calculeScore($article, $conept){
+		
+		return -1;
+	}
+	
+	static public function getTextContent($article){
+		
 	}
 	
 	static public function insert($article){
