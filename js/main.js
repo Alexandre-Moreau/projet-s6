@@ -1,4 +1,3 @@
-
 // Pour gérer l'onglet actif dans la navbar
 
 $(document).ready(function() {	

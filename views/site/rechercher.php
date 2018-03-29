@@ -4,26 +4,46 @@
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
 </form>
+	
 <div class="third">
-	<?php
-		function printRecursive($concept, $callStack){
-			echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
-			$callStack++;
-			foreach($concept->conceptsFils as $fils){
-				printRecursive($fils, $callStack);
-			}
-		}
-		foreach($data['onto'] as $conceptRacine){
-			printRecursive($conceptRacine, 0);
-		}
-	?>
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+			<span class="nav-link active" id="tab1">Concepts</span>
+		</li>
+		<li class="nav-item">
+			<span class="nav-link" id="tab2">Termes</span>
+		</li>
+	</ul>
+	<div id="contentDivs">
+		<div class="contentDiv" id="content1">
+			<?php
+				function printRecursive($concept, $callStack){
+					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
+					$callStack++;
+					foreach($concept->conceptsFils as $fils){
+						printRecursive($fils, $callStack);
+					}
+				}
+				foreach($data['onto'] as $conceptRacine){
+					printRecursive($conceptRacine, 0);
+				}
+			?>
+		</div>
+		<div class="contentDiv" id="content2" style="display: none;">
+			<?php
+				foreach($data['termes'] as $terme){
+					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';					
+				}
+			?>
+		</div>
+	</div>
 </div>
 <div class="third" id="articlesList">
 	<ul class="list-group">
 	</ul>
 </div>
 <div class="third" id="referencesList">
-	<ul class="list-group">
+	<ul class="list-group" id="tab02">
 	</ul>
 </div>
 <script>
@@ -31,8 +51,21 @@
 	var answer;
 	$(document).ready(function () {
 		
+		$('ul.nav.nav-tabs li.nav-item span.nav-link').click(function(e){
+			$('div#contentDivs div.contentDiv').hide();
+			$('div#contentDivs div.contentDiv#content'+e.target.id.split('tab')[1]).show();
+			$('ul.nav.nav-tabs li.nav-item span.nav-link').removeClass('active');
+			$('ul.nav.nav-tabs li.nav-item span.nav-link#tab'+e.target.id.split('tab')[1]).addClass('active');
+		});		
+		
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
+			$('#queryInput').val(contenuElementClique);
+			form.submit();
+		});
+		
+		$('div.ontoTerminologieElementTerme span').click(function(event){			
+			var contenuElementClique = $('#'+event.target.id).attr('concept');
 			$('#queryInput').val(contenuElementClique);
 			form.submit();
 		});
@@ -50,6 +83,8 @@
 			// Mise en gras de l'élément sélectionné
 			$('.ontoTerminologieElement span.refConcept').prop('style','font-weight:normal');
 			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).prop('style','font-weight:bold');
+			$('.ontoTerminologieElementTerme span.refConcept').prop('style','font-weight:normal');
+			$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == $('#queryInput').val();}).prop('style','font-weight:bold');
 			
 			
 			e.preventDefault();
@@ -57,8 +92,6 @@
 			// traitement des $_POST
 			var data = new FormData();
 			data.append('query', $('#queryInput').val());
-
-
 
 			$.ajax({
 				url: form.attr('action'),

@@ -1,6 +1,5 @@
 <?php
 
-//Auto-generated file
 //Debug. Désactiver en prod
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);

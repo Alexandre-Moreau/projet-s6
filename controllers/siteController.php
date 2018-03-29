@@ -9,6 +9,7 @@ class SiteController extends Controller{
 	
 	public function rechercher(){
 		$data['onto'] = Concept::findAllWithChildrens();
+		$data['termes'] = Terme::findAll();
 		$this->render('rechercher', $data);
 	}
 

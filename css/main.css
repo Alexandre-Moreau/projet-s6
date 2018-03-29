@@ -67,3 +67,8 @@ footer a{
 .ontoTerminologieElement span.refConcept{
 	cursor:pointer;
 }
+
+.nav-link{
+	/*cursor:pointer;
+	color: #007bff;*/
+}
