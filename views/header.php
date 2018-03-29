@@ -73,9 +73,9 @@
 
 		</header>
 		<?php
-		/*
+		/* 
 			print("  --debug: code à enlever dans header.php--  ");
 			print_r($_SESSION);
-		*/
+		/* */
 		?>
 <div id="content">
