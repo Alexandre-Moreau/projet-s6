@@ -58,13 +58,16 @@
 
 					<div class="dropdown" id="dropdownLangues">
 						<a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLangues" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Langue
+						<?php
+							echo '<img src="images/langues/'.$_SESSION['langue'].'.svg"/> '.$_SESSION['langue'];
+							
+						?>
 						</a>
 
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLangues">
-							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg" /> fr</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/us.svg" /> en</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg" /> cn</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg"/> fr</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/en.svg"/> en</a>
+							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg"/> cn</a>
 						</div>
 					</div>
 

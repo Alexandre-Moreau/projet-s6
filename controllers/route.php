@@ -1,14 +1,6 @@
 <?php
 //Gestion langues
-
-if($_ENV["langue"] == "fr")
-	include "traductions/fr.inc";
-else if ($_ENV["langue"]== "en")
-	include "traductions/en.inc";
-else if ($_ENV["langue"] == "cn")
-	include "traductions/cn.inc";
-	
-//Auto-generated file
+include_once 'traductions/'.$_SESSION['langue'].'.inc';
 
 // Accès POST ou GET indifférent
 $parameters = array();
