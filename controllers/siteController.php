@@ -9,7 +9,7 @@ class SiteController extends Controller{
 	
 	public function rechercher(){
 		$data['onto'] = Concept::findAllWithChildrens();
-		$data['termes'] = Terme::findAll();
+		$data['termes'] = Terme::findAllPrefered(Langue::findByName($_SESSION['langue']));
 		$this->render('rechercher', $data);
 	}
 
@@ -82,21 +82,22 @@ class SiteController extends Controller{
 
 					$languageId = Langue::findByName((string) $language['name']);
 					$conceptId = Concept::findByName((string) $concept['name']);
-					
-					$newTerm = new Terme((string) $term['name'], $languageId, $conceptId);
 
 					/*if (isset($term->definition)) {
 						// Traitement definition
-					}
-					if (isset($term->status)) {
-						// Traitement status
 					}*/
+					
+					if(isset($term->status) && (string)$term->status=='preferred'){
+						$newTerm = new Terme((string) $term['name'], $languageId, $conceptId, true);
+					}else{
+						$newTerm = new Terme((string) $term['name'], $languageId, $conceptId, false);
+					}
 
 					Terme::insert($newTerm);
 
 					// Traitement inflectedForm
 					foreach ($term->inflectedForm as $inflectedForm) {
-						$newInflectedTerm = new Terme((string) $inflectedForm, $languageId, $conceptId);
+						$newInflectedTerm = new Terme((string) $inflectedForm, $languageId, $conceptId, false);
 						Terme::insert($newInflectedTerm);
 					}
 				}

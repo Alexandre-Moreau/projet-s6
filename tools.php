@@ -59,7 +59,7 @@ function processContent($article){
 		$parser = new Smalot\PdfParser\Parser();
 		$pdf = $parser->parseFile($article->chemin);
 		$text = $pdf->getText();
-		$text = parseContentPdf($text);
+		$text = parseContentText($text);
 	}elseif($article->type == "html"){
 		//Non testé
 		$text = file_get_contents($article->chemin);

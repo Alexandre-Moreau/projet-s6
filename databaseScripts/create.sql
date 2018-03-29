@@ -32,6 +32,7 @@ CREATE TABLE terme (
 	motCle varchar(30) DEFAULT '',
 	langue_id int NOT NULL,
 	concept_id int NOT NULL,
+	prefered TINYINT(1) DEFAULT 1,
 	CONSTRAINT pk_terme_id PRIMARY KEY (id)
 );
 

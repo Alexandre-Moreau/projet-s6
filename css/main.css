@@ -64,7 +64,7 @@ footer a{
 	font-weight: bold;
 }
 
-.ontoTerminologieElement span.refConcept{
+div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme span.refConcept{
 	cursor:pointer;
 }
 
