@@ -3,7 +3,7 @@
 $(document).ready(function() {	
 	
 	var r = new URL(window.location.href).searchParams.get("r");
-	$('a[href=".?r=' + r + '"]').closest('li').addClass('active');
+	$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
 	
 	function onKonamiCode(cb) {
 		var input = '';
@@ -22,6 +22,11 @@ $(document).ready(function() {
 	onKonamiCode(function () {
 		$('div#content').addClass("animated rubberBand");
 		$('link[rel="shortcut icon"]').attr('href','images/favicon-k.png');
+		$('nav').css('background-image', 'url(js/background.js)');
+		$('footer').css('background-image', 'url(js/background.js)');
+		$('a.nav-link').css('color', '#c9b6c7');
+		$('a.nav-link[href=".?r=' + r + '"]').closest('li').find('a:first').css('color', '#e996e0');
+		//document.title = 'ｂｔｇ 🚗';
 		document.title = 'ｂｔｇ';
 		if(a.paused){
 			a.play();
