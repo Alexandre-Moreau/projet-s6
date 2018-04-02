@@ -26,6 +26,7 @@ $(document).ready(function() {
 		$('footer').css('background-image', 'url(js/background.js)');
 		//$('a.nav-link').css('color', '#61d1d1');
 		$('a.nav-link[href=".?r=' + r + '"]').closest('li').find('a:first').css('color', '#eb47eb');
+		$('#footerBtg').html('&#9654 BTG');
 		var f = function (a) {return String.fromCharCode(a)};
 		var t = [32, 32, 95, 95, 95, 95, 95, 95, 95, 95, 95, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 95, 95, 32, 32, 46, 95, 95, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 0,
 				32, 47, 32, 32, 32, 95, 95, 95, 95, 95, 47, 95, 95, 46, 95, 95, 46, 32, 95, 95, 95, 95, 95, 47, 32, 32, 124, 95, 124, 32, 32, 124, 95, 95, 32, 95, 95, 95, 95, 95, 32, 95, 95, 32, 32, 95, 32, 32, 95, 95, 95, 95, 95, 95, 95, 32, 95, 95, 95, 32, 32, 95, 95, 32, 95, 95, 95, 95, 32, 32, 0,
@@ -60,8 +61,14 @@ $(document).ready(function() {
 			p = !p;
 			if(a.paused){
 				a.play();
+				document.title = 'ｂｔｇ';
+				$('link[rel="shortcut icon"]').attr('href','images/favicon-k.png');
+				$('#footerBtg').html('&#9654 BTG');
 			}else{
 				a.pause();
+				document.title = 'BTG';
+				$('link[rel="shortcut icon"]').attr('href','images/favicon.png');
+				$('#footerBtg').html('&#10074; &#10074; BTG');
 			}
 		});
 		setTimeout(function () {
