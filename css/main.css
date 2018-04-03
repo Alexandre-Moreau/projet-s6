@@ -64,8 +64,12 @@ footer a{
 	font-weight: bold;
 }
 
-div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme span.refConcept{
+div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme span.refConcept, button.dropdown-item, span.nav-link{
 	cursor:pointer;
+}
+
+span.nav-link.active{
+	cursor:default;
 }
 
 .nav-link{
