@@ -6,6 +6,10 @@ class SiteController extends Controller{
 	public function index(){
 		$this->render("index");
 	}
+
+	public function ajaxChangeLanguage(){
+		$_SESSION['langue'] = $_POST['langue'];
+	}
 	
 	public function rechercher(){
 		$data['onto'] = Concept::findAllWithChildrens();

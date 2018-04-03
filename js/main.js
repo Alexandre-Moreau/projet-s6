@@ -1,10 +1,35 @@
 // Pour gérer l'onglet actif dans la navbar
 
-$(document).ready(function() {	
-	
+$(document).ready(function() {
+
 	var r = new URL(window.location.href).searchParams.get("r");
 	$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
 	
+	$('#dropdownLangues button').click(function(e){
+		// On récupère la langue
+		var langue = e.target.closest('button').id.split('btn-')[1];
+		// On redirige sur la page php qui va changer le $_SESSION
+		var data = new FormData();
+		data.append('langue', langue);
+
+		$.ajax({
+			url: './?r=site/ajaxChangeLanguage',
+			type: 'POST',
+			data: data,
+
+			cache: false,
+			processData: false,
+			contentType: false,
+
+			success: function (reponse) {
+				location.reload();
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log(xhr.responseText);
+			}
+		});
+	});
+
 	function onKonamiCode(cb) {
 		var input = '';
 		var key = '38384040373937396665';

@@ -19,6 +19,10 @@
 	include_once $dir.lcfirst($file).".php";
 }*/
 
+function printJsVar($name, $value){
+	echo 'var '.$name;
+}
+
 function cleanString($text) {
 	//https://stackoverflow.com/questions/14114411/remove-all-special-characters-from-a-string
     $utf8 = array(

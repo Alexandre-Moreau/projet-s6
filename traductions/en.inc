@@ -4,8 +4,8 @@
 
 //Index
 define("_ACCUEIL","Home");
-define("_BIENVENUE","Welcome on the website of our project BTG (Better Than Google), a multilingual semantics search engine based on the referencings of concepts rather than words.");
-define("_PROMOTION","Discover the revolutionary search engine wich will be the most used of the internet in a couple of weeks...");
+define("_BIENVENUE","Welcome on the website of our project BTG (Better Than Google), a multilingual semantic search engine based on the referencing of concepts rather than words.");
+define("_PROMOTION","Discover the revolutionary search engine which will be the most used of the internet in a couple of weeks...");
 define("_MORE_INFO","More informations");
 
 //Header
