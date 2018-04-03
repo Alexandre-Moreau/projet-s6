@@ -1,5 +1,5 @@
 	<div class="container">
-		<h3>Créer une nouvelle ontoterminologie</h3>
+		<h3><?php echo _CREATEONTO; ?></h3>
 		<hr><br>
 		<div id="formStatus" >
 		</div>
@@ -8,8 +8,8 @@
 				<input type="file" name='file' id='file' accept=".xml, .ote" class="form-control">
 			</div>
 			<div class="form-group form_boutons">
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Confirmer</button><!--
-				--><input id="reset" type="reset" name="annuler" class="btn btn-secondary" />
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal"><?php echo _FORMSUBMIT; ?></button><!--
+				--><input id="reset" type="reset" value="<?php echo _FORMRESET; ?>" class="btn btn-secondary" />
 			</div>
 
 			<!-- Modal -->
@@ -23,11 +23,11 @@
 							</button>
 						</div>
 						<div class="modal-body">
-							Êtes-vous sûr de vouloir charger une nouvelle ontoterminologie? Cela entraînera la suppression totale de l'ancienne.
+							<?php echo _ASKREPLACE;?>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Abandonner</button>
-							<input id="submit" type="submit" value="Confirmer" class="btn btn-success" />
+							<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo _FORMCANCEL;?></button>
+							<input id="submit" type="submit" value="<?php echo _FORMSUBMIT;?>" class="btn btn-success" />
 						</div>
 					</div>
 				</div>

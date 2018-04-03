@@ -5,15 +5,15 @@
 				</div>
 				<form method="post" action =".?r=Article/ajaxModifier" enctype="multipart/form-data">
 					<div class="form-group">
-						<label for="nom">Nom :</label>
+						<label for="nom"><?php echo _NAME?> :</label>
 						<input type="text" name="nom" id="nom" class="form-control" value="<?php echo $data['article']->nom; ?>" />
 					</div>
 					<div class="form-group">
-						<label for="langue">Langue :</label>
+						<label for="langue"><?php echo _LANGUAGE?> :</label>
 						<select id="langue">
 							<?php
 								foreach($data['langues'] as $langue){
-									if($langue->nom == $data['langueDefaut']){
+									if($langue->nom == $data['article']->langue->nom){
 										echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
 									}else{
 										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
@@ -21,12 +21,12 @@
 									
 								}
 							?>
-							<option value="null">autre (le texte ne sera pas référencé)</option>
+							<option value="null"><?php echo _OTHERLANGUAGE?></option>
 						</select>
 					</div>
 					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
+						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT?>" class="btn btn-primary"><!--
+						--><input id="reset" type="reset" value="<?php echo _FORMRESET?>" class="btn btn-secondary"></input>
 					</div>
 				</form>
 			</div>
@@ -42,7 +42,7 @@
 						
 						if(formAnswer['statut'] == 'echec'){
 							$('#formStatus').addClass('alert alert-danger');
-							$('#formStatus').append('<strong id="statusMessage">Il y a des erreurs dans le formulaire</strong>');
+							$('#formStatus').append('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
 							$('#formStatus').append('<ul/>');
 							if($.isArray(formAnswer['erreursSaisie'])){
 								formAnswer['erreursSaisie'].forEach(function(element){

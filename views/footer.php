@@ -8,7 +8,7 @@
 			</p>
 			<p>
 				<?php echo _ICON;?> <a href="https://www.flaticon.com/authors/freepik" target="_blank">Freepik</a> <?php echo _FROM;?> www.flaticon.com<br/>
-				<?php echo _VECTOR;?> <a href="https://www.flaticon.com/authors/smashicons" target="_blank">Smashicons</a> <?php echo _FROM;?> www.flaticon.com
+				<?php echo _VECTOR;?> <a href="https://www.flaticon.com/authors/smashicons" target="_blank">Smashicons</a>, <a href="https://www.flaticon.com/authors/icon-works" target="_blank">Icon Works</a> <?php echo _FROM;?> www.flaticon.com
 			</p>
 		</footer>
 	</html>

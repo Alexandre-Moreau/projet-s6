@@ -1,17 +1,17 @@
 <form method="post" action =".?r=Article/ajaxRechercher" enctype="multipart/form-data" class="form-inline my-2 my-lg-0">
 
-	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="Search">
-	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
 
 </form>
 	
 <div class="third">
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
-			<span class="nav-link active" id="tab1">Concepts</span>
+			<span class="nav-link active" id="tab1"><?php echo _CONCEPTS;?></span>
 		</li>
 		<li class="nav-item">
-			<span class="nav-link" id="tab2">Termes</span>
+			<span class="nav-link" id="tab2"><?php echo _TERMS;?></span>
 		</li>
 	</ul>
 	<div id="contentDivs">

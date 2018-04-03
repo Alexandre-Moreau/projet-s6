@@ -68,6 +68,10 @@ div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme sp
 	cursor:pointer;
 }
 
+.imageIcon{
+	width: 50px;;
+}
+
 span.nav-link.active{
 	cursor:default;
 }

@@ -68,6 +68,13 @@ class ArticleController extends Controller{
 			echo(json_encode($data));
 		}
 	}
+	
+	public function modifier(){
+		$data = [];
+		$data['langues'] = Langue::FindAll();
+ 		$data['article'] = Article::FindById($_GET['id']);
+		$this->render("formModifier", $data);
+	}
 
 	public function ajaxModifier(){
 		header('Content-type: application/json');
@@ -129,13 +136,6 @@ class ArticleController extends Controller{
 		$data['article'] = $article;
 		$data['references'] = Reference::FindByArticle($article);
 		$this->render('tableShowById', $data);
-	}
-	
-	public function modifier(){
-		$data = [];
-		$data['langues'] = Langue::FindAll();
- 		$data['article'] = Article::FindById($_GET['id']);
-		$this->render("formModifier", $data);
 	}
 	
 	public function supprimer(){
