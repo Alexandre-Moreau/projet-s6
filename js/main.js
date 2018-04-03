@@ -55,8 +55,7 @@ $(document).ready(function() {
 					document.getElementById("footerImg").style.transform = "rotate("+((i++)%360)+"deg)"; 
 				}
 			}, 17);
-		}
-		
+		}		
 		$('#footerImg').attr('style','cursor: pointer;').click(function(){
 			p = !p;
 			if(a.paused){
