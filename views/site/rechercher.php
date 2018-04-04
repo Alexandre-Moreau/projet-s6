@@ -81,10 +81,10 @@
 		form.on('submit', function(e) {
 			
 			// Mise en gras de l'élément sélectionné
-			$('.ontoTerminologieElement span.refConcept').prop('style','font-weight:normal');
-			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).prop('style','font-weight:bold');
-			$('.ontoTerminologieElementTerme span.refConcept').prop('style','font-weight:normal');
-			$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == $('#queryInput').val();}).prop('style','font-weight:bold');
+			$('.ontoTerminologieElement span.refConcept').removeClass('selected');
+			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).addClass('selected');
+			$('.ontoTerminologieElementTerme span.refConcept').removeClass('selected');
+			$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == $('#queryInput').val();}).addClass('selected');
 			
 			
 			e.preventDefault();
