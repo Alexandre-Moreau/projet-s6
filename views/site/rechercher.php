@@ -59,15 +59,23 @@
 		});		
 		
 		$('div.ontoTerminologieElement span').click(function(event){
-			var contenuElementClique = $('#'+event.target.id).html();
-			$('#queryInput').val(contenuElementClique);
-			form.submit();
+			if(event.ctrlKey){
+				console.log("Ctrl pressed");
+			}else{
+				var contenuElementClique = $('#'+event.target.id).html();
+				$('#queryInput').val(contenuElementClique);
+				form.submit();
+			}
 		});
 		
-		$('div.ontoTerminologieElementTerme span').click(function(event){			
-			var contenuElementClique = $('#'+event.target.id).attr('concept');
-			$('#queryInput').val(contenuElementClique);
-			form.submit();
+		$('div.ontoTerminologieElementTerme span').click(function(event){
+			if(event.ctrlKey){
+				console.log("Ctrl pressed");
+			}else{
+				var contenuElementClique = $('#'+event.target.id).attr('concept');
+				$('#queryInput').val(contenuElementClique);
+				form.submit();
+			}
 		});
 		
 		// On ne peut pas ajouter de .click sur des éléments ajoutés dynamiquement.

@@ -189,8 +189,10 @@ class Article extends Model{
 		$query->execute();
 	}
 
-	static public function delete($pId){
-		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$pId);
+	static public function delete($article){
+		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
+		$query->execute();
+		$query = db()->prepare("DELETE FROM reference WHERE article_id=".$article->id);
 		$query->execute();
 	}
 	

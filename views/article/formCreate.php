@@ -52,7 +52,7 @@
 					
 					if(formAnswer['statut'] == 'echec'){
 						$('#formStatus').addClass('alert alert-danger');
-						$('#formStatus').append('<strong id="statusMessage"><?php echo _ERRORINFORM;?></strong>');
+						$('#formStatus').append('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
 						$('#formStatus').append('<ul/>');
 						if($.isArray(formAnswer['erreursSaisie'])){
 							formAnswer['erreursSaisie'].forEach(function(element){

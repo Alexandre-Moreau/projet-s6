@@ -119,7 +119,7 @@ class ArticleController extends Controller{
 		header('Content-type: application/json');
 		$data['log'] = [];
 		$data['references'] = [];
-		$references = Reference::findByArticle(Article::FindById($_POST['articleId']));
+		$references = Reference::findByArticle(Article::findById($_POST['articleId']));
 		foreach($references as $reference){
 			array_push($data['references'], Reference::toArray($reference));
 		}
@@ -132,14 +132,14 @@ class ArticleController extends Controller{
 	}
 	
 	public function showById(){
-		$article = Article::FindById($_GET['id']);
+		$article = Article::findById($_GET['id']);
 		$data['article'] = $article;
-		$data['references'] = Reference::FindByArticle($article);
+		$data['references'] = Reference::findByArticle($article);
 		$this->render('tableShowById', $data);
 	}
 	
 	public function supprimer(){
-		Article::Delete($_GET['id']);
+		Article::delete(Article::findById($_GET['id']));
 		header("Location: .?r=article/showAll");
 	}
 	

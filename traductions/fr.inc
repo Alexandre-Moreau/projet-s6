@@ -13,7 +13,7 @@ define("_FORMSUBMIT","Confirmer");
 define("_FORMRESET","Annuler");
 define("_FORMCANCEL","Abandonner");
 define("_FORMREQUESTED","Champ requis");
-define("_FORMERROR","Error in form");
+define("_FORMERROR","Il y a des erreurs dans le formulaire");
 
 // Header
 define("_RECHERCHER","Rechercher");
