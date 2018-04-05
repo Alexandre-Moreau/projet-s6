@@ -1,1 +1,3 @@
-define('GLOB_ARTICLESFODER', './articles/');
+<?php
+	define('GLOB_ARTICLESFODER', 'articles\\');
+?>

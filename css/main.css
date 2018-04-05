@@ -16,6 +16,10 @@ html, body{
 	min-height: 66vh;
 }
 
+div.spaced *{
+	margin: 5px;
+}
+
 .container hr{
 	border-top: 3px double grey;
 }
@@ -80,7 +84,6 @@ span.nav-link.active{
 	cursor:default;
 }
 
-.nav-link{
-	/*cursor:pointer;
-	color: #007bff;*/
+.card{
+	padding: 10px;
 }

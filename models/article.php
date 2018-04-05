@@ -52,6 +52,19 @@ class Article extends Model{
 		return null;
 	}
 	
+	static public function findAllWithoutRef(){
+		$query = db()->prepare("SELECT id FROM ".self::$tableName." WHERE id NOT IN (SELECT DISTINCT article_id FROM reference)");
+		$query->execute();
+		$returnList = array();
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+	
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
@@ -178,6 +191,21 @@ class Article extends Model{
 		
 		
 		return $score;
+	}
+	
+	static public function getNameAllOnDisk(){
+		$namesOnDisk = scandir('./articles/');
+		// On enlève les dossiers . et .. et index.php
+		unset($namesOnDisk[array_search ('.', $namesOnDisk)]);
+		unset($namesOnDisk[array_search ('..', $namesOnDisk)]);
+		unset($namesOnDisk[array_search ('index.html', $namesOnDisk)]);
+		// On enlève les dossiers éventuels
+		foreach($namesOnDisk as $nameOnDisk){
+			if(!strpos($nameOnDisk,'.')){
+				unset($namesOnDisk[array_search ($nameOnDisk, $namesOnDisk)]);
+			}
+		}
+		return $namesOnDisk;
 	}
 	
 	static public function insert($article){

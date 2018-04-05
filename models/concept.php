@@ -90,7 +90,7 @@ class Concept extends Model{
 	
 	static public function findRoots(){
 		$requete = "SELECT id FROM concept WHERE concept.id NOT IN(SELECT conceptFrom_id FROM relation WHERE type=\"isA\")";
-		echo $requete;
+		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = array();

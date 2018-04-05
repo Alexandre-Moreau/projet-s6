@@ -55,5 +55,12 @@ define("_DELETE","Delete");
 // Edit articles
 define("_EDITARTICLE","Edit article");
 
+// Maintenance
+define("_ADVANCED","Advanced");
+define("_SYSTEM", "System");
+define("_SERVUSER", "Service owner");
+define("_NETWORK", "Network");
+define("_SERVERIP", "Server IP address");
+define("_CLIENTIP", "Client IP address");
 
 ?>
