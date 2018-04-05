@@ -3,7 +3,7 @@
 				<div class="card">
 					<div class="card-body">Articles totaux: <span class="badge badge-default" id="nbArticles"><?php echo $data['nbArticles']; ?></span></div>
 					<div class="card-body">Articles non référencés: <span class="badge badge-default" id="nbArticlesNRef"><?php echo count($data['articlesNRef']); ?></span></div>
-					<div class="card-body">Erreur de correspondance avec les fichiers du disque: <span class="badge badge-default" id="nbNoncorrespondancesFichiersDisque"><?php echo count($data['fichiersNonCurrespondantsDisque'])+count($data['fichiersNonCurrespondantsBdd']); ?></span></div>
+					<div class="card-body">Erreurs de correspondance avec les fichiers du disque: <span class="badge badge-default" id="nbNoncorrespondancesFichiersDisque"><?php echo count($data['fichiersNonCurrespondantsDisque'])+count($data['fichiersNonCurrespondantsBdd']); ?></span></div>
 				</div>
 				<h2 id='titleOnto'>Ontoterminologie</h2>
 				<div class="card">
