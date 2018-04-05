@@ -3,3 +3,6 @@ env.php
 
 !articles
 !articles/index.html
+
+# Filtre MAC
+**/.DS_Store
