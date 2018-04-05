@@ -69,8 +69,10 @@ class Article extends Model{
 		$listeConcepts = explode(',', $requeteConcept);
 		// execute trim() sur chaque element de listeConcepts
 		array_walk($listeConcepts, 'trim');
+		/*foreach($listeConcepts as $listeConcepts){
+			
+		}*/
 		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$listeConcepts[0]."')";
-		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = [];

@@ -59,23 +59,23 @@
 		});		
 		
 		$('div.ontoTerminologieElement span').click(function(event){
-			if(event.ctrlKey){
-				console.log("Ctrl pressed");
+			var contenuElementClique = $('#'+event.target.id).html();
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
 			}else{
-				var contenuElementClique = $('#'+event.target.id).html();
 				$('#queryInput').val(contenuElementClique);
-				form.submit();
 			}
+			form.submit();
 		});
 		
 		$('div.ontoTerminologieElementTerme span').click(function(event){
-			if(event.ctrlKey){
-				console.log("Ctrl pressed");
+			var contenuElementClique = $('#'+event.target.id).attr('concept');
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
 			}else{
-				var contenuElementClique = $('#'+event.target.id).attr('concept');
 				$('#queryInput').val(contenuElementClique);
-				form.submit();
 			}
+			form.submit();
 		});
 		
 		// On ne peut pas ajouter de .click sur des éléments ajoutés dynamiquement.
@@ -90,10 +90,13 @@
 			
 			// Mise en gras de l'élément sélectionné
 			$('.ontoTerminologieElement span.refConcept').removeClass('selected');
-			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).addClass('selected');
 			$('.ontoTerminologieElementTerme span.refConcept').removeClass('selected');
-			$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == $('#queryInput').val();}).addClass('selected');
-			
+			var listeConcepts = $('#queryInput').val().split(',');
+			for (var i = 0; i < listeConcepts.length; i++) {
+				var currentConcept = listeConcepts[i].trim();
+				$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == currentConcept;}).addClass('selected');
+				$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == currentConcept;}).addClass('selected');
+			}			
 			
 			e.preventDefault();
 
