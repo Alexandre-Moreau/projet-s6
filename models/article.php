@@ -66,7 +66,10 @@ class Article extends Model{
 	}
 	
 	static public function findByQuery($requeteConcept){
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$requeteConcept."')";
+		$listeConcepts = explode(',', $requeteConcept);
+		// execute trim() sur chaque element de listeConcepts
+		array_walk($listeConcepts, 'trim');
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$listeConcepts[0]."')";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
@@ -90,7 +93,7 @@ class Article extends Model{
 			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($requeteConcept));
+			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($listeConcepts[0]));
 		}
 		
 		// Liste ordonnée par score
@@ -190,15 +193,27 @@ class Article extends Model{
 	}
 
 	static public function delete($article){
-		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
-		$query->execute();
 		$query = db()->prepare("DELETE FROM reference WHERE article_id=".$article->id);
 		$query->execute();
+		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
+		$query->execute();
+		self::deleteFile($article);
 	}
 	
 	static public function deleteAll(){
-		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				self::delete(self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+	
+	static public function deleteFile($article){
+		unlink("./".$article->chemin);
 	}
 	
 	static public function toArray($article){
