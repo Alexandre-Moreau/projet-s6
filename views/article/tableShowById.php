@@ -17,10 +17,17 @@
 		echo('
 		<h1 class="display-3">'.$data['article']->nom.'
 		<a style="font-size:50%" href="./'.$data['article']->chemin.'" target="_blank">&#x2197;</a>
-		</h1>		
+		</h1>
 		');
 		echo '<div class="object">';
-		include($data['article']->chemin);
+		if((@include($data['article']->chemin)) === false){
+			echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Fichier introuvable sur le disque.</strong> Aller dans l\'onglet Maintenance pour plus d\'information.
+</div>';
+		}
 		echo '</div>';
 	}
 ?>

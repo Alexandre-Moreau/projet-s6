@@ -20,7 +20,27 @@
 }*/
 
 function printJsVar($name, $value){
-	echo 'var '.$name;
+	// Fonction anonyme récursive
+	$printRecursiveJsVar = function($a) use(&$printRecursiveJsVar) {
+		if(is_array($a)){
+			echo '{';
+			foreach($a as $key=>$value){
+				echo $key.': ';
+				$printRecursiveJsVar($value);
+				echo ', ';
+			}
+			echo '}';
+		}else{
+			if(is_string($a)){
+				echo '\''.$a.'\'';
+			}else{
+				echo $a;
+			}
+		}
+	};
+	echo 'var '.$name.' = ';
+	$printRecursiveJsVar($value);
+	echo ';';
 }
 
 function cleanString($text) {

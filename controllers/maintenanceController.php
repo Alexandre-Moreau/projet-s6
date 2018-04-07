@@ -5,19 +5,25 @@ class MaintenanceController extends Controller{
 
 	public function statut(){
 		$data = [];
-		
+
+		$data['emplacement'] = GLOB_ARTICLESFODER;		
 		$data['nbArticles'] = count(Article::findall());
-		$data['articlesNRef'] = Article::findallWithoutRef();
-		$data['fichiersNonCurrespondantsDisque'] = [];
-		$data['fichiersNonCurrespondantsBdd'] = [];
+		$data['articlesNRef'] = [];
+		$data['fichiersNonCorrespondantsDisque'] = [];
+		$data['fichiersNonCorrespondantsBdd'] = [];
 		$data['racinesOnto'] = Concept::findRoots();
 		
 		$filesOnDisk = Article::getNameAllOnDisk();
 		$articles = Article::findall();
+		$articlesNRef = Article::findAllWithoutRef();
 		
-		foreach($filesOnDisk as $fileOnDisk){
+		foreach($articlesNRef as $articleNRef){
+			array_push($data['articlesNRef'], $articleNRef->nom);
+		}
+
+foreach($filesOnDisk as $fileOnDisk){
 			foreach($articles as $article){
-				if($article->chemin == GLOB_ARTICLESFODER.$fileOnDisk){
+				if(str_replace('/','\\', $article->chemin) == str_replace('/','\\', GLOB_ARTICLESFODER.$fileOnDisk)){
 					unset($filesOnDisk[array_search ($fileOnDisk, $filesOnDisk)]);
 					unset($articles[array_search ($article, $articles)]);
 				}
@@ -25,11 +31,11 @@ class MaintenanceController extends Controller{
 		}
 		
 		foreach($filesOnDisk as $fileOnDisk){
-			array_push($data['fichiersNonCurrespondantsDisque'], $fileOnDisk);
+			array_push($data['fichiersNonCorrespondantsDisque'], $fileOnDisk);
 		}
 		
 		foreach($articles as $article){
-			array_push($data['fichiersNonCurrespondantsBdd'], $article->chemin);
+			array_push($data['fichiersNonCorrespondantsBdd'], Article::toArray($article));
 		}
 		
 		$data['nbArticlesDisqueNBdd'] = -1;
