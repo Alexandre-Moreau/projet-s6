@@ -6,7 +6,7 @@ class MaintenanceController extends Controller{
 	public function statut(){
 		$data = [];
 
-		$data['emplacement'] = GLOB_ARTICLESFODER;		
+		$data['emplacement'] = str_replace('\\','/', GLOB_ARTICLESFODER);
 		$data['nbArticles'] = count(Article::findall());
 		$data['articlesNRef'] = [];
 		$data['fichiersNonCorrespondantsDisque'] = [];
@@ -23,7 +23,7 @@ class MaintenanceController extends Controller{
 
 foreach($filesOnDisk as $fileOnDisk){
 			foreach($articles as $article){
-				if(str_replace('/','\\', $article->chemin) == str_replace('/','\\', GLOB_ARTICLESFODER.$fileOnDisk)){
+				if(str_replace('\\','/', $article->chemin) == str_replace('\\','/', GLOB_ARTICLESFODER.$fileOnDisk)){
 					unset($filesOnDisk[array_search ($fileOnDisk, $filesOnDisk)]);
 					unset($articles[array_search ($article, $articles)]);
 				}
@@ -31,11 +31,11 @@ foreach($filesOnDisk as $fileOnDisk){
 		}
 		
 		foreach($filesOnDisk as $fileOnDisk){
-			array_push($data['fichiersNonCorrespondantsDisque'], $fileOnDisk);
+			array_push($data['fichiersNonCorrespondantsDisque'], str_replace('\\','/', $fileOnDisk));
 		}
 		
 		foreach($articles as $article){
-			array_push($data['fichiersNonCorrespondantsBdd'], Article::toArray($article));
+			array_push($data['fichiersNonCorrespondantsBdd'], str_replace('\\','/', Article::toArray($article)));
 		}
 		
 		$data['nbArticlesDisqueNBdd'] = -1;
@@ -55,13 +55,15 @@ foreach($filesOnDisk as $fileOnDisk){
 		}
 		
 		if($data['ipClient'] == '::1'){
-			$data['ipClient'] .= ' (localhost)';
+			//$data['ipClient'] .= ' (localhost)';
+			$data['ipClient'] = 'localhost';
 		}
 		
 		$data['ipServeur'] = $_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'];
 		
 		if($_SERVER['SERVER_ADDR'] == '::1'){
-			$data['ipServeur'] .= ' (localhost)';
+			//$data['ipServeur'] .= ' (localhost)';
+			$data['ipServeur'] = 'localhost'.':'.$_SERVER['SERVER_PORT'];
 		}
 		
 		// - Articles dans la bdd mais pas sur le disque

@@ -13,7 +13,7 @@ define("_FORMSUBMIT","Submit");
 define("_FORMRESET","Reset");
 define("_FORMCANCEL","Cancel");
 define("_FORMREQUESTED","Requested field");
-define("_ERRORINFORM","Error in form");
+define("_FORMERROR","Error in form");
 
 // Header
 define("_RECHERCHER","Search");
