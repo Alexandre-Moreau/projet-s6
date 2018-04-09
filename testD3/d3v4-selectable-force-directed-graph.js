@@ -64,6 +64,37 @@ function createV4SelectableForceDirectedGraph(svg, graph) {
 		.enter().append("line")
 		.attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
+
+
+	/*// Define the data for the circles
+	var elem = svg.selectAll("g")
+		.data(graph.nodes);
+
+	// Create and place the "blocks" containing the circle and the text
+	var node = elem.enter()
+		.append("g")
+		.attr("class", "node")
+		.data(graph.nodes);
+
+	// Create the circle for each block
+	var circle = node.append("circle")
+		.attr("r", 5)
+		.attr("fill", function(d) { 
+			if ('color' in d)
+				return d.color;
+			else
+				return color(d.group); 
+		})
+		.call(d3v4.drag()
+		.on("start", dragstarted)
+		.on("drag", dragged)
+		.on("end", dragended));;
+
+	// Create the text for each block
+	var textes = node.append("text")
+		.attr("dx", function(d){return -20})
+		.text(function(d){return d.label});*/
+
 	var node = gDraw.append("g")
 		.attr("class", "node")
 		.selectAll("circle")
@@ -269,5 +300,4 @@ function createV4SelectableForceDirectedGraph(svg, graph) {
 		.text(function(d) { return d; });
 
 	return graph;
-};
 };
