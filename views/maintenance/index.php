@@ -1,5 +1,5 @@
 			<div class="spaced">
-				<h2 id='titleArticle'>Articles</h2>
+				<h2 id='titleArticle'><?php echo _ARTICLES;?></h2>
 				<div class="card">
 					<div class="card-body">Articles totaux: <span class="badge badge-default" id="nbArticles"><?php echo $data['nbArticles']; ?></span></div>
 					<div class="card-body">Articles non référencés: <span class="badge badge-default" id="nbArticlesNRef"><?php echo count($data['articlesNRef']); ?></span>
@@ -11,7 +11,7 @@
 					<div id="fichiersNCD"></div>
 					</div>
 				</div>
-				<h2 id='titleOnto'>Ontoterminologie</h2>
+				<h2 id='titleOnto'><?php echo _ONTO;?></h2>
 				<div class="card">
 					<div class="card-body">Nombre de racines: <span class="badge badge-default" id="nbracinesOnto"><?php echo count($data['racinesOnto']); ?></span></div>
 					<div class="card-body">Erreurs de construction: <span class="badge badge-default"><?php echo '-1'; ?></span></div>

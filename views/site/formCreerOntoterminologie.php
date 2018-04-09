@@ -72,10 +72,19 @@
 									window.location.replace('.?r=site/rechercher');
 								}else{
 									// traiter erreur dans un div dismissable
-									console.log('dans le else ECHEC');
+									var error = '';
+									if(reponse['errorMessage'] == 'noFile'){
+										error = '<?php echo _NOFILEERROR;?>';
+									}else if(reponse['errorMessage'] == 'parseError'){
+										error = '<?php echo _PARSEERROR;?>';
+									}else{
+										error = '<?php echo _UNKNOWNERROR;?>';
+									}
+									$('#formStatus').append('<div class="alert alert-danger alert-dismissible fade show"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong><?php echo _ERROR; ?>:</strong> ' + error + '</div>');
+									$('#confirmationModal').modal('hide');
 								}
 							},
-							error: function (xhr, textStatus, errorThrown) {
+							error: function (xhr, textStatus, errorThrown) {						
 								console.log(xhr.responseText);
 							}
 						});

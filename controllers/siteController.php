@@ -113,10 +113,17 @@ class SiteController extends Controller{
 
 	public function ajaxCreate(){
 		$data['log'] = [];
+		$data['error'] = '';
 		header('Content-type: application/json');
-		$statut = self::creationOnto($_FILES['file0']['tmp_name']);
-		if($statut == 'erreur_parsing'){
+		if(isset($_FILES['file0'])){
+			$statut = self::creationOnto($_FILES['file0']['tmp_name']);
+			if($statut == 'erreur_parsing'){
+				$data['statut'] = 'echec';
+				$data['errorMessage'] = 'parseError';
+			}
+		}else{
 			$data['statut'] = 'echec';
+			$data['errorMessage'] = 'noFile';
 		}
 		echo(json_encode($data));
 	}
