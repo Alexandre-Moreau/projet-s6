@@ -239,7 +239,6 @@ class Article extends Model{
 				self::delete(self::FindById($row["id"]));
 			}
 		}
-		return $returnList;
 	}
 	
 	static public function deleteFile($article){
