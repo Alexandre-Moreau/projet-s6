@@ -8,12 +8,26 @@ define("_BIENVENUE","欢迎访问BTG (Better Than Google), 基于概念引用(�
 define("_PROMOTION","在未来几周里，这将成为在互联网上使用最多的革命性搜索引擎");
 define("_MORE_INFO","更多信息");
 
+// Shared
+define("_NAME","Name");
+define("_FILE","File");
+
 // Shared (forms)
 define("_FORMSUBMIT","Submit");
 define("_FORMRESET","Reset");
 define("_FORMCANCEL","Cancel");
 define("_FORMREQUESTED","Requested field");
 define("_FORMERROR","Error in form");
+
+// Shared (errors)
+define("_ERROR","Erreur");
+define("_NOFILEERROR","Aucun fichier choisi");
+define("_PARSEERROR","Erreur lors du parsing");
+define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
+define("_UNKNOWNERROR","Erreur inconnue");
+define("_MISSINGINFORM1","Aucun ");
+define("_MISSINGINFORM2"," n'a été spécifié");
+function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
 
 // Header
 define("_RECHERCHER","搜索");
@@ -28,7 +42,7 @@ define("_FULL_CODE_1","你可以通过以下链接在GitHub上获取全部代码
 define("_FULL_CODE_2","链接");
 define("_ICON","图标来自");
 define("_FROM","从");
-define("_VECTOR","Vector图片由");
+define("_VECTOR","Vector图片由"); // 矢量图像? 
 
 // Search
 define("_SEARCH","Search");
@@ -37,7 +51,6 @@ define("_TERMS","Terms");
 
 // Create article
 define("_CREATEARTICLE","Create a new article");
-define("_NAME","Name");
 define("_CHOOSENAME","Choose a name");
 define("_CHOOSEFILE","Choose file");
 define("_LANGUAGE","Language");
@@ -56,6 +69,7 @@ define("_DELETE","Delete");
 define("_EDITARTICLE","Edit article");
 
 // Maintenance
+define("_ONTO","Ontoterminologie");
 define("_ADVANCED","Avancé");
 define("_SYSTEM", "Système");
 define("_SERVUSER", "Propriétaire du service");

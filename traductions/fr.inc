@@ -8,12 +8,26 @@ define("_BIENVENUE","Bienvenue sur le site de notre projet BTG (Better Than Goog
 define("_PROMOTION","Découvrez le moteur de recherche révolutionnaire qui deviendra le plus utilisé de l'Internet d'ici quelques semaines...");
 define("_MORE_INFO","Plus d'infos");
 
+// Shared
+define("_NAME","Nom");
+define("_FILE","Fichier");
+
 // Shared (forms)
 define("_FORMSUBMIT","Confirmer");
 define("_FORMRESET","Annuler");
 define("_FORMCANCEL","Abandonner");
 define("_FORMREQUESTED","Champ requis");
 define("_FORMERROR","Il y a des erreurs dans le formulaire");
+
+// Shared (errors)
+define("_ERROR","Erreur");
+define("_NOFILEERROR","Aucun fichier choisi");
+define("_PARSEERROR","Erreur lors du parsing (le fichier n'est pas correct)");
+define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
+define("_UNKNOWNERROR","Erreur inconnue");
+define("_MISSINGINFORM1","aucun ");
+define("_MISSINGINFORM2"," n'a été spécifié");
+function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
 
 // Header
 define("_RECHERCHER","Rechercher");
@@ -37,7 +51,6 @@ define("_TERMS","Termes");
 
 // Create article
 define("_CREATEARTICLE","Créer un nouvel article");
-define("_NAME","Nom");
 define("_CHOOSENAME","Choisir un nom");
 define("_CHOOSEFILE","Choisir un fichier");
 define("_LANGUAGE","Langue");
@@ -56,6 +69,7 @@ define("_DELETE","Supprimer");
 define("_EDITARTICLE","Modifier l'article");
 
 // Maintenance
+define("_ONTO","Ontoterminologie");
 define("_ADVANCED","Avancé");
 define("_SYSTEM", "Système");
 define("_SERVUSER", "Propriétaire du service");
