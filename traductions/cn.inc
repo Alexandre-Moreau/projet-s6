@@ -42,7 +42,7 @@ define("_FULL_CODE_1","你可以通过以下链接在GitHub上获取全部代码
 define("_FULL_CODE_2","链接");
 define("_ICON","图标来自");
 define("_FROM","从");
-define("_VECTOR","Vector图片由");
+define("_VECTOR","Vector图片由"); // 矢量图像? 
 
 // Search
 define("_SEARCH","Search");
