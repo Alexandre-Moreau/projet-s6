@@ -107,10 +107,14 @@ class ArticleController extends Controller{
 		header('Content-type: application/json');
 		$data['log'] = [];
 		$data['articlesScore'] = [];
-		$articlesScore = Article::findByQuery($_POST['query']);
+		$dataArticlesScore = Article::findByQuery($_POST['query']);
 		//print_r($articlesScore);
-		foreach($articlesScore as $articleScore){
-			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1]]);
+		foreach($dataArticlesScore['articlesScoreContexte'] as $articleScore){
+			//print_r($articleScore);
+			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1], $articleScore[2]]);
+		}
+		foreach($dataArticlesScore['log'] as $log){
+			array_push($data['log'], $log);
 		}
 		echo(json_encode($data));
 	}

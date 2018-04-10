@@ -80,12 +80,57 @@ class Article extends Model{
 	
 	static public function findByQuery($requeteConcept){
 		$listeConcepts = explode(',', $requeteConcept);
+		// On note les concepts qu'on a déjà recherché
+		$conceptSearched = [];
+		$listeArticlesScoresContexte = [];
+		$data = [];
+		$data['log'] = [];
+		$data['articlesScoreContexte'] = [];
+		
 		// execute trim() sur chaque element de listeConcepts
-		array_walk($listeConcepts, 'trim');
-		/*foreach($listeConcepts as $listeConcepts){
-			
-		}*/
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$listeConcepts[0]."')";
+		$listeConcepts = array_map('trim',$listeConcepts);
+		foreach($listeConcepts as $nomConcept){
+			if(!in_array($nomConcept, $conceptSearched)){
+				$concept = Concept::findByName($nomConcept);
+				if($concept != null){
+					array_push($listeArticlesScoresContexte, self::findByConceptCalcScore($concept));
+				}else{
+					array_push($data['log'], 'Concept inconnu: '.$nomConcept);
+				}
+				array_push($conceptSearched, $nomConcept);
+			}else{
+				array_push($data['log'], 'Concept en double: '.$nomConcept);
+			}
+		}
+		
+		foreach($listeArticlesScoresContexte as $l){
+			foreach($l as $articleScore){
+				$trouve = false;
+				foreach($data['articlesScoreContexte'] as $key => $value){
+					if($data['articlesScoreContexte'][$key][0] == $articleScore[0]){
+						$data['articlesScoreContexte'][$key][1] += $articleScore[1];
+						$trouve = true;
+						break;
+					}
+				}
+				if(!$trouve){
+					array_push($data['articlesScoreContexte'], [$articleScore[0], $articleScore[1], 'contexte lorem ipsum']);
+				}
+			}
+		}
+		
+		// print_r($data['articlesScoreContexte']);
+		
+		// Liste ordonnée par score
+		usort($data['articlesScoreContexte'], "self::compareScore");
+		
+		return $data;
+		
+	}
+	
+	static private function findByConceptCalcScore($concept){
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id = ".$concept->id;
+		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = [];
@@ -108,11 +153,8 @@ class Article extends Model{
 			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($listeConcepts[0]));
+			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], $concept);
 		}
-		
-		// Liste ordonnée par score
-		usort($returnList, "self::compareScore");
 		
 		return $returnList;
 	}

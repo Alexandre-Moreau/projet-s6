@@ -18,11 +18,6 @@ body.append('h1')    //向 body元素中插入 h1标签
 </div>
 -->
 
-
-
-
-
-
 <div class="third">
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
