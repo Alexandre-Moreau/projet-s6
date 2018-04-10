@@ -40,6 +40,7 @@
 					
 					<?php printJsVar('fichiersNCB', $data['fichiersNonCorrespondantsBdd']);?>
 					
+					
 					if($('#nbArticles').html() == 0){
 						$('#nbArticles').removeClass('badge-default');
 						$('#nbArticles').addClass('badge-warning');
@@ -102,7 +103,5 @@
 					}else{
 						$('h2#titleOnto').append('<span style="font-size: 40%; vertical-align: text-top" class="badge badge-success">&#x2713;</span>');
 					}
-					
-					
 				});
 			</script>

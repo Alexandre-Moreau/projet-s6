@@ -8,7 +8,15 @@ class MaintenanceController extends Controller{
 		$this->render('index', $data);
 	}
 
-	public function statut(){
+	public function ajaxTestStatut(){
+		return true;
+	}
+
+	public function ajaxTestBd(){
+		return true;
+	}
+
+	public function mainStatut(){
 		$data = [];
 
 		$data['emplacement'] = str_replace('\\','/', GLOB_ARTICLESFODER);
@@ -26,7 +34,7 @@ class MaintenanceController extends Controller{
 			array_push($data['articlesNRef'], $articleNRef->nom);
 		}
 
-foreach($filesOnDisk as $fileOnDisk){
+		foreach($filesOnDisk as $fileOnDisk){
 			foreach($articles as $article){
 				if(str_replace('\\','/', $article->chemin) == str_replace('\\','/', GLOB_ARTICLESFODER.$fileOnDisk)){
 					unset($filesOnDisk[array_search ($fileOnDisk, $filesOnDisk)]);
@@ -75,7 +83,13 @@ foreach($filesOnDisk as $fileOnDisk){
 		
 		// - Articles sur le disque non référencés
 		
-		$this->render("statut",$data);
+		$this->render("statut", $data);
+	}
+
+	public function gestionBaseDeDonnees(){
+		$data = [];
+
+		$this->render("gereBd", $data);
 	}
 
 	// Pouvoir tout re-référencer, ou juste certains articles

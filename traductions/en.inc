@@ -11,6 +11,7 @@ define("_MORE_INFO","More informations");
 // Shared
 define("_NAME","Name");
 define("_FILE","File");
+define("_DATABASE","Base de données");
 
 // Shared (forms)
 define("_FORMSUBMIT","Submit");
