@@ -4,7 +4,7 @@
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
 
 </form>
-
+<!--
 <div style = "width:500px;hight:500px">
 <script src="//d3js.org/d3.v3.min.js"></script>
 <h1>Interface graphique</h1>
@@ -16,7 +16,7 @@ body.append('h1')    //向 body元素中插入 h1标签
 
 </script>
 </div>
-
+-->
 
 
 
