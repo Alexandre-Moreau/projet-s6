@@ -2,22 +2,22 @@
 <html>
 	<head>
 		<title>Test D3</title>
+
+		<link rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
 		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-	</head>
-	<body>
-		<div align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 900px; margin-bottom: 12px">
-			<svg />
-		</div>
-		<link rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'>
 		<script src="https://d3js.org/d3.v4.js"></script>
 		<script src="d3v4-brush-lite.js"></script>
 		<script src="d3v4-selectable-force-directed-graph.js"></script>
+	</head>
+	<body>
+		<svg align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 900px; margin-bottom: 12px">
+		<svg />
 
 		<script>
 			var svg = d3.select('#d3_selectable_force_directed_graph');
-			d3.json('miserables.with-ids.json', function(error, graph) {
-			if (!error) {
+			d3.json('data-ontoterminologie.json', function(error, graph) {
+				if (!error) {
 					//console.log('graph', graph);
 					createV4SelectableForceDirectedGraph(svg, graph);
 				} else {

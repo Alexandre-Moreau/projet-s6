@@ -65,9 +65,9 @@
 						</a>
 
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuLangues">
-							<a class="dropdown-item" href="#"><img src="images/langues/fr.svg"/> fr</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/en.svg"/> en</a>
-							<a class="dropdown-item" href="#"><img src="images/langues/cn.svg"/> cn</a>
+							<button id="btn-fr" class="dropdown-item"><img src="images/langues/fr.svg"/> fr</button>
+							<button id="btn-en" class="dropdown-item"><img src="images/langues/en.svg"/> en</button>
+							<button id="btn-cn" class="dropdown-item"><img src="images/langues/cn.svg"/> cn</button>
 						</div>
 					</div>
 

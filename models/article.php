@@ -52,6 +52,19 @@ class Article extends Model{
 		return null;
 	}
 	
+	static public function findAllWithoutRef(){
+		$query = db()->prepare("SELECT id FROM ".self::$tableName." WHERE id NOT IN (SELECT DISTINCT article_id FROM reference)");
+		$query->execute();
+		$returnList = array();
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				array_push($returnList, self::FindById($row["id"]));
+			}
+		}
+		return $returnList;
+	}
+	
 	static public function findAll(){
 		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
@@ -66,8 +79,13 @@ class Article extends Model{
 	}
 	
 	static public function findByQuery($requeteConcept){
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$requeteConcept."')";
-		//echo $requete;
+		$listeConcepts = explode(',', $requeteConcept);
+		// execute trim() sur chaque element de listeConcepts
+		array_walk($listeConcepts, 'trim');
+		/*foreach($listeConcepts as $listeConcepts){
+			
+		}*/
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$listeConcepts[0]."')";
 		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = [];
@@ -90,7 +108,7 @@ class Article extends Model{
 			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($requeteConcept));
+			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($listeConcepts[0]));
 		}
 		
 		// Liste ordonnée par score
@@ -175,6 +193,21 @@ class Article extends Model{
 		return $score;
 	}
 	
+	static public function getNameAllOnDisk(){
+		$namesOnDisk = scandir('./articles/');
+		// On enlève les dossiers . et .. et index.php
+		unset($namesOnDisk[array_search ('.', $namesOnDisk)]);
+		unset($namesOnDisk[array_search ('..', $namesOnDisk)]);
+		unset($namesOnDisk[array_search ('index.html', $namesOnDisk)]);
+		// On enlève les dossiers éventuels
+		foreach($namesOnDisk as $nameOnDisk){
+			if(!strpos($nameOnDisk,'.')){
+				unset($namesOnDisk[array_search ($nameOnDisk, $namesOnDisk)]);
+			}
+		}
+		return $namesOnDisk;
+	}
+	
 	static public function insert($article){
 		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, '".$article->nom."', '".$article->chemin."', '".$article->type."', ".$article->nbMots.", ".$article->langue->id.")";
 		//echo $requete;
@@ -189,14 +222,27 @@ class Article extends Model{
 		$query->execute();
 	}
 
-	static public function delete($pId){
-		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$pId);
+	static public function delete($article){
+		$query = db()->prepare("DELETE FROM reference WHERE article_id=".$article->id);
 		$query->execute();
+		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$article->id);
+		$query->execute();
+		self::deleteFile($article);
 	}
 	
 	static public function deleteAll(){
-		$query = db()->prepare("DELETE FROM ".self::$tableName);
+		$query = db()->prepare("SELECT id FROM ".self::$tableName);
 		$query->execute();
+		if ($query->rowCount() > 0){
+			$results = $query->fetchAll();
+			foreach ($results as $row) {
+				self::delete(self::FindById($row["id"]));
+			}
+		}
+	}
+	
+	static public function deleteFile($article){
+		unlink("./".$article->chemin);
 	}
 	
 	static public function toArray($article){

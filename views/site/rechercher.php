@@ -1,17 +1,35 @@
 <form method="post" action =".?r=Article/ajaxRechercher" enctype="multipart/form-data" class="form-inline my-2 my-lg-0">
 
-	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="Search">
-	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
+	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
 
 </form>
-	
+
+<div style = "width:500px;hight:500px">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<h1>Interface graphique</h1>
+<script>
+var body = d3.select('body');   //选择body元素
+body.append('h1')    //向 body元素中插入 h1标签
+  .text('Hello world')    // 给h1标签填充文字为hello world
+  .style('color','red');   //修改样式 字体颜色 为红色
+
+</script>
+</div>
+
+
+
+
+
+
+
 <div class="third">
 	<ul class="nav nav-tabs">
 		<li class="nav-item">
-			<span class="nav-link active" id="tab1">Concepts</span>
+			<span class="nav-link active" id="tab1"><?php echo _CONCEPTS;?></span>
 		</li>
 		<li class="nav-item">
-			<span class="nav-link" id="tab2">Termes</span>
+			<span class="nav-link" id="tab2"><?php echo _TERMS;?></span>
 		</li>
 	</ul>
 	<div id="contentDivs">
@@ -60,13 +78,21 @@
 		
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
-			$('#queryInput').val(contenuElementClique);
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else{
+				$('#queryInput').val(contenuElementClique);
+			}
 			form.submit();
 		});
 		
-		$('div.ontoTerminologieElementTerme span').click(function(event){			
+		$('div.ontoTerminologieElementTerme span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).attr('concept');
-			$('#queryInput').val(contenuElementClique);
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else{
+				$('#queryInput').val(contenuElementClique);
+			}
 			form.submit();
 		});
 		
@@ -81,11 +107,14 @@
 		form.on('submit', function(e) {
 			
 			// Mise en gras de l'élément sélectionné
-			$('.ontoTerminologieElement span.refConcept').prop('style','font-weight:normal');
-			$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == $('#queryInput').val();}).prop('style','font-weight:bold');
-			$('.ontoTerminologieElementTerme span.refConcept').prop('style','font-weight:normal');
-			$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == $('#queryInput').val();}).prop('style','font-weight:bold');
-			
+			$('.ontoTerminologieElement span.refConcept').removeClass('selected');
+			$('.ontoTerminologieElementTerme span.refConcept').removeClass('selected');
+			var listeConcepts = $('#queryInput').val().split(',');
+			for (var i = 0; i < listeConcepts.length; i++) {
+				var currentConcept = listeConcepts[i].trim();
+				$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == currentConcept;}).addClass('selected');
+				$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == currentConcept;}).addClass('selected');
+			}			
 			
 			e.preventDefault();
 

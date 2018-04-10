@@ -16,6 +16,10 @@ html, body{
 	min-height: 66vh;
 }
 
+div.spaced *{
+	margin: 5px;
+}
+
 .container hr{
 	border-top: 3px double grey;
 }
@@ -41,6 +45,13 @@ div .third{
 	margin: 0.5%;
 }
 
+yes{
+	width: 300px;
+	height: 200px;
+	background-color: blue;
+}
+
+
 footer{
 	padding: 20px;
 	text-align:center;
@@ -64,11 +75,22 @@ footer a{
 	font-weight: bold;
 }
 
-div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme span.refConcept{
+div.ontoTerminologieElement span.refConcept, div.ontoTerminologieElementTerme span.refConcept, button.dropdown-item, span.nav-link{
 	cursor:pointer;
 }
 
-.nav-link{
-	/*cursor:pointer;
-	color: #007bff;*/
+span.refConcept.selected{
+	font-weight: bold;
+}
+
+.imageIcon{
+	width: 50px;;
+}
+
+span.nav-link.active{
+	cursor:default;
+}
+
+.card{
+	padding: 10px;
 }

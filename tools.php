@@ -19,6 +19,30 @@
 	include_once $dir.lcfirst($file).".php";
 }*/
 
+function printJsVar($name, $value){
+	// Fonction anonyme récursive
+	$printRecursiveJsVar = function($a) use(&$printRecursiveJsVar) {
+		if(is_array($a)){
+			echo '{';
+			foreach($a as $key=>$value){
+				echo $key.': ';
+				$printRecursiveJsVar($value);
+				echo ', ';
+			}
+			echo '}';
+		}else{
+			if(is_string($a)){
+				echo '\''.$a.'\'';
+			}else{
+				echo $a;
+			}
+		}
+	};
+	echo 'var '.$name.' = ';
+	$printRecursiveJsVar($value);
+	echo ';';
+}
+
 function cleanString($text) {
 	//https://stackoverflow.com/questions/14114411/remove-all-special-characters-from-a-string
     $utf8 = array(

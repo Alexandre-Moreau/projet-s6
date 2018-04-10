@@ -1,10 +1,39 @@
-// Pour gérer l'onglet actif dans la navbar
+$(document).ready(function() {
 
-$(document).ready(function() {	
-	
+	// Gestion de l'onglet actif dans la navbar
 	var r = new URL(window.location.href).searchParams.get("r");
-	$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
-	
+	if (r === null) {
+		$('a.nav-link[href=".?r=site/index"]').closest('li').addClass('active');
+	}else{
+		$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
+	}
+
+	// Gestion des changements de langue
+	$('#dropdownLangues button').click(function(e){
+		// On récupère la langue
+		var langue = e.target.closest('button').id.split('btn-')[1];
+		// On redirige sur la page php qui va changer le $_SESSION
+		var data = new FormData();
+		data.append('langue', langue);
+
+		$.ajax({
+			url: './?r=site/ajaxChangeLanguage',
+			type: 'POST',
+			data: data,
+
+			cache: false,
+			processData: false,
+			contentType: false,
+
+			success: function (reponse) {
+				location.reload();
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log(xhr.responseText);
+			}
+		});
+	});
+
 	function onKonamiCode(cb) {
 		var input = '';
 		var key = '38384040373937396665';
@@ -55,8 +84,7 @@ $(document).ready(function() {
 					document.getElementById("footerImg").style.transform = "rotate("+((i++)%360)+"deg)"; 
 				}
 			}, 17);
-		}
-		
+		}		
 		$('#footerImg').attr('style','cursor: pointer;').click(function(){
 			p = !p;
 			if(a.paused){

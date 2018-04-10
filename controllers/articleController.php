@@ -16,10 +16,10 @@ class ArticleController extends Controller{
 		$newName = "";
 		
 		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
-			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
+			array_push($data['erreursSaisie'],_composeMisingError(_NAME));
 		}
 		if($_FILES == []){
-			array_push($data['erreursSaisie'],'aucun fichier n\'a été spécifié');
+			array_push($data['erreursSaisie'],_composeMisingError(_FILE));
 		}else{
 			if(sizeof($_FILES) > 1){
 				array_push($data['erreursSaisie'],'trop de fichiers');
@@ -47,10 +47,10 @@ class ArticleController extends Controller{
 				$text = processContent($newArticle);
 				if($text == 'encoding_error'){
 					$data['statut'] = 'echec';
-					array_push($data['erreursSaisie'],'erreur d\'encodage: les doivent être encodé en UTF-8');
+					array_push($data['erreursSaisie'], _ENCODINGERROR);
 				}else if($text == 'parsing_error'){
 					$data['statut'] = 'echec';
-					array_push($data['erreursSaisie'],'erreur de parsing: le document n\'est pas correct');
+					array_push($data['erreursSaisie'],_PARSEERROR);
 				}else{
 					$count = countWords($text);
 					$newArticle->nbMots = $count;
@@ -67,6 +67,13 @@ class ArticleController extends Controller{
 			}
 			echo(json_encode($data));
 		}
+	}
+	
+	public function modifier(){
+		$data = [];
+		$data['langues'] = Langue::FindAll();
+ 		$data['article'] = Article::FindById($_GET['id']);
+		$this->render("formModifier", $data);
 	}
 
 	public function ajaxModifier(){
@@ -112,7 +119,7 @@ class ArticleController extends Controller{
 		header('Content-type: application/json');
 		$data['log'] = [];
 		$data['references'] = [];
-		$references = Reference::findByArticle(Article::FindById($_POST['articleId']));
+		$references = Reference::findByArticle(Article::findById($_POST['articleId']));
 		foreach($references as $reference){
 			array_push($data['references'], Reference::toArray($reference));
 		}
@@ -125,21 +132,14 @@ class ArticleController extends Controller{
 	}
 	
 	public function showById(){
-		$article = Article::FindById($_GET['id']);
+		$article = Article::findById($_GET['id']);
 		$data['article'] = $article;
-		$data['references'] = Reference::FindByArticle($article);
+		$data['references'] = Reference::findByArticle($article);
 		$this->render('tableShowById', $data);
 	}
 	
-	public function modifier(){
-		$data = [];
-		$data['langues'] = Langue::FindAll();
- 		$data['article'] = Article::FindById($_GET['id']);
-		$this->render("formModifier", $data);
-	}
-	
 	public function supprimer(){
-		Article::Delete($_GET['id']);
+		Article::delete(Article::findById($_GET['id']));
 		header("Location: .?r=article/showAll");
 	}
 	

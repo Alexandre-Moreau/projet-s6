@@ -1,12 +1,12 @@
 			<div class="container">
-				<h3>Créer un nouvel article</h3>
+				<h3><?php echo _CREATEARTICLE;?></h3>
 				<hr><br>
 				<div id="formStatus" >
 				</div>
 				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
 					<div class="form-group">
-						<label for="nom">Nom : <span class="requis">*</span></label>
-						<input type="text" name="nom" id="nom" class="form-control" placeholder="Entrer un nom" />
+						<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
+						<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
 					</div>
 					<div class="form-group">
 						<input type="file" name='file' id='file' accept=".pdf,.html,.htm,.txt" class="form-control">
@@ -16,7 +16,7 @@
 						</label>-->
 					</div>
 					<div class="form-group">
-						<label for="langue">Langue :</label>
+						<label for="langue"><?php echo _LANGUAGE;?> :</label>
 						<select id="langue">
 							<?php
 								foreach($data['langues'] as $langue){
@@ -32,13 +32,13 @@
 						</select>
 					</div>
 					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="Confirmer" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" name="annuler" class="btn btn-secondary"></input>
+						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT;?>" class="btn btn-primary"><!--
+						--><input id="reset" type="reset" value="<?php echo _FORMRESET;?>" class="btn btn-secondary"></input>
 					</div>
 				</form>
 				<!--<progress></progress>-->
 				<br>
-				<span class="requis">*</span> Champ requis
+				<span class="requis">*</span> <?php echo _FORMREQUESTED;?>
 			</div>
 
 			<script>
@@ -52,7 +52,7 @@
 					
 					if(formAnswer['statut'] == 'echec'){
 						$('#formStatus').addClass('alert alert-danger');
-						$('#formStatus').append('<strong id="statusMessage">Il y a des erreurs dans le formulaire</strong>');
+						$('#formStatus').append('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
 						$('#formStatus').append('<ul/>');
 						if($.isArray(formAnswer['erreursSaisie'])){
 							formAnswer['erreursSaisie'].forEach(function(element){
