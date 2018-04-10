@@ -242,7 +242,9 @@ class Article extends Model{
 	}
 	
 	static public function deleteFile($article){
-		unlink("./".$article->chemin);
+		if(file_exists("./".$article->chemin)){
+			unlink("./".$article->chemin);
+		}
 	}
 	
 	static public function toArray($article){

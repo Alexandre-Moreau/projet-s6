@@ -3,6 +3,11 @@
 //Auto-generated file
 class MaintenanceController extends Controller{
 
+	public function index(){
+		$data = [];
+		$this->render('index', $data);
+	}
+
 	public function statut(){
 		$data = [];
 
@@ -70,7 +75,7 @@ foreach($filesOnDisk as $fileOnDisk){
 		
 		// - Articles sur le disque non référencés
 		
-		$this->render("index",$data);
+		$this->render("statut",$data);
 	}
 
 	// Pouvoir tout re-référencer, ou juste certains articles

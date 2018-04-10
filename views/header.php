@@ -51,7 +51,7 @@
 							<a class="nav-link" href=".?r=site/creerOntoterminologie"><?php echo _ONTO_NEW;?></a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href=".?r=maintenance/statut"><?php echo _MAINTENANCE;?></a>
+							<a class="nav-link" href=".?r=maintenance/index"><?php echo _MAINTENANCE;?></a>
 						</li>
 					</ul>
 					
@@ -60,7 +60,6 @@
 						<a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLangues" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<?php
 							echo '<img src="images/langues/'.$_SESSION['langue'].'.svg"/> '.$_SESSION['langue'];
-							
 						?>
 						</a>
 
