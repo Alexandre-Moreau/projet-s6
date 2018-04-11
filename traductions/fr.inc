@@ -23,7 +23,7 @@ define("_FORMERROR","Il y a des erreurs dans le formulaire");
 // Shared (errors)
 define("_ERROR","Erreur");
 define("_NOFILEERROR","Aucun fichier choisi");
-define("_PARSEERROR","Erreur lors du parsing (le fichier n'est pas correct)");
+define("_PARSEERROR","Erreur lors du parsing (le fichier n\'est pas correct)");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
 define("_UNKNOWNERROR","Erreur inconnue");
 define("_MISSINGINFORM1","aucun ");
