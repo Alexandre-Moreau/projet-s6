@@ -85,6 +85,9 @@ body.append('h1')    //向 body元素中插入 h1标签
 			var contenuElementClique = $('#'+event.target.id).attr('concept');
 			if(event.ctrlKey && $('#queryInput').val() != ""){
 				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else if(event.altKey){
+				console.log('alt key pressed');
+				$('#queryInput').val(contenuElementClique);
 			}else{
 				$('#queryInput').val(contenuElementClique);
 			}

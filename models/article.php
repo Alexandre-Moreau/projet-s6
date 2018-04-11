@@ -82,7 +82,11 @@ class Article extends Model{
 		$listeConcepts = explode(',', $requeteConcept);
 		// On note les concepts qu'on a déjà recherché
 		$conceptSearched = [];
-		$listeArticlesScoresContexte = [];
+		// [r1, r2, r3, ...] avec r1 la liste des articlesScore de la première recherche, r2 la liste renvoyée par la 2e recherche...
+		$listeSortieRecherche = [];
+		// [a1, a2, a3, ...] avec a1 = ['articleA', 14], a2 = ['articleB', 5], a3 = ['articleC', 12] ...
+		$listeArticlesScore = [];
+		
 		$data = [];
 		$data['log'] = [];
 		$data['articlesScoreContexte'] = [];
@@ -93,7 +97,7 @@ class Article extends Model{
 			if(!in_array($nomConcept, $conceptSearched)){
 				$concept = Concept::findByName($nomConcept);
 				if($concept != null){
-					array_push($listeArticlesScoresContexte, self::findByConceptCalcScore($concept));
+					array_push($listeSortieRecherche, self::findByConceptCalcScore($concept));
 				}else{
 					array_push($data['log'], 'Concept inconnu: '.$nomConcept);
 				}
@@ -103,25 +107,32 @@ class Article extends Model{
 			}
 		}
 		
-		foreach($listeArticlesScoresContexte as $l){
+		// $l = liste d'articles pour chaque concept
+		foreach($listeSortieRecherche as $l){
+			// $articleScore = ['articleA', 14]
 			foreach($l as $articleScore){
 				$trouve = false;
-				foreach($data['articlesScoreContexte'] as $key => $value){
-					if($data['articlesScoreContexte'][$key][0] == $articleScore[0]){
-						$data['articlesScoreContexte'][$key][1] += $articleScore[1];
+				// On ajoute l'articleScore à la liste d'articleScore, si il est déjà dedans on ajoute juste le score
+				foreach($listeArticlesScore as $key => $value){
+					if($listeArticlesScore[$key][0] == $articleScore[0]){
+						$listeArticlesScore[$key][1] += $articleScore[1];
 						$trouve = true;
 						break;
 					}
 				}
 				if(!$trouve){
-					array_push($data['articlesScoreContexte'], [$articleScore[0], $articleScore[1], 'contexte lorem ipsum']);
+					array_push($listeArticlesScore, [$articleScore[0], $articleScore[1], 'contexte lorem ipsum']);
 				}
 			}
 		}
 		
-		// print_r($data['articlesScoreContexte']);
+		// On fait la moyenne des scores (division par le nombre de concepts qu'on a cherché), on arrondit et on renvoie les articles avec leur score
+		$nbConcepts = count($conceptSearched);
+		foreach($listeArticlesScore as $key => $value){		
+			$listeArticlesScore[$key][1] = round($listeArticlesScore[$key][1]/$nbConcepts, 1);
+			array_push($data['articlesScoreContexte'], $listeArticlesScore[$key]);
+		}
 		
-		// Liste ordonnée par score
 		usort($data['articlesScoreContexte'], "self::compareScore");
 		
 		return $data;
@@ -226,11 +237,9 @@ class Article extends Model{
 					$score+=$nombreOccurence*1000;
 				}
 			}
-			
 		}
 		
-		$score = round($score/$article->nbMots*100, 1);
-		
+		$score = $score/$article->nbMots*100;
 		
 		return $score;
 	}
