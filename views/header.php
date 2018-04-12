@@ -50,9 +50,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href=".?r=site/creerOntoterminologie"><?php echo _ONTO_NEW;?></a>
 						</li>
-						<!--<li class="nav-item">
+						<li class="nav-item">
 							<a class="nav-link" href=".?r=maintenance/index"><?php echo _MAINTENANCE;?></a>
-						</li>-->
+						</li>
 					</ul>
 					
 
