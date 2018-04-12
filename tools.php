@@ -1,4 +1,7 @@
 <?php
+	
+use Fukuball\Jieba\Jieba;
+use Fukuball\Jieba\Finalseg;
 
 /*function __autoload($name) {
 	echo "|".$name.",";
@@ -143,9 +146,22 @@ function parseContentHtml($pText){
 	return $text;
 }
 	
-function countWords($text){
+function countWords($text, $langue){
 	//return str_word_count($text); // ? -> compte bizarrement
-	return count(explode(' ', $text));
+	if($langue->nom != 'cn'){
+		return count(explode(' ', $text));
+	}else{
+		return count(separeMotsChinois($text));
+	}
+}
+
+function separeMotsChinois($text){
+	ini_set('memory_limit', '1024M');
+
+	Jieba::init();
+	Finalseg::init();
+
+	return Jieba::cut($text);
 }
 
 ?>

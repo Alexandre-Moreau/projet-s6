@@ -177,8 +177,12 @@ class Article extends Model{
 	static public function calculeScoreContexte($article, $concept){
 		$score = 0;
 		//Basé sur le référencement (articleController::reference)
-		$text = processContent($article);
-		$textArray = explode(' ', $text);
+		$text = processContent($article);		
+		if($article->langue->nom == 'cn'){
+			$textArray = separeMotsChinois($text);
+		}else{
+			$textArray = explode(' ', $text);
+		}
 		$langue = $article->langue;
 		
 		$termes = Terme::findByMotCleLangue($textArray, $langue);

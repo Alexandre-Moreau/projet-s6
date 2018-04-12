@@ -52,7 +52,7 @@ class ArticleController extends Controller{
 					$data['statut'] = 'echec';
 					array_push($data['erreursSaisie'],_PARSEERROR);
 				}else{
-					$count = countWords($text);
+					$count = countWords($text, $newArticle->langue);
 					$newArticle->nbMots = $count;
 					Article::insert($newArticle);
 					$newArticle->id = db()->lastInsertId();
@@ -149,7 +149,11 @@ class ArticleController extends Controller{
 	
 	private static function reference($text, $pLangue, $article){
 		$log = [];
-		$textArray = explode(' ', $text);
+		if($article->langue->nom == 'cn'){
+			$textArray = separeMotsChinois($text);
+		}else{
+			$textArray = explode(' ', $text);
+		}
 		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
 		
 		$langue = Langue::findByName($pLangue);

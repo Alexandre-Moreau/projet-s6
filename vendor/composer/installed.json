@@ -1,5 +1,57 @@
 [
     {
+        "name": "fukuball/jieba-php",
+        "version": "0.33",
+        "version_normalized": "0.33.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fukuball/jieba-php.git",
+            "reference": "a5980dc88ae98a261a0bdb1130be14d0136b373f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fukuball/jieba-php/zipball/a5980dc88ae98a261a0bdb1130be14d0136b373f",
+            "reference": "a5980dc88ae98a261a0bdb1130be14d0136b373f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">= 5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.4.1",
+            "satooshi/php-coveralls": "dev-master",
+            "squizlabs/php_codesniffer": "1.5.6"
+        },
+        "time": "2017-11-22T10:02:12+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/class/Jieba.php",
+                "src/class/JiebaAnalyse.php",
+                "src/class/Finalseg.php",
+                "src/class/Posseg.php",
+                "src/vendor/multi-array/MultiArray.php",
+                "src/vendor/multi-array/Factory/MultiArrayFactory.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "fukuball",
+                "email": "fukuball@gmail.com"
+            }
+        ],
+        "description": "結巴中文分詞（PHP 版本）：做最好的 PHP 中文分詞、中文斷詞組件",
+        "keywords": [
+            "Jieba",
+            "php"
+        ]
+    },
+    {
         "name": "smalot/pdfparser",
         "version": "v0.11",
         "version_normalized": "0.11.0.0",
@@ -52,23 +104,23 @@
     },
     {
         "name": "tecnickcom/tcpdf",
-        "version": "6.2.13",
-        "version_normalized": "6.2.13.0",
+        "version": "6.2.17",
+        "version_normalized": "6.2.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/tecnickcom/TCPDF.git",
-            "reference": "95c5938aafe4b20df1454dbddb3e5005c0b26f64"
+            "reference": "64fc19439863e1b1314487a72a74d9bfd0b55a53"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/95c5938aafe4b20df1454dbddb3e5005c0b26f64",
-            "reference": "95c5938aafe4b20df1454dbddb3e5005c0b26f64",
+            "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/64fc19439863e1b1314487a72a74d9bfd0b55a53",
+            "reference": "64fc19439863e1b1314487a72a74d9bfd0b55a53",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2017-04-26T08:14:48+00:00",
+        "time": "2018-02-24T11:48:20+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -93,13 +145,13 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "LGPLv3"
+            "LGPL-3.0"
         ],
         "authors": [
             {
                 "name": "Nicola Asuni",
                 "email": "info@tecnick.com",
-                "homepage": "http://nicolaasuni.tecnick.com"
+                "role": "lead"
             }
         ],
         "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",

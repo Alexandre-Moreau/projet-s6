@@ -132,7 +132,7 @@ class SiteController extends Controller{
 	public function creerOntoterminologie(){
 		$this->render("formCreerOntoterminologie");
 	}
-	
+
 }
 
 ?>
