@@ -13,6 +13,7 @@ class MaintenanceController extends Controller{
 	}
 
 	public function ajaxTestBd(){
+
 		return true;
 	}
 
@@ -88,6 +89,24 @@ class MaintenanceController extends Controller{
 
 	public function gestionBaseDeDonnees(){
 		$data = [];
+
+		global $errorCodes;
+
+		$statut = dbTest();
+
+		// si la connexion à la bdd a échoué
+		if($statut['reussite'] == 0){
+			// on teste la connexion directement sur le serveur
+			$statut = dbTest(false);
+		}else{
+			$statut['reussite'] = 2;
+		}
+		//Statut réussite:
+		// 2 -> bdd trouvée
+		// 1 -> bdd non trouvée, mais serveur ok
+		// 0 -> serveur ok
+
+		$data['statut'] = $statut;
 
 		$this->render("gereBd", $data);
 	}
