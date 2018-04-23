@@ -84,7 +84,7 @@ class MaintenanceController extends Controller{
 		
 		// - Articles sur le disque non référencés
 		
-		$this->render("statut", $data);
+		$this->render('statut', $data, ['backButton']);
 	}
 
 	public function gestionBaseDeDonnees(){
@@ -108,7 +108,7 @@ class MaintenanceController extends Controller{
 
 		$data['statut'] = $statut;
 
-		$this->render("gereBd", $data);
+		$this->render("gereBd", $data, ['backButton']);
 	}
 
 	// Pouvoir tout re-référencer, ou juste certains articles

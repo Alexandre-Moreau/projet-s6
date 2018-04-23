@@ -34,6 +34,11 @@ $(document).ready(function() {
 		});
 	});
 
+	// Gestion du retour
+	$('button#backButton').click(function(){
+		window.history.back();
+	});
+
 	function onKonamiCode(cb) {
 		var input = '';
 		var key = '38384040373937396665';
