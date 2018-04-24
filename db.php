@@ -4,6 +4,7 @@ $host = "localhost";
 $databaseName = "projet-s6";
 $user = $_ENV["db_user"];
 $password = $_ENV["db_password"];
+$db;
 
 $errorCodes = [
 	1 => 'succes',
@@ -19,6 +20,8 @@ function db(){
 	global $databaseName;
 	global $user;
 	global $password;
+
+	global $db;
 
 	$db = new PDO("mysql:host=".$host.";dbname=".$databaseName, $user, $password, array(
 				PDO::ATTR_EMULATE_PREPARES=>false,

@@ -55,7 +55,8 @@ class ArticleController extends Controller{
 					$count = countWords($text, $newArticle->langue);
 					$newArticle->nbMots = $count;
 					Article::insert($newArticle);
-					$newArticle->id = db()->lastInsertId();
+					global $db;
+					$newArticle->id = $db->lastInsertId();
 					$log = self::reference($text, $_POST['langue'], $newArticle);
 					$data['statut'] = 'succes';
 					$articleId = $newArticle->id;
@@ -108,7 +109,6 @@ class ArticleController extends Controller{
 		$data['log'] = [];
 		$data['articlesScore'] = [];
 		$dataArticlesScore = Article::findByQuery($_POST['query']);
-		//print_r($articlesScore);
 		foreach($dataArticlesScore['articlesScoreContexte'] as $articleScore){
 			//print_r($articleScore);
 			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1], $articleScore[2]]);
@@ -161,7 +161,7 @@ class ArticleController extends Controller{
 		// On récupère les termes qui correspondent au texte pour travailler sur un nombre réduit d'élément (et pas faire de requête à chaque mot du texte)
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
-		
+
 		$concepts = [];
 		
 		$i = 0;

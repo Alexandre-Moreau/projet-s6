@@ -81,13 +81,13 @@ function keepOnlyText($pText){
 }
 	
 function processContent($article){
-	$text = -1;
+	$text = 'Error_processContent';
 	if($article->type == "pdf"){
 		$parser = new Smalot\PdfParser\Parser();
 		$pdf = $parser->parseFile($article->chemin);
 		$text = $pdf->getText();
 		$text = parseContentText($text);
-	}elseif($article->type == "html"){
+	}else if($article->type == "html"){
 		//Non testé
 		$text = file_get_contents($article->chemin);
 		// Si le fichier est mal encodé
@@ -96,13 +96,12 @@ function processContent($article){
 		}else{
 			$text = parseContentHtml($text);
 		}
-	}elseif($article->type == "txt"){
+	}else if($article->type == "txt"){
 		$text = file_get_contents($article->chemin);
 		if(!mb_detect_encoding($text, 'UTF-8', true)){
 			return 'encoding_error';
 		}else{
 			$text = parseContentText($text);
-			
 		}
 	}
 	return $text;

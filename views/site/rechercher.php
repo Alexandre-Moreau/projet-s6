@@ -170,7 +170,6 @@ body.append('h1')    //向 body元素中插入 h1标签
 											var reference = reponse2['references'][j];
 
 											$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + reference.concept.id + '">' + reference.concept.nom + '</span><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
-											
 										}
 									},
 									error: function (xhr, textStatus, errorThrown) {
@@ -180,12 +179,10 @@ body.append('h1')    //向 body元素中插入 h1标签
 							}else{
 								$('#referencesList ul').empty();
 							}
-							
 						});
 					}
 				},
 				error: function (xhr, textStatus, errorThrown) {
-					console.log('Les print_r causent des erreurs');
 					console.log(xhr.responseText);
 				}
 			});

@@ -91,6 +91,9 @@ class Article extends Model{
 		$data['log'] = [];
 		$data['articlesScoreContexte'] = [];
 		
+		
+		
+
 		// execute trim() sur chaque element de listeConcepts
 		$listeConcepts = array_map('trim',$listeConcepts);
 		foreach($listeConcepts as $nomConcept){
@@ -106,7 +109,7 @@ class Article extends Model{
 				array_push($data['log'], 'Concept en double: '.$nomConcept);
 			}
 		}
-		
+
 		// $l = liste d'articles pour chaque concept
 		foreach($listeSortieRecherche as $l){
 			// $articleScore = ['articleA', 14]
@@ -132,7 +135,7 @@ class Article extends Model{
 			$listeArticlesScore[$key][1] = round($listeArticlesScore[$key][1]/$nbConcepts, 1);
 			array_push($data['articlesScoreContexte'], $listeArticlesScore[$key]);
 		}
-		
+
 		usort($data['articlesScoreContexte'], "self::compareScore");
 		
 		return $data;
@@ -157,7 +160,7 @@ class Article extends Model{
 				}
 			}
 		}
-		
+
 		// Calcul du score
 		foreach ($returnList as $key => $value){
 			// On regarde le nombre d'occurences par rapport au max
@@ -166,7 +169,7 @@ class Article extends Model{
 			// On regarde le nombre d'occurences par nombre de mots
 			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], $concept);
 		}
-		
+
 		return $returnList;
 	}
 	
@@ -177,14 +180,15 @@ class Article extends Model{
 	static public function calculeScoreContexte($article, $concept){
 		$score = 0;
 		//Basé sur le référencement (articleController::reference)
-		$text = processContent($article);		
+		$text = processContent($article);
+		$textArray;
 		if($article->langue->nom == 'cn'){
 			$textArray = separeMotsChinois($text);
 		}else{
 			$textArray = explode(' ', $text);
 		}
 		$langue = $article->langue;
-		
+
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 		
