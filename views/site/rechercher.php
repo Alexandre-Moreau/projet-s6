@@ -119,9 +119,10 @@ body.append('h1')    //向 body元素中插入 h1标签
 			// traitement des $_POST
 			var data = new FormData();
 			data.append('query', $('#queryInput').val());
-
-			// Image de chargement
+			
 			$('#articlesList ul').empty();
+			$('#referencesList ul').empty();
+			// Image de chargement
 			$('#articlesList ul').append('Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">');
 
 			$.ajax({
