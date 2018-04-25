@@ -6,7 +6,7 @@ class ArticleController extends Controller{
 		$data=[];
 		$data['langues'] = Langue::FindAll();
 		$data['langueDefaut'] = $_ENV['langue'];
-		$this->render("formCreate",$data);
+		$this->render("formCreate",$data, ['backButton']);
 	}
 	
 	public function ajaxCreate(){
@@ -74,7 +74,7 @@ class ArticleController extends Controller{
 		$data = [];
 		$data['langues'] = Langue::FindAll();
  		$data['article'] = Article::FindById($_GET['id']);
-		$this->render("formModifier", $data);
+		$this->render("formModifier", $data, ['backButton']);
 	}
 
 	public function ajaxModifier(){
@@ -139,7 +139,7 @@ class ArticleController extends Controller{
 		$article = Article::findById($_GET['id']);
 		$data['article'] = $article;
 		$data['references'] = Reference::findByArticle($article);
-		$this->render('tableShowById', $data);
+		$this->render('tableShowById', $data, ['backButton']);
 	}
 	
 	public function supprimer(){

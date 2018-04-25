@@ -120,9 +120,13 @@ body.append('h1')    //向 body元素中插入 h1标签
 			var data = new FormData();
 			data.append('query', $('#queryInput').val());
 
+			// Image de chargement
+			$('#articlesList ul').empty();
+			$('#articlesList ul').append('Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">');
+
 			$.ajax({
 				url: form.attr('action'),
-				type: form.attr('method'),						
+				type: form.attr('method'),
 				data: data,
 
 				cache: false,
@@ -163,7 +167,6 @@ body.append('h1')    //向 body元素中插入 h1标签
 										if(reponse2['log'].length != 0){
 											console.log(reponse2['log']);
 										}
-										
 										$('#referencesList ul').empty();
 
 										for(var j in reponse2['references']) {
