@@ -8,10 +8,14 @@ $(document).ready(function() {
 		$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
 	}
 
+	// Gestion de la sidebar pour version mobile
+	$('.sidenav').sidenav();
+
 	// Gestion des changements de langue
-	$('#dropdownLangues button').click(function(e){
+	$(".dropdown-trigger").dropdown();
+	$('.dropdown-content a').click(function(e){
 		// On récupère la langue
-		var langue = e.target.closest('button').id.split('btn-')[1];
+		var langue = e.target.closest('a').id.split('btn-')[1];
 		// On redirige sur la page php qui va changer le $_SESSION
 		var data = new FormData();
 		data.append('langue', langue);

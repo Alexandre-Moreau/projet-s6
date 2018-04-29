@@ -1,7 +1,7 @@
 		</div>
 	</body>
 	<footer>
-		<p><image id="footerImg" src="./images/favicon-big.png"><span id="footerBtg">BTG</span></p>
+		<p><img id="footerImg" src="./images/favicon-big.png"><span id="footerBtg">BTG</span></p>
 		<p>
 			<?php echo _WHY;?><br/>
 			<?php echo _FULL_CODE_1;?><a href="https://github.com/Alexandre-Moreau/projet-s6" target="_blank"><?php echo _FULL_CODE_2;?></a>.

@@ -4,9 +4,16 @@ html, body{
 	background-color: white;
 }
 
-#dropdownLangues img{
+.flags{
 	height: 18px;
 	border-radius: 3px;
+}
+
+#headerImage{
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 6px;
+	vertical-align: middle;
 }
 
 #content{
