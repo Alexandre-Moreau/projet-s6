@@ -30,7 +30,7 @@
 	<body>
 		<header>
 
-			<nav id="nav" class="primary-color">
+			<nav id="nav" class="light-blue lighten-1">
 
 				<div class="nav-wrapper" id="navbarToggler">
 					<a class="brand-logo" href=".?r=site/index"><img id="headerImage" src="./images/favicon-big.png">BTG</a>

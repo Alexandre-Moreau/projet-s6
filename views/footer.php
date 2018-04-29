@@ -1,5 +1,5 @@
 		</div>
-		<footer class="page-footer">
+		<footer class="page-footer orange">
 			<div class="container">
 				<div class="row">
 					<div class="col l12 m12 s12">
@@ -17,7 +17,6 @@
 			<div class="footer-copyright">
 				<div class="container">
 					© 2018 Copyright BTG
-				
 				</div>
 			</div>
 		</footer>
