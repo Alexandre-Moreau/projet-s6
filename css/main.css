@@ -4,6 +4,10 @@ html, body{
 	background-color: white;
 }
 
+#nav, footer{
+	background-image: url(../images/back.png);
+}
+
 .flags{
 	height: 18px;
 	border-radius: 3px;
