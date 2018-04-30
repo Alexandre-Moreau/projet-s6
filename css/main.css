@@ -4,8 +4,12 @@ html, body{
 	background-color: white;
 }
 
-#nav, footer{
-	background-image: url(../images/back.png);
+#nav{
+	background-image: url(../images/background-nav.png);
+}
+
+footer{
+	background-image: url(../images/background-footer.png);
 }
 
 .flags{
