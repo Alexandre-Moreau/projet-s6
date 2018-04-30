@@ -3,7 +3,7 @@ html, body{
 	width: 100%;
 	background-color: white;
 }
-
+/*
 #nav{
 	background-image: url(../images/background-nav.png);
 }
@@ -11,7 +11,7 @@ html, body{
 footer{
 	background-image: url(../images/background-footer.png);
 }
-
+*/
 .flags{
 	height: 18px;
 	border-radius: 3px;
