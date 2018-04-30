@@ -1,3 +1,6 @@
+<div class="fileIconDiv">
+	<a href=".?r=article/create"><image class="fileIcon" src="./images/file-add.svg"></a>
+</div>
 <?php
 	foreach($data['articles'] as $article){
 			echo '<div class="fileIconDiv">';
@@ -5,6 +8,3 @@
 			echo '</div>';
 		}
 ?>
-<div class="fileIconDiv">
-	<a href=".?r=article/create"><image class="fileIcon" src="./images/file-add.svg"></a>
-</div>

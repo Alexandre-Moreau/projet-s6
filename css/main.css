@@ -94,3 +94,7 @@ span.nav-link.active{
 .card{
 	padding: 10px;
 }
+
+div.form-group.form_boutons{
+	text-align: center;
+}
