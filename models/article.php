@@ -82,17 +82,14 @@ class Article extends Model{
 		$listeConcepts = explode(',', $requeteConcept);
 		// On note les concepts qu'on a déjà recherché
 		$conceptSearched = [];
-		// [r1, r2, r3, ...] avec r1 la liste des articlesScore de la première recherche, r2 la liste renvoyée par la 2e recherche...
+		// [r1, r2, r3, ...] avec r1 la liste des articleRefsScore de la première recherche, r2 la liste renvoyée par la 2e recherche...
 		$listeSortieRecherche = [];
 		// [a1, a2, a3, ...] avec a1 = ['articleA', 14], a2 = ['articleB', 5], a3 = ['articleC', 12] ...
-		$listeArticlesScore = [];
+		$listeArticlesReferencesScore = [];
 		
 		$data = [];
 		$data['log'] = [];
-		$data['articlesScoreContexte'] = [];
-		
-		
-		
+		$data['articlesRefScore'] = [];
 
 		// execute trim() sur chaque element de listeConcepts
 		$listeConcepts = array_map('trim',$listeConcepts);
@@ -110,40 +107,36 @@ class Article extends Model{
 			}
 		}
 
-		// $l = liste d'articles pour chaque concept
+		// $l = liste d'articleRefsScore pour chaque concept
 		foreach($listeSortieRecherche as $l){
-			// $articleScore = ['articleA', 14]
-			foreach($l as $articleScore){
-				$trouve = false;
-				// On ajoute l'articleScore à la liste d'articleScore, si il est déjà dedans on ajoute juste le score
-				foreach($listeArticlesScore as $key => $value){
-					if($listeArticlesScore[$key][0] == $articleScore[0]){
-						$listeArticlesScore[$key][1] += $articleScore[1];
-						$trouve = true;
-						break;
-					}
-				}
-				if(!$trouve){
-					array_push($listeArticlesScore, [$articleScore[0], $articleScore[1], 'contexte lorem ipsum']);
+			// $articleRefScore : $idArticle => [article, [reference0, reference1], score]
+			foreach($l as $idArticle => $articleRefScore){
+				// On combine les résultats des différenctes recherches
+				if(!isset($listeArticlesReferencesScore[$idArticle])){
+					$listeArticlesReferencesScore[$idArticle] = $articleRefScore;
+				}else{
+					$listeArticlesReferencesScore[$idArticle]['score'] = $listeArticlesReferencesScore[$idArticle]['score'] +  $articleRefScore['score'];
 				}
 			}
 		}
 		
 		// On fait la moyenne des scores (division par le nombre de concepts qu'on a cherché), on arrondit et on renvoie les articles avec leur score
 		$nbConcepts = count($conceptSearched);
-		foreach($listeArticlesScore as $key => $value){		
-			$listeArticlesScore[$key][1] = round($listeArticlesScore[$key][1]/$nbConcepts, 1);
-			array_push($data['articlesScoreContexte'], $listeArticlesScore[$key]);
+		foreach($listeArticlesReferencesScore as $key => $value){
+			$listeArticlesReferencesScore[$key]['score'] = round($listeArticlesReferencesScore[$key]['score']/$nbConcepts, 1);
 		}
 
-		usort($data['articlesScoreContexte'], "self::compareScore");
+		$data['articlesRefScore'] = $listeArticlesReferencesScore;
+		usort($data['articlesRefScore'], "self::compareScore");
 		
 		return $data;
 		
 	}
 	
 	static private function findByConceptCalcScore($concept){
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id = ".$concept->id;
+		// Retourne [ articleId0 => [article, references, score], articleId1 => [article, references, score], articleId2 => [article, references, score] ]
+
+		$requete = "SELECT id, nombreMot, article_id FROM reference WHERE concept_id = ".$concept->id;
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
@@ -154,102 +147,33 @@ class Article extends Model{
 		if ($query->rowCount() > 0){
 			$results = $query->fetchAll();
 			foreach ($results as $row) {
-				array_push($returnList, [self::FindById($row['article_id']), $row['nombreRef']]);
-				if($row['nombreRef'] > $maxNbRef){
-					$maxNbRef = $row['nombreRef'];
+				if(!isset($returnList[$row['article_id']])){
+					$returnList[$row['article_id']] = [];
+
+					$returnList[$row['article_id']]['article'] = Article::findById($row['article_id']);
+
+					$returnList[$row['article_id']]['references'] = [];
+					array_push($returnList[$row['article_id']]['references'], Reference::findById($row['id']));
+
+					$returnList[$row['article_id']]['score'] = $row['nombreMot'];
+				}else{
+					array_push($returnList[$row['article_id']]['references'], Reference::findById($row['id']));
+					$returnList[$row['article_id']]['score'] = $returnList[$row['article_id']]['score'] + $row['nombreMot'];
 				}
 			}
 		}
 
 		// Calcul du score
-		foreach ($returnList as $key => $value){
-			// On regarde le nombre d'occurences par rapport au max
-			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
-			
+		foreach ($returnList as $key => $value){			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], $concept);
+			$returnList[$key]['score'] = $returnList[$key]['score'] / $returnList[$key]['article']->nbMots;
 		}
 
 		return $returnList;
 	}
 	
-	static private function compareScore($articleScore0, $articleScore1){
-		return ($articleScore0[1] > $articleScore1[1]) ? -1 : 1;
-	}
-	
-	static public function calculeScoreContexte($article, $concept){
-		$score = 0;
-		//Basé sur le référencement (articleController::reference)
-		$text = processContent($article);
-		$textArray;
-		if($article->langue->nom == 'cn'){
-			$textArray = separeMotsChinois($text);
-		}else{
-			$textArray = explode(' ', $text);
-		}
-		$langue = $article->langue;
-
-		$termes = Terme::findByMotCleLangue($textArray, $langue);
-		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
-		
-		$concepts = [];
-		
-		$i = 0;		
-		while($i < count($textArray)){
-			$motEspaceTraite = false;			
-			$mot = $textArray[$i];
-			
-			foreach($termesEspace as $termeEspace){
-				$j = 0;				
-				foreach(explode(' ', $termeEspace->motCle) as $motCourantTermeEspace){
-					if($i+$j < count($textArray) && strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace)){
-						if($j == count(explode(' ', $termeEspace->motCle))-1){
-							if(!isset($concepts[$termeEspace->concept->id])){
-								// On ajoute la longueur du terme ($j) et non 1 (pour après regarder le pourcentage de couverture du terme dans l'article)
-								$concepts[$termeEspace->concept->id] = $j;
-							}else{
-								$concepts[$termeEspace->concept->id] = $termeEspace[$terme->concept->id]+$j;
-							}
-							$i = $i+$j;
-							$motEspaceTraite = true;
-							break;
-						}
-						$j++;						
-					}else{
-						break;
-					}
-				}
-			}
-			
-			if(!$motEspaceTraite){
-				foreach($termes as $terme){
-					if (strtolower($mot) == strtolower($terme->motCle)){
-						if(!isset($concepts[$terme->concept->id])){
-							$concepts[$terme->concept->id] = 1;
-						}else{
-							$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
-						}
-						break;
-					}
-				}
-			}			
-			$i++;
-		}
-		
-		foreach($concepts as $conceptId => $nombreOccurence){			
-			if($conceptId == $concept->id){
-				$score+=$nombreOccurence;
-			}else{
-				//On regade si le concept de la boucle fait partie des sous concept du concept à calculer
-				if(Concept::verticalDistance($concept, Concept::findById($conceptId))>0){
-					$score+=$nombreOccurence*1000;
-				}
-			}
-		}
-		
-		$score = $score/$article->nbMots*100;
-		
-		return $score;
+	static private function compareScore($articleRefScore0, $articleRefScore1){
+		return ($articleRefScore0['score'] > $articleRefScore1['score']) ? -1 : 1;
 	}
 	
 	static public function getNameAllOnDisk(){

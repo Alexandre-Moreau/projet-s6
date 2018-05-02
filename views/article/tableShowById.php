@@ -50,8 +50,18 @@
 	</h3>
 	<ul class="list-group">
 	<?php
+		$refsAffichees = [];
 		foreach($data['references'] as $reference){
-			echo '<li class="list-group-item justify-content-between" style="width: 40%">'.$reference->concept->nom.'<span class="badge badge-default badge-pill">'.$reference->nombreRef.'</span></li>';
+			if(!isset($refsAffichees[$reference->concept->nom])){
+				$refsAffichees[$reference->concept->nom] = 1;
+			}else{
+				$refsAffichees[$reference->concept->nom] = $refsAffichees[$reference->concept->nom] + 1;
+			}
+		}
+		// tri par nombre référence décroissant
+		arsort($refsAffichees);
+		foreach($refsAffichees as $nom => $valeur){
+			echo '<li class="list-group-item justify-content-between" style="width: 40%">'.$nom.'<span class="badge badge-default badge-pill">'.$valeur.'</span></li>';
 		}
 	?>
 	</ul>

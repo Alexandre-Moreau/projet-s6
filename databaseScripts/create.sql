@@ -38,7 +38,9 @@ CREATE TABLE terme (
 
 CREATE TABLE reference (
 	id int AUTO_INCREMENT,
-	nombreRef int DEFAULT 1,
+	position int DEFAULT -1,
+	nombreMot int DEFAULT 1,
+	contexte varchar(200) DEFAULT '',
 	article_id int NOT NULL,
 	concept_id int NOT NULL,
 	CONSTRAINT pk_reference_id PRIMARY KEY (id)

@@ -4,13 +4,17 @@ class Reference extends Model{
 
 	static public $tableName = "reference";
 	protected $id;
-	protected $nombreRef;
+	protected $position;
+	protected $nombreMot;
+	protected $contexte;
 	protected $article;
 	protected $concept;
 
-	public function __construct($pNombreRef, $pArticle, $pConcept, $pId = null){
+	public function __construct($pPosition, $pNombreMot, $pContexte, $pArticle, $pConcept, $pId = null){
 		$this->id = $pId;
-		$this->nombreRef = $pNombreRef;
+		$this->position = $pPosition;
+		$this->nombreMot = $pNombreMot;
+		$this->contexte = $pContexte;
 		$this->article = $pArticle;
 		$this->concept = $pConcept;
 	}
@@ -21,10 +25,12 @@ class Reference extends Model{
 		if ($query->rowCount() > 0){
 			$row = $query->fetch(PDO::FETCH_ASSOC);
 			$id = $row['id'];
-			$nombreRef = $row['nombreRef'];
+			$position = $row['position'];
+			$nombreMot = $row['nombreMot'];
+			$contexte = $row['contexte'];
 			$article = Article::findById($row['article_id']);
 			$concept = Concept::findById($row['concept_id']);
-			return new Reference($nombreRef, $article, $concept, $id);
+			return new Reference($position, $nombreMot, $contexte, $article, $concept, $id);
 		}
 		return null;
 	}
@@ -43,7 +49,7 @@ class Reference extends Model{
 	}
 
 	static public function findByArticle($article){
-		$query = db()->prepare("SELECT id FROM ".self::$tableName." WHERE article_id=".$article->id." ORDER BY nombreRef DESC");
+		$query = db()->prepare("SELECT id FROM ".self::$tableName." WHERE article_id=".$article->id." ORDER BY position");
 		$query->execute();
 		$returnList = array();
 		if ($query->rowCount() > 0){
@@ -56,14 +62,14 @@ class Reference extends Model{
 	}
 
 	static public function insert($reference) {
-		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, ".$reference->nombreRef.", ".$reference->article->id.", ".$reference->concept->id.")";
+		$requete = "INSERT INTO ".self::$tableName." VALUES (DEFAULT, ".$reference->position.", ".$reference->nombreMot.", '".$reference->contexte."', ".$reference->article->id.", ".$reference->concept->id.")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 	}
 
 	static public function update($reference){
-		$requete = "UPDATE ".self::$tableName." SET nombreRef=".$reference->nombreRef.", article_id=".$reference->article->id.", concept_id=".$reference->concept->id." WHERE id=".$reference->id;
+		$requete = "UPDATE ".self::$tableName." SET position=".$reference->position.", nombreMot=".$reference->nombreMot.", contexte='".$reference->contexte."', article_id=".$reference->article->id.", concept_id=".$reference->concept->id." WHERE id=".$reference->id;
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
@@ -82,7 +88,9 @@ class Reference extends Model{
 	static public function toArray($reference){
 		$array = [];
 		$array['id'] = $reference->id;
-		$array['nombreRef'] = $reference->nombreRef;
+		$array['position'] = $reference->position;
+		$array['nombreMot'] = $reference->nombreMot;
+		$array['contexte'] = $reference->contexte;
 		$array['article'] = Article::toArray($reference->article);
 		$array['concept'] = Concept::toArray($reference->concept);
 		return $array;
