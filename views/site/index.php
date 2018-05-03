@@ -33,34 +33,27 @@
 			<div class="col s12 m4">
 				<div class="icon-block">
 					<h2 class="center light-blue-text"><i class="material-icons">file_upload</i></h2>
-					<h5 class="center">Importez votre ontoterminologie</h5>
+					<h5 class="center"><?php echo _IMPORT_TITLE;?></h5>
 
-					<p class="light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat.</p>
+					<p class="light"><?php echo _IMPORT_TEXT;?></p>
 				</div>
 			</div>
 
 			<div class="col s12 m4">
 				<div class="icon-block">
 					<h2 class="center light-blue-text"><i class="material-icons">add_to_photos</i></h2>
-					<h5 class="center">Ajoutez vos articles</h5>
+					<h5 class="center"><?php echo _ADD_TITLE;?></h5>
 
-					<p class="light">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur.</p>
+					<p class="light"><?php echo _ADD_TEXT;?></p>
 				</div>
 			</div>
 
 			<div class="col s12 m4">
 				<div class="icon-block">
 					<h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-					<h5 class="center">Rechercher un concept</h5>
+					<h5 class="center"><?php echo _SEARCH_TITLE;?></h5>
 
-					<p class="light">Et oui, parce qu'avec BTG les recherches se font sur des concepts, et pas sur des mots. Cela permet d'effectuer des recherches plus pertinentes sur vos articles, car les concepts sont référencés de manière multilingue.</p>
+					<p class="light"><?php echo _SEARCH_TEXT;?></p>
 				</div>
 			</div>
 		</div>
