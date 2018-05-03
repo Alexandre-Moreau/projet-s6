@@ -31,7 +31,7 @@
 									
 								}
 							?>
-							<option value="null">autre (le texte ne sera pas référencé)</option>
+							<option value="null"><?php echo _OTHERLANGUAGE;?></option>
 						</select>
 					</div>
 					<div class="form-group form_boutons">
@@ -67,7 +67,7 @@
 						}
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
-						$('#formStatus').html('<span id="statusMessage" <strong>L\'article a été créé avec succès</strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
+						$('#formStatus').html('<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
 					}else if(formAnswer['statut'] == 'warning'){
 						$('#formStatus').addClass('alert alert-warning');
 						$('#formStatus').html(formAnswer['info']);
