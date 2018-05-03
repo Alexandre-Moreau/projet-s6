@@ -84,7 +84,7 @@ define("_SERVUSER", "Service owner");
 define("_NETWORK", "Network");
 define("_SERVERIP", "Server IP address");
 define("_CLIENTIP", "Client IP address");
-define("_ARTCLES_ALL","Overall articles: ");
+define("_ARTICLES_ALL","Overall articles: ");
 define("_ARTICLES_NO_REF","Articles not referenced: ");
 define("_LOCATION","Location: ");
 define("_ERROR_DISK_FILE","Connection errors with disk files: ");
