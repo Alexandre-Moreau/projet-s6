@@ -1,12 +1,12 @@
 <?php
  
-// fichier de langues en anglais
+// fichier de langues en chinois
 
 // Index
-define("_ACCUEIL","Home");
-define("_BIENVENUE","Welcome on the website of our project BTG (Better Than Google), a multilingual semantic search engine based on the referencing of concepts rather than words.");
-define("_PROMOTION","Discover the revolutionary search engine which will be the most used of the internet in a couple of weeks...");
-define("_MORE_INFO","More informations");
+define("_ACCUEIL","主页");
+define("_BIENVENUE","欢迎访问BTG (Better Than Google), 基于概念引用(非单词引用)的多语种语义搜索引擎。");
+define("_PROMOTION","在未来几周里，这将成为在互联网上使用最多的革命性搜索引擎");
+define("_MORE_INFO","更多信息");
 define("_IMPORT_TITLE","Importez votre ontoterminologie");
 define("_IMPORT_TEXT","Afin d'utiliser notre site la première étape est d'ajouter une ontoterminologie, vous pouvez importer votre propre ontotermonologie afin d'adapter le site a vos besoins.");
 define("_ADD_TITLE","Ajoutez vos articles");
@@ -38,16 +38,16 @@ define("_MISSINGINFORM2"," where specified");
 function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
 
 // Header
-define("_RECHERCHER","Search");
-define("_ARTICLES","Articles");
-define("_ARTICLES_NEW","New article");
-define("_ONTO_NEW","New ontoterminology");
-define("_MAINTENANCE","Maintenance");
+define("_RECHERCHER","搜索");
+define("_ARTICLES","文章");
+define("_ARTICLES_NEW","新文章");
+define("_ONTO_NEW","新的术语");
+define("_MAINTENANCE","维护");
 
 // Footer
-define("_WHY","BTG is a project realised as a part of our third year of computer science license.");
-define("_FULL_CODE_1","The entire code is avaible on GitHub at ");
-define("_FULL_CODE_2","this adress");
+define("_WHY","BTG由萨瓦大学三年级计算机系实现");
+define("_FULL_CODE_1","你可以通过以下链接在GitHub上获取全部代码");
+define("_FULL_CODE_2","链接");
 define("_ICON","Icon made by");
 define("_FROM","from");
 define("_VECTOR","Vector images by");
@@ -72,7 +72,7 @@ define("_ASKREPLACE","Are you sure you want to load a new ontoterminology? That 
 define("_COMFIRM","Confirmation");
 
 // Show Article
-define("_REFERENCE","References");
+define("_REFERENCE","引用");
 define("_EDIT","Edit");
 define("_DELETE","Delete");
 define("_NO_PDF","This browser does not allow to visualize pdf: ");
