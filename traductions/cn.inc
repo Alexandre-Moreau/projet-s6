@@ -100,5 +100,6 @@ define("_ROOT_NUMBERS","Root number: ");
 define("_ERROR_BUILD","Build errors: ");
 define("_MISSING_FILES","Files missing on the disk:");
 define("_EXCESS_FILES","Files in excess on the disk:");
+define("_SERVER_CONNECTION","Connexion au serveur");
 
 ?>
