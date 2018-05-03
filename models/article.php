@@ -80,12 +80,71 @@ class Article extends Model{
 	
 	static public function findByQuery($requeteConcept){
 		$listeConcepts = explode(',', $requeteConcept);
+		// On note les concepts qu'on a déjà recherché
+		$conceptSearched = [];
+		// [r1, r2, r3, ...] avec r1 la liste des articlesScore de la première recherche, r2 la liste renvoyée par la 2e recherche...
+		$listeSortieRecherche = [];
+		// [a1, a2, a3, ...] avec a1 = ['articleA', 14], a2 = ['articleB', 5], a3 = ['articleC', 12] ...
+		$listeArticlesScore = [];
+		
+		$data = [];
+		$data['log'] = [];
+		$data['articlesScoreContexte'] = [];
+		
+		
+		
+
 		// execute trim() sur chaque element de listeConcepts
-		array_walk($listeConcepts, 'trim');
-		/*foreach($listeConcepts as $listeConcepts){
-			
-		}*/
-		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id IN (SELECT id FROM concept WHERE nom='".$listeConcepts[0]."')";
+		$listeConcepts = array_map('trim',$listeConcepts);
+		foreach($listeConcepts as $nomConcept){
+			if(!in_array($nomConcept, $conceptSearched)){
+				$concept = Concept::findByName($nomConcept);
+				if($concept != null){
+					array_push($listeSortieRecherche, self::findByConceptCalcScore($concept));
+				}else{
+					array_push($data['log'], 'Concept inconnu: '.$nomConcept);
+				}
+				array_push($conceptSearched, $nomConcept);
+			}else{
+				array_push($data['log'], 'Concept en double: '.$nomConcept);
+			}
+		}
+
+		// $l = liste d'articles pour chaque concept
+		foreach($listeSortieRecherche as $l){
+			// $articleScore = ['articleA', 14]
+			foreach($l as $articleScore){
+				$trouve = false;
+				// On ajoute l'articleScore à la liste d'articleScore, si il est déjà dedans on ajoute juste le score
+				foreach($listeArticlesScore as $key => $value){
+					if($listeArticlesScore[$key][0] == $articleScore[0]){
+						$listeArticlesScore[$key][1] += $articleScore[1];
+						$trouve = true;
+						break;
+					}
+				}
+				if(!$trouve){
+					array_push($listeArticlesScore, [$articleScore[0], $articleScore[1], 'contexte lorem ipsum']);
+				}
+			}
+		}
+		
+		// On fait la moyenne des scores (division par le nombre de concepts qu'on a cherché), on arrondit et on renvoie les articles avec leur score
+		$nbConcepts = count($conceptSearched);
+		foreach($listeArticlesScore as $key => $value){		
+			$listeArticlesScore[$key][1] = round($listeArticlesScore[$key][1]/$nbConcepts, 1);
+			array_push($data['articlesScoreContexte'], $listeArticlesScore[$key]);
+		}
+
+		usort($data['articlesScoreContexte'], "self::compareScore");
+		
+		return $data;
+		
+	}
+	
+	static private function findByConceptCalcScore($concept){
+		$requete = "SELECT article_id, nombreRef FROM reference WHERE concept_id = ".$concept->id;
+		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
 		$returnList = [];
@@ -101,19 +160,16 @@ class Article extends Model{
 				}
 			}
 		}
-		
+
 		// Calcul du score
 		foreach ($returnList as $key => $value){
 			// On regarde le nombre d'occurences par rapport au max
 			//$returnList[$key][1] = ($returnList[$key][1]/$maxNbRef)*100;
 			
 			// On regarde le nombre d'occurences par nombre de mots
-			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], Concept::findByName($listeConcepts[0]));
+			$returnList[$key][1] = self::calculeScoreContexte($returnList[$key][0], $concept);
 		}
-		
-		// Liste ordonnée par score
-		usort($returnList, "self::compareScore");
-		
+
 		return $returnList;
 	}
 	
@@ -125,9 +181,14 @@ class Article extends Model{
 		$score = 0;
 		//Basé sur le référencement (articleController::reference)
 		$text = processContent($article);
-		$textArray = explode(' ', $text);
+		$textArray;
+		if($article->langue->nom == 'cn'){
+			$textArray = separeMotsChinois($text);
+		}else{
+			$textArray = explode(' ', $text);
+		}
 		$langue = $article->langue;
-		
+
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 		
@@ -184,11 +245,9 @@ class Article extends Model{
 					$score+=$nombreOccurence*1000;
 				}
 			}
-			
 		}
 		
-		$score = round($score/$article->nbMots*100, 1);
-		
+		$score = $score/$article->nbMots*100;
 		
 		return $score;
 	}
@@ -242,7 +301,9 @@ class Article extends Model{
 	}
 	
 	static public function deleteFile($article){
-		unlink("./".$article->chemin);
+		if(file_exists("./".$article->chemin)){
+			unlink("./".$article->chemin);
+		}
 	}
 	
 	static public function toArray($article){

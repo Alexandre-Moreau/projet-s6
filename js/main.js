@@ -3,7 +3,7 @@ $(document).ready(function() {
 	// Gestion de l'onglet actif dans la navbar
 	var r = new URL(window.location.href).searchParams.get("r");
 	if (r === null) {
-		$('a.nav-link[href=".?r=site/index"]').closest('li').addClass('active');
+		$('a.nav-link[href=".?r=site/rechercher"]').closest('li').addClass('active');
 	}else{
 		$('a.nav-link[href=".?r=' + r + '"]').closest('li').addClass('active');
 	}
@@ -32,6 +32,11 @@ $(document).ready(function() {
 				console.log(xhr.responseText);
 			}
 		});
+	});
+
+	// Gestion du retour
+	$('button#backButton').click(function(){
+		window.history.back();
 	});
 
 	function onKonamiCode(cb) {

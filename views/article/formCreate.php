@@ -1,7 +1,10 @@
 			<div class="container">
 				<h3><?php echo _CREATEARTICLE;?></h3>
 				<hr><br>
-				<div id="formStatus" >
+				<div id="formStatus" class="alert-dismissible fade show" role="alert">
+					<div id="">
+						
+					</div>
 				</div>
 				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
 					<div class="form-group">
@@ -52,7 +55,8 @@
 					
 					if(formAnswer['statut'] == 'echec'){
 						$('#formStatus').addClass('alert alert-danger');
-						$('#formStatus').append('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
+						//$('#formStatus').append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+						$('#formStatus').html('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
 						$('#formStatus').append('<ul/>');
 						if($.isArray(formAnswer['erreursSaisie'])){
 							formAnswer['erreursSaisie'].forEach(function(element){
@@ -63,10 +67,10 @@
 						}
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
-						$('#formStatus').append('<span id="statusMessage" <strong>L\'article a été créé avec succès</strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
+						$('#formStatus').html('<span id="statusMessage" <strong>L\'article a été créé avec succès</strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
 					}else if(formAnswer['statut'] == 'warning'){
 						$('#formStatus').addClass('alert alert-warning');
-						$('#formStatus').append(formAnswer['info']);
+						$('#formStatus').html(formAnswer['info']);
 					}
 				}
 				
@@ -111,6 +115,10 @@
 						$.each($('#file')[0].files, function(i, file) {
 							data.append(i, file);
 						});
+
+						formAnswer['statut'] = 'warning';
+						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
+						refreshDivFormStatus();
 					
 						e.preventDefault();
 						$.ajax({

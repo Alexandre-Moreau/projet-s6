@@ -5,14 +5,27 @@
 		<a href=".?r=article/supprimer&id='.$_GET['id'].'"><img class="imageIcon" src="./images/delete.svg" alt="'._DELETE.'" title="'._DELETE.'"></a>
 		</div>';
 	if($data['article']->type == 'pdf'){
-		echo('		
+		echo('
 		<h1 class="display-3">'.$data['article']->nom.'
-		<a style="font-size:50%" href="./'.$data['article']->chemin.'" target="_blank">&#x2197;<!-&rarr;-></a>
+		<a style="font-size:50%" href="./'.$data['article']->chemin.'" target="_blank">&#x2197;</a>
 		</h1>
-		<object data="'.$data['article']->chemin.'" type="application/pdf">
-			<p>Ce navigateur ne permet pas de visualiser les pdf: <a href="'.$data['article']->chemin.'">Télécharger le pdf</a>.</p>
-		</object>
 		');
+		if(file_exists($data['article']->chemin)){
+			echo ('
+			<object data="'.$data['article']->chemin.'" type="application/pdf">
+				<p>Ce navigateur ne permet pas de visualiser les pdf: <a href="'.$data['article']->chemin.'">Télécharger le pdf</a>.</p>
+			</object>
+			');
+			
+		}else{
+			echo '<div class="object">
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <strong>Fichier introuvable sur le disque.</strong> Aller dans l\'onglet Maintenance pour plus d\'information.
+</div></div>';
+		}
 	}else{
 		echo('
 		<h1 class="display-3">'.$data['article']->nom.'

@@ -11,6 +11,7 @@ define("_MORE_INFO","Plus d'infos");
 // Shared
 define("_NAME","Nom");
 define("_FILE","Fichier");
+define("_DATABASE","Base de données");
 
 // Shared (forms)
 define("_FORMSUBMIT","Confirmer");
@@ -22,7 +23,7 @@ define("_FORMERROR","Il y a des erreurs dans le formulaire");
 // Shared (errors)
 define("_ERROR","Erreur");
 define("_NOFILEERROR","Aucun fichier choisi");
-define("_PARSEERROR","Erreur lors du parsing (le fichier n'est pas correct)");
+define("_PARSEERROR","Erreur lors du parsing (le fichier n\'est pas correct)");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
 define("_UNKNOWNERROR","Erreur inconnue");
 define("_MISSINGINFORM1","aucun ");

@@ -37,7 +37,7 @@ if (isset(parameters()["r"])) {
 } else {
 	include_once "views/header.php";
 	$c = new SiteController();
-	$c->index();
+	$c->rechercher();
 	include_once "views/footer.php";
 }
 

@@ -5,7 +5,19 @@
 	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
 </form>
+<<<<<<< HEAD
 
+=======
+<!--
+<div style = "width:500px;hight:500px">
+<script src="//d3js.org/d3.v3.min.js"></script>
+<h1>Interface graphique</h1>
+<script>
+var body = d3.select('body');   //选择body元素
+body.append('h1')    //向 body元素中插入 h1标签
+  .text('Hello world')    // 给h1标签填充文字为hello world
+  .style('color','red');   //修改样式 字体颜色 为红色
+>>>>>>> 43e2c735f26b4f9ce7075e6503d0d4651c6f2497
 
 
 
@@ -47,12 +59,7 @@
 			?>
 		
 </div>
-
-
-
-
-
-
+-->
 
 
 <div class="third">
@@ -141,6 +148,9 @@
 			var contenuElementClique = $('#'+event.target.id).attr('concept');
 			if(event.ctrlKey && $('#queryInput').val() != ""){
 				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else if(event.altKey){
+				console.log('alt key pressed');
+				$('#queryInput').val(contenuElementClique);
 			}else{
 				$('#queryInput').val(contenuElementClique);
 			}
@@ -172,10 +182,15 @@
 			// traitement des $_POST
 			var data = new FormData();
 			data.append('query', $('#queryInput').val());
+			
+			$('#articlesList ul').empty();
+			$('#referencesList ul').empty();
+			// Image de chargement
+			$('#articlesList ul').append('Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">');
 
 			$.ajax({
 				url: form.attr('action'),
-				type: form.attr('method'),						
+				type: form.attr('method'),
 				data: data,
 
 				cache: false,
@@ -216,14 +231,12 @@
 										if(reponse2['log'].length != 0){
 											console.log(reponse2['log']);
 										}
-										
 										$('#referencesList ul').empty();
 
 										for(var j in reponse2['references']) {
 											var reference = reponse2['references'][j];
 
 											$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + reference.concept.id + '">' + reference.concept.nom + '</span><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
-											
 										}
 									},
 									error: function (xhr, textStatus, errorThrown) {
@@ -233,12 +246,10 @@
 							}else{
 								$('#referencesList ul').empty();
 							}
-							
 						});
 					}
 				},
 				error: function (xhr, textStatus, errorThrown) {
-					console.log('Les print_r causent des erreurs');
 					console.log(xhr.responseText);
 				}
 			});

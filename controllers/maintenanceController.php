@@ -3,7 +3,21 @@
 //Auto-generated file
 class MaintenanceController extends Controller{
 
-	public function statut(){
+	public function index(){
+		$data = [];
+		$this->render('index', $data);
+	}
+
+	public function ajaxTestStatut(){
+		return true;
+	}
+
+	public function ajaxTestBd(){
+
+		return true;
+	}
+
+	public function mainStatut(){
 		$data = [];
 
 		$data['emplacement'] = str_replace('\\','/', GLOB_ARTICLESFODER);
@@ -21,7 +35,7 @@ class MaintenanceController extends Controller{
 			array_push($data['articlesNRef'], $articleNRef->nom);
 		}
 
-foreach($filesOnDisk as $fileOnDisk){
+		foreach($filesOnDisk as $fileOnDisk){
 			foreach($articles as $article){
 				if(str_replace('\\','/', $article->chemin) == str_replace('\\','/', GLOB_ARTICLESFODER.$fileOnDisk)){
 					unset($filesOnDisk[array_search ($fileOnDisk, $filesOnDisk)]);
@@ -70,7 +84,31 @@ foreach($filesOnDisk as $fileOnDisk){
 		
 		// - Articles sur le disque non référencés
 		
-		$this->render("index",$data);
+		$this->render('statut', $data, ['backButton']);
+	}
+
+	public function gestionBaseDeDonnees(){
+		$data = [];
+
+		global $errorCodes;
+
+		$statut = dbTest();
+
+		// si la connexion à la bdd a échoué
+		if($statut['reussite'] == 0){
+			// on teste la connexion directement sur le serveur
+			$statut = dbTest(false);
+		}else{
+			$statut['reussite'] = 2;
+		}
+		//Statut réussite:
+		// 2 -> bdd trouvée
+		// 1 -> bdd non trouvée, mais serveur ok
+		// 0 -> serveur ok
+
+		$data['statut'] = $statut;
+
+		$this->render("gereBd", $data, ['backButton']);
 	}
 
 	// Pouvoir tout re-référencer, ou juste certains articles

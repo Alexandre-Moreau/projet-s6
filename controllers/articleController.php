@@ -6,7 +6,7 @@ class ArticleController extends Controller{
 		$data=[];
 		$data['langues'] = Langue::FindAll();
 		$data['langueDefaut'] = $_ENV['langue'];
-		$this->render("formCreate",$data);
+		$this->render("formCreate",$data, ['backButton']);
 	}
 	
 	public function ajaxCreate(){
@@ -52,10 +52,11 @@ class ArticleController extends Controller{
 					$data['statut'] = 'echec';
 					array_push($data['erreursSaisie'],_PARSEERROR);
 				}else{
-					$count = countWords($text);
+					$count = countWords($text, $newArticle->langue);
 					$newArticle->nbMots = $count;
 					Article::insert($newArticle);
-					$newArticle->id = db()->lastInsertId();
+					global $db;
+					$newArticle->id = $db->lastInsertId();
 					$log = self::reference($text, $_POST['langue'], $newArticle);
 					$data['statut'] = 'succes';
 					$articleId = $newArticle->id;
@@ -73,7 +74,7 @@ class ArticleController extends Controller{
 		$data = [];
 		$data['langues'] = Langue::FindAll();
  		$data['article'] = Article::FindById($_GET['id']);
-		$this->render("formModifier", $data);
+		$this->render("formModifier", $data, ['backButton']);
 	}
 
 	public function ajaxModifier(){
@@ -107,10 +108,13 @@ class ArticleController extends Controller{
 		header('Content-type: application/json');
 		$data['log'] = [];
 		$data['articlesScore'] = [];
-		$articlesScore = Article::findByQuery($_POST['query']);
-		//print_r($articlesScore);
-		foreach($articlesScore as $articleScore){
-			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1]]);
+		$dataArticlesScore = Article::findByQuery($_POST['query']);
+		foreach($dataArticlesScore['articlesScoreContexte'] as $articleScore){
+			//print_r($articleScore);
+			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1], $articleScore[2]]);
+		}
+		foreach($dataArticlesScore['log'] as $log){
+			array_push($data['log'], $log);
 		}
 		echo(json_encode($data));
 	}
@@ -135,7 +139,7 @@ class ArticleController extends Controller{
 		$article = Article::findById($_GET['id']);
 		$data['article'] = $article;
 		$data['references'] = Reference::findByArticle($article);
-		$this->render('tableShowById', $data);
+		$this->render('tableShowById', $data, ['backButton']);
 	}
 	
 	public function supprimer(){
@@ -145,7 +149,11 @@ class ArticleController extends Controller{
 	
 	private static function reference($text, $pLangue, $article){
 		$log = [];
-		$textArray = explode(' ', $text);
+		if($article->langue->nom == 'cn'){
+			$textArray = separeMotsChinois($text);
+		}else{
+			$textArray = explode(' ', $text);
+		}
 		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
 		
 		$langue = Langue::findByName($pLangue);
@@ -153,7 +161,7 @@ class ArticleController extends Controller{
 		// On récupère les termes qui correspondent au texte pour travailler sur un nombre réduit d'élément (et pas faire de requête à chaque mot du texte)
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
-		
+
 		$concepts = [];
 		
 		$i = 0;

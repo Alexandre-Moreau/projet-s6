@@ -1,4 +1,7 @@
 <?php
+	
+use Fukuball\Jieba\Jieba;
+use Fukuball\Jieba\Finalseg;
 
 /*function __autoload($name) {
 	echo "|".$name.",";
@@ -78,13 +81,13 @@ function keepOnlyText($pText){
 }
 	
 function processContent($article){
-	$text = -1;
+	$text = 'Error_processContent';
 	if($article->type == "pdf"){
 		$parser = new Smalot\PdfParser\Parser();
 		$pdf = $parser->parseFile($article->chemin);
 		$text = $pdf->getText();
 		$text = parseContentText($text);
-	}elseif($article->type == "html"){
+	}else if($article->type == "html"){
 		//Non testé
 		$text = file_get_contents($article->chemin);
 		// Si le fichier est mal encodé
@@ -93,13 +96,12 @@ function processContent($article){
 		}else{
 			$text = parseContentHtml($text);
 		}
-	}elseif($article->type == "txt"){
+	}else if($article->type == "txt"){
 		$text = file_get_contents($article->chemin);
 		if(!mb_detect_encoding($text, 'UTF-8', true)){
 			return 'encoding_error';
 		}else{
 			$text = parseContentText($text);
-			
 		}
 	}
 	return $text;
@@ -143,9 +145,22 @@ function parseContentHtml($pText){
 	return $text;
 }
 	
-function countWords($text){
+function countWords($text, $langue){
 	//return str_word_count($text); // ? -> compte bizarrement
-	return count(explode(' ', $text));
+	if($langue->nom != 'cn'){
+		return count(explode(' ', $text));
+	}else{
+		return count(separeMotsChinois($text));
+	}
+}
+
+function separeMotsChinois($text){
+	ini_set('memory_limit', '1024M');
+
+	Jieba::init();
+	Finalseg::init();
+
+	return Jieba::cut($text);
 }
 
 ?>
