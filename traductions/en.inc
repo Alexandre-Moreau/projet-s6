@@ -7,6 +7,12 @@ define("_ACCUEIL","Home");
 define("_BIENVENUE","Welcome on the website of our project BTG (Better Than Google), a multilingual semantic search engine based on the referencing of concepts rather than words.");
 define("_PROMOTION","Discover the revolutionary search engine which will be the most used of the internet in a couple of weeks...");
 define("_MORE_INFO","More informations");
+define("_IMPORT_TITLE","Importez votre ontoterminologie");
+define("_IMPORT_TEXT","Afin d'utiliser notre site la première étape est d'ajouter une ontoterminologie, vous pouvez importer votre propre ontotermonologie afin d'adapter le site a vos besoins.");
+define("_ADD_TITLE","Ajoutez vos articles");
+define("_ADD_TEXT","En quelques clics seulement, vous pouvez ajouter vos articles sur le site, ils seront directement référencés par l'ontoterminologie actuelle suivant la langue sélectionné.");
+define("_SEARCH_TITLE","Rechercher un concept");
+define("_SEARCH_TEXT","Lorsque vous avez importé une ontoterminologie et ajouté vos articles, vous pouvez lancer une recherche !Les recherches se font sur des concepts et pas sur les mot-clés, cela vous permet d'avoir des résultats plus pertinents.");
 
 // Shared
 define("_NAME","Name");
