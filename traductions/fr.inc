@@ -12,7 +12,7 @@ define("_IMPORT_TEXT","Afin d'utiliser notre site la première étape est d'ajou
 define("_ADD_TITLE","Ajoutez vos articles");
 define("_ADD_TEXT","En quelques clics seulement, vous pouvez ajouter vos articles sur le site, ils seront directement référencés par l'ontoterminologie actuelle suivant la langue sélectionné.");
 define("_SEARCH_TITLE","Rechercher un concept");
-define("_SEARCH_TEXT","Lorsque vous avez importé une ontoterminologie et ajouté vos articles, vous pouvez lancer une recherche !Les recherches se font sur des concepts et pas sur les mot-clés, cela vous permet d'avoir des résultats plus pertinents.");
+define("_SEARCH_TEXT","Lorsque vous avez importé une ontoterminologie et ajouté vos articles, vous pouvez lancer une recherche ! Les recherches se font sur des concepts et pas sur les mot-clés, cela vous permet d'avoir des résultats plus pertinents.");
 
 // Shared
 define("_NAME","Nom");
