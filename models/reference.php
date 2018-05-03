@@ -84,17 +84,6 @@ class Reference extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName);
 		$query->execute();
 	}
-	
-	static public function toArray($reference){
-		$array = [];
-		$array['id'] = $reference->id;
-		$array['position'] = $reference->position;
-		$array['nombreMot'] = $reference->nombreMot;
-		$array['contexte'] = $reference->contexte;
-		$array['article'] = Article::toArray($reference->article);
-		$array['concept'] = Concept::toArray($reference->concept);
-		return $array;
-	}
 }
 
 ?>

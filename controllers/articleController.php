@@ -109,12 +109,19 @@ class ArticleController extends Controller{
 		$data['log'] = [];
 		$data['articlesRefsScore'] = [];
 		$articlesRefsScore = Article::findByQuery($_POST['query']);
-		// Refaire le parsing et tout, mettre les contextes d'une certaine façon ...   \/ =============================================================================================
-		foreach($articlesRefsScore as $articleRefsScore){
-			//print_r($articleScore);
-			array_push($data['articlesRefsScore'], [Article::toArray($articleScore[0]), $articleScore[1], $articleScore[2]]);
+		foreach($articlesRefsScore['articlesRefScore'] as $articleRefsScore){
+			//print_r($articleRefsScore);
+			$row = [];
+			$row['article'] = Model::toArray($articleRefsScore['article']);
+			$row['references'] = [];
+			foreach ($articleRefsScore['references'] as $ref) {
+				array_push($row['references'], Model::toArray($ref));
+			}
+			$articleRefsScore['references'];
+			$row['score'] = $articleRefsScore['score'];
+			array_push($data['articlesRefsScore'], $row);
 		}
-		foreach($data['log'] as $log){
+		foreach($articlesRefsScore['log'] as $log){
 			array_push($data['log'], $log);
 		}
 		echo(json_encode($data));
@@ -126,7 +133,7 @@ class ArticleController extends Controller{
 		$data['references'] = [];
 		$references = Reference::findByArticle(Article::findById($_POST['articleId']));
 		foreach($references as $reference){
-			array_push($data['references'], Reference::toArray($reference));
+			array_push($data['references'], Model::toArray($reference));
 		}
 		echo(json_encode($data));
 	}

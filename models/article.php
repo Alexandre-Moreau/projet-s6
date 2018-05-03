@@ -233,8 +233,8 @@ class Article extends Model{
 	static public function toArray($article){
 		$array = (array) $article;
 		$array['langue'] = $article->langue->nom;
-		// $langue = $article->langue;
-		//$array['langue'] = (array) $langue;
+		$langue = $article->langue;
+		$array['langue'] = $langue;
 		return $array;
 	}
 }

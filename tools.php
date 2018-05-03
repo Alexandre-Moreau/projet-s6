@@ -23,6 +23,12 @@ use Fukuball\Jieba\Finalseg;
 }*/
 
 function printJsVar($name, $value){
+	echo 'var '.$name.' = ';
+	echo json_encode_v2($value);
+	echo ';';
+}
+
+function json_encode_v2($value){
 	// Fonction anonyme récursive
 	$printRecursiveJsVar = function($a) use(&$printRecursiveJsVar) {
 		if(is_array($a)){
@@ -36,14 +42,15 @@ function printJsVar($name, $value){
 		}else{
 			if(is_string($a)){
 				echo '\''.$a.'\'';
+			}else if(is_object($a)){
+				echo $printRecursiveJsVar($value);
 			}else{
 				echo $a;
 			}
 		}
 	};
-	echo 'var '.$name.' = ';
-	$printRecursiveJsVar($value);
-	echo ';';
+	return $printRecursiveJsVar($value);
+
 }
 
 function cleanString($text) {

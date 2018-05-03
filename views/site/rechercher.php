@@ -118,6 +118,7 @@ body.append('h1')    //向 body元素中插入 h1标签
 
 			// traitement des $_POST
 			var data = new FormData();
+			var references = [];
 			data.append('query', $('#queryInput').val());
 			
 			$('#articlesList ul').empty();
@@ -143,43 +144,33 @@ body.append('h1')    //向 body元素中插入 h1标签
 					if(reponse['log'].length != 0){
 						console.log(reponse['log']);
 					}
-					for(var i in reponse['articlesScore']) {
-						var article = reponse['articlesScore'][i][0];
-						var score = reponse['articlesScore'][i][1];
+					for(var i in reponse['articlesRefsScore']) {
+						var row = reponse['articlesRefsScore'][i]
+						var article = row['article'];
+						var score = row['score'];
 						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item list-group-item-action justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">' + score + '</span></li>');
+
+						
+						references[article.id] = [];
+						for(var r in row['references']) {
+							references[article.id].push(row['references'][r]);
+						}
+
 						$('#articlesList ul').on('click','#liArticle'+article.id, function(event){
 							$('#referencesList ul').empty();
 							// Si l'id de l'élément cliqué commence par liArticle (si on a cliqué sur l'article mais pas sur son nom)
 							var articleId = event.target.id.split("liArticle");
 							if(articleId.length>1){
 								articleId = articleId[1];
-								var data2 = new FormData();
-								data2.append('articleId', articleId);								
-								$.ajax({
-									url: './?r=article/ajaxOverview',
-									type: form.attr('method'),						
-									data: data2,
 
-									cache: false,
-									processData: false,
-									contentType: false,
-									success: function (reponse2) {
-										answer = reponse2;
-										if(reponse2['log'].length != 0){
-											console.log(reponse2['log']);
-										}
-										$('#referencesList ul').empty();
+								$('#referencesList ul').empty();
 
-										for(var j in reponse2['references']) {
-											var reference = reponse2['references'][j];
-
-											$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + reference.concept.id + '">' + reference.concept.nom + '</span><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
-										}
-									},
-									error: function (xhr, textStatus, errorThrown) {
-										console.log(xhr.responseText);
-									}
-								});
+								for(var r in references[articleId]) {
+									var ref = references[articleId][r];
+									console.log(ref);
+									$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.concept.nom + '</span><span class="badge badge-default badge-pill">' + ref.nombreMots + '</span></li>');
+								}
+								
 							}else{
 								$('#referencesList ul').empty();
 							}

@@ -16,6 +16,18 @@ abstract class Model{
 	public function __set($fieldname,$value) {
 		$this->$fieldname = $value;
 	}
+
+	public static function toArray($object){
+		$arr = [];
+		foreach ($object as $key => $value) {
+			if(is_object($value)){
+				$arr[$key] = self::toArray($value);
+			}else{
+				$arr[$key] = $value;
+			}
+		}
+		return $arr;
+	}
 }
 
 ?>
