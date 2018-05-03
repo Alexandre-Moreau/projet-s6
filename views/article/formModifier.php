@@ -1,5 +1,5 @@
 			<div class="container">
-				<h3>Modifier un article</h3>
+				<h3><?php echo _EDITARTICLE?></h3>
 				<hr><br>
 				<div id="formStatus" >
 				</div>
@@ -53,7 +53,7 @@
 							}
 						}else if(formAnswer['statut'] == 'succes'){
 							$('#formStatus').addClass('alert alert-success');
-							$('#formStatus').append('<span id="statusMessage" <strong>L\'article a été modifié avec succès</strong> <a href=".?r=article/showById&id=' + <?php echo $_GET['id']; ?> + '">Accéder à l\'article</a></span>');
+							$('#formStatus').append('<span id="statusMessage" <strong><?php echo _EDITSUCCES;?></strong> <a href=".?r=article/showById&id=' + <?php echo $_GET['id']; ?> + '">Accéder à l\'article</a></span>');
 						}else if(formAnswer['statut'] == 'warning'){
 							$('#formStatus').addClass('alert alert-warning');
 							$('#formStatus').append(formAnswer['info']);
