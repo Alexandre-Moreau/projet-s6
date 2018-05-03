@@ -160,7 +160,7 @@ class ArticleController extends Controller{
 		if($article->langue->nom == 'cn'){
 			$textArray = separeMotsChinois($text);
 		}else{
-			$textArray = explode(' ', $text);
+			$textArray = separeMots($text);
 		}
 		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
 		
@@ -202,7 +202,8 @@ class ArticleController extends Controller{
 							$i = $i+$j;
 							$motEspaceTraite = true;
 							break;*/
-							array_push($references, new Reference($i, $j, '...'. $termeEspace->motCle .'...', $article, $termeEspace->concept));
+							$contexte = '||'. $termeEspace->motCle .'||';
+							array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
 							// On sort, on a identifié le mot, on va sauter j prochains mots
 							$i = $i+$j;
 							$motEspaceTraite = true;
@@ -219,8 +220,35 @@ class ArticleController extends Controller{
 			if(!$motEspaceTraite){
 				foreach($termes as $terme){
 					if (strtolower($mot) == strtolower($terme->motCle)){
-						// on ajoute $terme aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
-						array_push($references, new Reference($i, 1, '...'. $terme->motCle .'...', $article, $terme->concept));
+						$contexte = '';
+						$nbMotsAvant = 0;
+						$nbMotsApres = 0;
+						$k = 0;
+
+						// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
+						while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && $textArray[$nbMotsAvant]!='.' && $textArray[$nbMotsAvant]!='。'){
+							$nbMotsAvant++;
+						}
+
+						while($nbMotsApres<MAX_WORDS_AFTER && $i+$nbMotsApres<count($textArray)-1 && $textArray[$nbMotsApres]!='.' && $textArray[$nbMotsApres]!='。'){
+							$nbMotsApres++;
+						}
+
+						// On ajoute les mots précédents au contexte
+						for($l = $nbMotsAvant; $l>0; $l--){
+							$contexte .= $textArray[$i-$l].' ';
+						}
+
+						$contexte .= '||'.$mot.'||';
+
+						// On ajoute les mots suivants au contexte
+						for($l = 1; $l<=$nbMotsApres; $l++){
+							$contexte .= ' '.$textArray[$i+$l];
+						}
+
+						$k = 1;
+
+						array_push($references, new Reference($i, 1, $contexte, $article, $terme->concept));
 						break;
 					}
 				}

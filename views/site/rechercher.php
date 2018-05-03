@@ -167,8 +167,16 @@ body.append('h1')    //向 body元素中插入 h1标签
 
 								for(var r in references[articleId]) {
 									var ref = references[articleId][r];
-									console.log(ref);
-									$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.concept.nom + '</span><span class="badge badge-default badge-pill">' + ref.nombreMots + '</span></li>');
+									//console.log(ref);
+
+									//$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.concept.nom + '</span><span class="badge badge-default badge-pill">' + ref.nombreMots + '</span></li>');
+									//$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</span><span class="badge badge-default badge-pill">' + ref.position + '</span></li>');
+									
+									// Remplacer le ||mot Cle|| de la base de données par <b>mot Cle</b>
+									var regex = /(\|\|)(.*)(\|\|)/;
+									ref.contexte = ref.contexte.replace(regex, "<b>$2</b>");
+
+									$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
 								}
 								
 							}else{
