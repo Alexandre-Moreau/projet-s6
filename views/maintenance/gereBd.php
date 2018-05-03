@@ -1,6 +1,6 @@
 			<h2 id='titleDb'><?php echo _DATABASE;?></h2>
 				<div class="card">
-					<div class="card-body"><?php echo 'Connexion au serveur'; ?> : <span class="badge badge-default" id="nbArticles"><?php echo $data['statut']['reussite']; ?></span></div>
+					<div class="card-body"><?php echo _SERVER_CONNECTION;?> : <span class="badge badge-default" id="nbArticles"><?php echo $data['statut']['reussite']; ?></span></div>
 					<div id="infoSupConnexionBdd"></div>
 				</div>
 			<script>
