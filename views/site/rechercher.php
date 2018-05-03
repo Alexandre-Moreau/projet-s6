@@ -1,7 +1,7 @@
 <form method="post" action =".?r=Article/ajaxRechercher" enctype="multipart/form-data" class="form-inline my-2 my-lg-0">
 
 	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
-	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
+	<button class="btn waves-effect waves-light" type="submit"><?php echo _SEARCH;?></button>
 
 </form>
 <!--
