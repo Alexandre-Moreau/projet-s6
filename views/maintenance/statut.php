@@ -1,20 +1,20 @@
 			<div class="spaced">
 				<h2 id='titleArticle'><?php echo _ARTICLES;?></h2>
 				<div class="card">
-					<div class="card-body">Articles totaux: <span class="badge badge-default" id="nbArticles"><?php echo $data['nbArticles']; ?></span></div>
-					<div class="card-body">Articles non référencés: <span class="badge badge-default" id="nbArticlesNRef"><?php echo count($data['articlesNRef']); ?></span>
+					<div class="card-body"><?php echo _ARTICLES_ALL;?><span class="badge badge-default" id="nbArticles"><?php echo $data['nbArticles']; ?></span></div>
+					<div class="card-body"><?php echo _ARTICLES_NO_REF;?><span class="badge badge-default" id="nbArticlesNRef"><?php echo count($data['articlesNRef']); ?></span>
 					<div id="articlesNRef"></div>
 					</div>
-					<div class="card-body">Emplacement: <span class="badge badge-default" id="nbArticles"><?php echo $data['emplacement']; ?></span></div>
-					<div class="card-body">Erreurs de correspondance avec les fichiers du disque: <span class="badge badge-default" id="nbNoncorrespondancesFichiersDisque"><?php echo count($data['fichiersNonCorrespondantsDisque'])+count($data['fichiersNonCorrespondantsBdd']); ?></span>
+					<div class="card-body"><?php echo _LOCATION;?><span class="badge badge-default" id="nbArticles"><?php echo $data['emplacement']; ?></span></div>
+					<div class="card-body"><?php echo _ERROR_DISK_FILE;?><span class="badge badge-default" id="nbNoncorrespondancesFichiersDisque"><?php echo count($data['fichiersNonCorrespondantsDisque'])+count($data['fichiersNonCorrespondantsBdd']); ?></span>
 					<div id="fichiersNCB"></div>
 					<div id="fichiersNCD"></div>
 					</div>
 				</div>
 				<h2 id='titleOnto'><?php echo _ONTO;?></h2>
 				<div class="card">
-					<div class="card-body">Nombre de racines: <span class="badge badge-default" id="nbracinesOnto"><?php echo count($data['racinesOnto']); ?></span></div>
-					<div class="card-body">Erreurs de construction: <span class="badge badge-default"><?php echo '-1'; ?></span></div>
+					<div class="card-body"><?php echo _ROOT_NUMBERS;?><span class="badge badge-default" id="nbracinesOnto"><?php echo count($data['racinesOnto']); ?></span></div>
+					<div class="card-body"><?php echo _ERROR_BUILD;?><span class="badge badge-default"><?php echo '-1'; ?></span></div>
 				</div>
 				<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#showMore"><?php echo _ADVANCED?></button>
 				<div id="showMore" class="collapse">
