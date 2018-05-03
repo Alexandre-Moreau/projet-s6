@@ -13,7 +13,7 @@
 		if(file_exists($data['article']->chemin)){
 			echo ('
 			<object data="'.$data['article']->chemin.'" type="application/pdf">
-				<p>Ce navigateur ne permet pas de visualiser les pdf: <a href="'.$data['article']->chemin.'">Télécharger le pdf</a>.</p>
+				<p><?php echo _NO_PDF; ?><a href="'.$data['article']->chemin.'"><?php echo _PDF_DL; ?></a>.</p>
 			</object>
 			');
 			
@@ -23,7 +23,7 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-  <strong>Fichier introuvable sur le disque.</strong> Aller dans l\'onglet Maintenance pour plus d\'information.
+  <strong><?php echo _FILE_NOT_FOUND; ?></strong><?php echo _WHY_ERROR; ?>
 </div></div>';
 		}
 	}else{
@@ -38,7 +38,7 @@
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
-  <strong>Fichier introuvable sur le disque.</strong> Aller dans l\'onglet Maintenance pour plus d\'information.
+  <strong><?php echo _FILE_NOT_FOUND; ?></strong><?php echo _WHY_ERROR; ?>
 </div>';
 		}
 		echo '</div>';
