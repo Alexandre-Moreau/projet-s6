@@ -11,7 +11,6 @@ define("_MORE_INFO","More informations");
 // Shared
 define("_NAME","Name");
 define("_FILE","File");
-define("_DATABASE","Base de données");
 
 // Shared (forms)
 define("_FORMSUBMIT","Submit");
@@ -56,18 +55,26 @@ define("_CHOOSENAME","Choose a name");
 define("_CHOOSEFILE","Choose file");
 define("_LANGUAGE","Language");
 define("_OTHERLANGUAGE","other (the text will not be referenced)");
+define("_CREATESUCCES","The article was successfully created");
+define("_LINKARTICLE","To the article");
 
 // Create onto
 define("_CREATEONTO","Create a new ontoterminology");
 define("_ASKREPLACE","Are you sure you want to load a new ontoterminology? That will cause the suppression of the last one.");
+define("_COMFIRM","Confirmation");
 
 // Show Article
 define("_REFERENCE","References");
 define("_EDIT","Edit");
 define("_DELETE","Delete");
+define("_NO_PDF","This browser does not allow to visualize pdf: ");
+define("_PDF_DL","Download pdf");
+define("_FILE_NOT_FOUND","File not found on the disk.");
+define("_WHY_ERROR"," Go to the Maintenance tab for more information.");
 
 // Edit articles
 define("_EDITARTICLE","Edit article");
+define("_EDITSUCCES","The article was succesfully edited");
 
 // Maintenance
 define("_ONTO","Ontoterminology");
@@ -77,5 +84,13 @@ define("_SERVUSER", "Service owner");
 define("_NETWORK", "Network");
 define("_SERVERIP", "Server IP address");
 define("_CLIENTIP", "Client IP address");
+define("_ARTCLES_ALL","Overall articles: ");
+define("_ARTICLES_NO_REF","Articles not referenced: ");
+define("_LOCATION","Location: ");
+define("_ERROR_DISK_FILE","Connection errors with disk files: ");
+define("_ROOT_NUMBERS","Root number: ");
+define("_ERROR_BUILD","Build errors: ");
+define("_MISSING_FILES","Files missing on the disk:");
+define("_EXCESS_FILES","Files in excess on the disk:");
 
 ?>
