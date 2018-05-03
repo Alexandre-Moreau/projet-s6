@@ -84,7 +84,7 @@ define("_SERVUSER", "Propriétaire du service");
 define("_NETWORK", "Réseau");
 define("_SERVERIP", "Adresse IP serveur");
 define("_CLIENTIP", "Adresse IP client");
-define("_ARTCLES_ALL","Articles totaux: ");
+define("_ARTICLES_ALL","Articles totaux: ");
 define("_ARTICLES_NO_REF","Articles non référencés: ");
 define("_LOCATION","Emplacement: ");
 define("_ERROR_DISK_FILE","Erreurs de correspondance avec les fichiers du disque: ");
