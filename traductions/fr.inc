@@ -17,6 +17,7 @@ define("_SEARCH_TEXT","Lorsque vous avez importé une ontoterminologie et ajout�
 // Shared
 define("_NAME","Nom");
 define("_FILE","Fichier");
+define("_DATABASE","Base de données");
 define("_BACKBUTTON","Retour");
 
 // Shared (forms)
