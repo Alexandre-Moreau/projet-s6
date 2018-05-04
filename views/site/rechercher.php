@@ -5,58 +5,44 @@
 	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
 </form>
-<<<<<<< HEAD
-
-=======
 <!--
-<div style = "width:500px;hight:500px">
-<script src="//d3js.org/d3.v3.min.js"></script>
-<h1>Interface graphique</h1>
-<script>
-var body = d3.select('body');   //选择body元素
-body.append('h1')    //向 body元素中插入 h1标签
-  .text('Hello world')    // 给h1标签填充文字为hello world
-  .style('color','red');   //修改样式 字体颜色 为红色
->>>>>>> 43e2c735f26b4f9ce7075e6503d0d4651c6f2497
-
-
-
 <div >
-
-	
-			<?php
+	<?php
 				
-				function printRecursive2($concept, $callStack)
-				{	
-					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
-					if($callStack == 0)
-					{
-						echo'<div style="color:black; background-color:yellow;height:50px; width:100px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
-					}
-					else if($callStack == 1)
-					{
-						echo'<div style="color:black; background-color:#00FF00;height:50px; width:250px; margin-left:50px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
-					}
-					else if($callStack == 2)
-					{
-						echo'<div style="color:black; background-color:red;height:50px; width:330px;text-align:center;margin-left:100px;border:3px solid gray"><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
-					}
-					else if($callStack == 3)
-					{
-						echo'<div style="color:black; background-color:pink; height:50px; width:450px; margin-left:150px; border:3px solid gray;><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
-					}
-					$callStack++;
-					foreach($concept->conceptsFils as $fils)
-					{
-						printRecursive2($fils, $callStack);
-					}
-				}
+		function printRecursive2($concept, $callStack)
+		{
+			// Pourquoi changer une visualisation qui est juste là dans l'attente de l'ontoterminologie que vous avancez depuis 2 semaines?
+			// Ah oui et personne touche à mon indentation et mes accolades dans mon code (le printRecursive() de plus bas)
+			//   - Alexandre
+			echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
+			if($callStack == 0)
+			{
+				echo'<div style="color:black; background-color:yellow;height:50px; width:100px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
+			}
+			else if($callStack == 1)
+			{
+				echo'<div style="color:black; background-color:#00FF00;height:50px; width:250px; margin-left:50px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
+			}
+			else if($callStack == 2)
+			{
+				echo'<div style="color:black; background-color:red;height:50px; width:330px;text-align:center;margin-left:100px;border:3px solid gray"><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
+			}
+			else if($callStack == 3)
+			{
+				echo'<div style="color:black; background-color:pink; height:50px; width:450px; margin-left:150px; border:3px solid gray;><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
+			}
+			$callStack++;
+			foreach($concept->conceptsFils as $fils)
+			{
+				printRecursive2($fils, $callStack);
+			}
+		}
 
-				foreach($data['onto'] as $conceptRacine)
-				{
-					printRecursive2($conceptRacine, 0);
-				}
-			?>
+		foreach($data['onto'] as $conceptRacine)
+		{
+			printRecursive2($conceptRacine, 0);
+		}
+	?>
 		
 </div>
 -->
@@ -74,17 +60,14 @@ body.append('h1')    //向 body元素中插入 h1标签
 	<div id="contentDivs">
 		<div class="contentDiv" id="content1">
 			<?php
-				function printRecursive($concept, $callStack)
-				{
+				function printRecursive($concept, $callStack){
 					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
 					$callStack++;
-					foreach($concept->conceptsFils as $fils)
-					{
+					foreach($concept->conceptsFils as $fils){
 						printRecursive($fils, $callStack);
 					}
 				}
-				foreach($data['onto'] as $conceptRacine)
-				{
+				foreach($data['onto'] as $conceptRacine) {
 					printRecursive($conceptRacine, 0);
 				}
 			?>
@@ -109,18 +92,6 @@ body.append('h1')    //向 body元素中插入 h1标签
 	<ul class="list-group" id="tab02">
 	</ul>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
 	var form = $('form');
@@ -253,14 +224,7 @@ body.append('h1')    //向 body元素中插入 h1标签
 					console.log(xhr.responseText);
 				}
 			});
-		});
-		
-		
+		});		
 	});
 
 </script>
-
-
-
-
-
