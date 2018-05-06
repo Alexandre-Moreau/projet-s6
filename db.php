@@ -1,9 +1,10 @@
 <?php
 
-$host = "localhost";
-$databaseName = "projet-s6";
-$user = $_ENV["db_user"];
-$password = $_ENV["db_password"];
+$host = $_ENV['host'];
+$databaseName = $_ENV['databaseName'];
+$user = $_ENV['db_user'];
+$password = $_ENV['db_password'];
+
 $db;
 
 $errorCodes = [
