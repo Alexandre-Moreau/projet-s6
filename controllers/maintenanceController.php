@@ -17,6 +17,45 @@ class MaintenanceController extends Controller{
 		return true;
 	}
 
+	public function ajaxChargeFichiers(){
+		$data = [];
+		$data['log'] = [];
+		$data['erreursForm'] = [];
+		$data['statut'] = 'echec';
+	
+		if($_FILES == []){
+			array_push($data['erreursForm'],_composeMisingError(_FILE));
+		}else{
+			if(sizeof($_FILES) > 1){
+				array_push($data['erreursForm'],'trop de fichiers');
+			}else{
+				$fileType = explode('/', $_FILES['0']['type'])[1];
+				// .sql ou .txt
+				if($fileType != 'sql' && $fileType != 'plain'){
+					array_push($data['erreursForm'], 'format de fichier incorrect ('.$fileType.')');
+				}else{
+					// Faire une sauvegarde de la base de données pour faire un rollback si le fichier est foireux?
+					$content = file_get_contents($_FILES['0']['tmp_name']);
+					// Remplace les suites d'espace/tab/entrée par un espace
+					$content = preg_replace('!\s+!', ' ', $content);
+					$queries = explode(';', $content);
+					$queries = array_filter($queries);
+					foreach($queries as $key => $value){
+						if($value == ' '){
+							unset($queries[$key]);
+						}
+					}
+					foreach($queries as $q){
+						$query = db()->prepare($q);
+						$query->execute();
+					}
+					$data['statut'] = 'reussite';
+				}
+			}
+		}
+		echo(json_encode($data));
+	}
+
 	public function mainStatut(){
 		$data = [];
 
