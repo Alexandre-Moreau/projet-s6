@@ -74,9 +74,9 @@
 									console.log(formAnswer['log']);
 								}
 								//console.log(formAnswer['erreursForm']);
-								if(){
+								if(formAnswer['erreursForm'] = 'reussite'){
 									
-								}else if(){
+								}else if(formAnswer['erreursForm'] = 'echec'){
 								
 								}
 								//refreshDivFormStatus();
