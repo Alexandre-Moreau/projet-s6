@@ -152,6 +152,7 @@
 
 			// traitement des $_POST
 			var data = new FormData();
+			var references = [];
 			data.append('query', $('#queryInput').val());
 			
 			$('#articlesList ul').empty();
@@ -177,43 +178,41 @@
 					if(reponse['log'].length != 0){
 						console.log(reponse['log']);
 					}
-					for(var i in reponse['articlesScore']) {
-						var article = reponse['articlesScore'][i][0];
-						var score = reponse['articlesScore'][i][1];
+					for(var i in reponse['articlesRefsScore']) {
+						var row = reponse['articlesRefsScore'][i]
+						var article = row['article'];
+						var score = row['score'];
 						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item list-group-item-action justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">' + score + '</span></li>');
+
+						
+						references[article.id] = [];
+						for(var r in row['references']) {
+							references[article.id].push(row['references'][r]);
+						}
+
 						$('#articlesList ul').on('click','#liArticle'+article.id, function(event){
 							$('#referencesList ul').empty();
 							// Si l'id de l'élément cliqué commence par liArticle (si on a cliqué sur l'article mais pas sur son nom)
 							var articleId = event.target.id.split("liArticle");
 							if(articleId.length>1){
 								articleId = articleId[1];
-								var data2 = new FormData();
-								data2.append('articleId', articleId);								
-								$.ajax({
-									url: './?r=article/ajaxOverview',
-									type: form.attr('method'),						
-									data: data2,
 
-									cache: false,
-									processData: false,
-									contentType: false,
-									success: function (reponse2) {
-										answer = reponse2;
-										if(reponse2['log'].length != 0){
-											console.log(reponse2['log']);
-										}
-										$('#referencesList ul').empty();
+								$('#referencesList ul').empty();
 
-										for(var j in reponse2['references']) {
-											var reference = reponse2['references'][j];
+								for(var r in references[articleId]) {
+									var ref = references[articleId][r];
+									//console.log(ref);
 
-											$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + reference.concept.id + '">' + reference.concept.nom + '</span><span class="badge badge-default badge-pill">' + reference.nombreRef + '</span></li>');
-										}
-									},
-									error: function (xhr, textStatus, errorThrown) {
-										console.log(xhr.responseText);
-									}
-								});
+									//$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn ontoTerminologieElement"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.concept.nom + '</span><span class="badge badge-default badge-pill">' + ref.nombreMots + '</span></li>');
+									//$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</span><span class="badge badge-default badge-pill">' + ref.position + '</span></li>');
+									
+									// Remplacer le ||mot Cle|| de la base de données par <b>mot Cle</b>
+									var regex = /(\|\|)(.*)(\|\|)/;
+									ref.contexte = ref.contexte.replace(regex, "<b>$2</b>");
+
+									$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
+								}
+								
 							}else{
 								$('#referencesList ul').empty();
 							}

@@ -23,6 +23,12 @@ use Fukuball\Jieba\Finalseg;
 }*/
 
 function printJsVar($name, $value){
+	echo 'var '.$name.' = ';
+	echo json_encode_v2($value);
+	echo ';';
+}
+
+function json_encode_v2($value){
 	// Fonction anonyme récursive
 	$printRecursiveJsVar = function($a) use(&$printRecursiveJsVar) {
 		if(is_array($a)){
@@ -36,14 +42,15 @@ function printJsVar($name, $value){
 		}else{
 			if(is_string($a)){
 				echo '\''.$a.'\'';
+			}else if(is_object($a)){
+				echo $printRecursiveJsVar($value);
 			}else{
 				echo $a;
 			}
 		}
 	};
-	echo 'var '.$name.' = ';
-	$printRecursiveJsVar($value);
-	echo ';';
+	return $printRecursiveJsVar($value);
+
 }
 
 function cleanString($text) {
@@ -75,7 +82,8 @@ function keepOnlyText($pText){
 	$text = str_replace(["'","&#39;"], "\' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
 	$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
 	$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-	$text = str_replace('.', '' , $text); // on efface les points
+	$text = str_replace('.', '' , $text); // on efface les points / ================================================================== changement ici
+	//$text = str_replace('.', ' . ' , $text);
 	$text = str_replace(',', '' , $text); // on efface les virgules
 	return $text;
 }
@@ -108,8 +116,6 @@ function processContent($article){
 }
 
 function parseContentText($pText){
-	//Il faudrait grace à une regex identifier les titres, les identifier grace a des caractères [[titre]] par exemple pour qu'ils montent dans le référencement (1 occurence dans le titre = 2 occurences par exemple)
-	//Remplacer les \n par des ' ' pour espacer les titres
 	
 	$text = keepOnlyText($pText);
 	$textArray = explode(' ', $text);
@@ -152,6 +158,10 @@ function countWords($text, $langue){
 	}else{
 		return count(separeMotsChinois($text));
 	}
+}
+
+function separeMots($text){
+	return explode(' ', $text);
 }
 
 function separeMotsChinois($text){

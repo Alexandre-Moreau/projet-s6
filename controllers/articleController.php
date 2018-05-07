@@ -107,13 +107,21 @@ class ArticleController extends Controller{
 	public function ajaxRechercher(){
 		header('Content-type: application/json');
 		$data['log'] = [];
-		$data['articlesScore'] = [];
-		$dataArticlesScore = Article::findByQuery($_POST['query']);
-		foreach($dataArticlesScore['articlesScoreContexte'] as $articleScore){
-			//print_r($articleScore);
-			array_push($data['articlesScore'], [Article::toArray($articleScore[0]), $articleScore[1], $articleScore[2]]);
+		$data['articlesRefsScore'] = [];
+		$articlesRefsScore = Article::findByQuery($_POST['query']);
+		foreach($articlesRefsScore['articlesRefScore'] as $articleRefsScore){
+			//print_r($articleRefsScore);
+			$row = [];
+			$row['article'] = Model::toArray($articleRefsScore['article']);
+			$row['references'] = [];
+			foreach ($articleRefsScore['references'] as $ref) {
+				array_push($row['references'], Model::toArray($ref));
+			}
+			$articleRefsScore['references'];
+			$row['score'] = $articleRefsScore['score'];
+			array_push($data['articlesRefsScore'], $row);
 		}
-		foreach($dataArticlesScore['log'] as $log){
+		foreach($articlesRefsScore['log'] as $log){
 			array_push($data['log'], $log);
 		}
 		echo(json_encode($data));
@@ -125,7 +133,7 @@ class ArticleController extends Controller{
 		$data['references'] = [];
 		$references = Reference::findByArticle(Article::findById($_POST['articleId']));
 		foreach($references as $reference){
-			array_push($data['references'], Reference::toArray($reference));
+			array_push($data['references'], Model::toArray($reference));
 		}
 		echo(json_encode($data));
 	}
@@ -152,7 +160,7 @@ class ArticleController extends Controller{
 		if($article->langue->nom == 'cn'){
 			$textArray = separeMotsChinois($text);
 		}else{
-			$textArray = explode(' ', $text);
+			$textArray = separeMots($text);
 		}
 		// Récupérer les termes avec des espaces qui commencent par chacun des mots du texte
 		
@@ -163,6 +171,8 @@ class ArticleController extends Controller{
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 
 		$concepts = [];
+
+		$references = [];
 		
 		$i = 0;
 		
@@ -181,6 +191,7 @@ class ArticleController extends Controller{
 					if($i+$j < count($textArray) && strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace)){						
 						// si on a réussi à faire concorder jusqu'à la fin du terme
 						if($j == count(explode(' ', $termeEspace->motCle))-1){
+							/*
 							// on ajoute $termeEspace aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
 							if(!isset($concepts[$termeEspace->concept->id])){
 								$concepts[$termeEspace->concept->id] = 1;
@@ -190,7 +201,12 @@ class ArticleController extends Controller{
 							// On sort, on a identifié le mot, on va sauter j prochains mots
 							$i = $i+$j;
 							$motEspaceTraite = true;
-							break;
+							break;*/
+							$contexte = '||'. $termeEspace->motCle .'||';
+							array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
+							// On sort, on a identifié le mot, on va sauter j prochains mots
+							$i = $i+$j;
+							$motEspaceTraite = true;
 						}
 						$j++;						
 					}else{
@@ -204,12 +220,35 @@ class ArticleController extends Controller{
 			if(!$motEspaceTraite){
 				foreach($termes as $terme){
 					if (strtolower($mot) == strtolower($terme->motCle)){
-						// on ajoute $terme aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
-						if(!isset($concepts[$terme->concept->id])){
-							$concepts[$terme->concept->id] = 1;
-						}else{
-							$concepts[$terme->concept->id] = $concepts[$terme->concept->id]+1;
+						$contexte = '';
+						$nbMotsAvant = 0;
+						$nbMotsApres = 0;
+						$k = 0;
+
+						// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
+						while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && $textArray[$nbMotsAvant]!='.' && $textArray[$nbMotsAvant]!='。'){
+							$nbMotsAvant++;
 						}
+
+						while($nbMotsApres<MAX_WORDS_AFTER && $i+$nbMotsApres<count($textArray)-1 && $textArray[$nbMotsApres]!='.' && $textArray[$nbMotsApres]!='。'){
+							$nbMotsApres++;
+						}
+
+						// On ajoute les mots précédents au contexte
+						for($l = $nbMotsAvant; $l>0; $l--){
+							$contexte .= $textArray[$i-$l].' ';
+						}
+
+						$contexte .= '||'.$mot.'||';
+
+						// On ajoute les mots suivants au contexte
+						for($l = 1; $l<=$nbMotsApres; $l++){
+							$contexte .= ' '.$textArray[$i+$l];
+						}
+
+						$k = 1;
+
+						array_push($references, new Reference($i, 1, $contexte, $article, $terme->concept));
 						break;
 					}
 				}
@@ -218,9 +257,8 @@ class ArticleController extends Controller{
 			$i++;
 		}
 		
-		foreach($concepts as $conceptId => $nombreOccurence){
-			$newRefenrence = new Reference($nombreOccurence, $article, Concept::findById($conceptId));
-			Reference::insert($newRefenrence);
+		foreach($references as $reference){
+			Reference::insert($reference);
 		}
 		
 		// Ajouter un correcteur de référence?
