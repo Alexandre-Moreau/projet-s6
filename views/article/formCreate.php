@@ -6,39 +6,46 @@
 						
 					</div>
 				</div>
-				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
-					<div class="form-group">
-						<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
-						<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
-					</div>
-					<div class="form-group">
-						<input type="file" name='file' id='file' accept=".pdf,.html,.htm,.txt" class="form-control">
-						<!--<label class="custom-file">
-							<input type="file" id="file" name="file" accept=".pdf,.html,.htm,.txt" class="form-control custom-file-input">
-							<span class="custom-file-control"></span>
-						</label>-->
-					</div>
-					<div class="form-group">
-						<label for="langue"><?php echo _LANGUAGE;?> :</label>
-						<select id="langue">
-							<?php
-								foreach($data['langues'] as $langue){
-									if($langue->nom == $data['langueDefaut']){
-										echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
-									}else{
-										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+				<div class="row">
+					<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
+						<div class="input-field inline col s12 m6">
+							<i class="material-icons prefix">mode_edit</i>
+							<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
+							<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
+						</div>
+						<div class="file-field input-field inline col s12 m6">
+							<div class="btn waves-effect waves-light">
+								<span>Choisir un fichier <i class="material-icons right">file_upload</i></span>
+								<input type="file" name="file" id="file" accept=".pdf,.html,.htm,.txt">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div>
+						<br>
+						<div class="input-field col s12">
+							<select id="langue" name="langue">
+								<?php
+									foreach($data['langues'] as $langue){
+										if($langue->nom == $data['langueDefaut']){
+											echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
+										}else{
+											echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+										}
+										
 									}
-									
-								}
-							?>
-							<option value="null"><?php echo _OTHERLANGUAGE;?></option>
-						</select>
-					</div>
-					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT;?>" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" value="<?php echo _FORMRESET;?>" class="btn btn-secondary"></input>
-					</div>
-				</form>
+								?>
+								<option value="null"><?php echo _OTHERLANGUAGE;?></option>
+							</select>
+							<label for="langue"><?php echo _LANGUAGE;?> :</label>
+						</div>
+						<br>
+						<div class="center col s12">
+							<button id="submit" type="submit" class="btn primary-color waves-effect"><?php echo _FORMSUBMIT;?></button>
+							<button id="reset" type="reset" class="btn waves-effect waves-light"><?php echo _FORMRESET;?></button>
+						</div>
+					</form>
+				</div>
 				<!--<progress></progress>-->
 				<br>
 				<span class="requis">*</span> <?php echo _FORMREQUESTED;?>
