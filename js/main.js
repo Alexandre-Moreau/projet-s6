@@ -38,6 +38,12 @@ $(document).ready(function() {
 		});
 	});
 
+	// Gestion des tabs
+	$('.tabs').tabs();
+
+	// Gestion des select
+	$('select').formSelect();
+
 	// Gestion du retour
 	$('button#backButton').click(function(){
 		window.history.back();

@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col s12 m4">
 				<div class="icon-block">
-					<h2 class="center light-blue-text"><i class="material-icons">file_upload</i></h2>
+					<h3 class="center light-blue-text"><i class="material-icons">file_upload</i></h3>
 					<h5 class="center"><?php echo _IMPORT_TITLE;?></h5>
 
 					<p class="light"><?php echo _IMPORT_TEXT;?></p>
@@ -41,7 +41,7 @@
 
 			<div class="col s12 m4">
 				<div class="icon-block">
-					<h2 class="center light-blue-text"><i class="material-icons">add_to_photos</i></h2>
+					<h3 class="center light-blue-text"><i class="material-icons">add_to_photos</i></h3>
 					<h5 class="center"><?php echo _ADD_TITLE;?></h5>
 
 					<p class="light"><?php echo _ADD_TEXT;?></p>
@@ -50,7 +50,7 @@
 
 			<div class="col s12 m4">
 				<div class="icon-block">
-					<h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+					<h3 class="center light-blue-text"><i class="material-icons">flash_on</i></h3>
 					<h5 class="center"><?php echo _SEARCH_TITLE;?></h5>
 
 					<p class="light"><?php echo _SEARCH_TEXT;?></p>

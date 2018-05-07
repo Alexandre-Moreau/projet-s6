@@ -12,6 +12,15 @@ footer{
 	background-image: url(../images/background-footer.png);
 }
 */
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
 .flags{
 	height: 18px;
 	border-radius: 3px;
@@ -108,8 +117,4 @@ span.nav-link.active{
 
 .card{
 	padding: 10px;
-}
-
-div.form-group.form_boutons{
-	text-align: center;
 }
