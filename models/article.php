@@ -123,7 +123,7 @@ class Article extends Model{
 		// On fait la moyenne des scores (division par le nombre de concepts qu'on a cherché), on arrondit et on renvoie les articles avec leur score
 		$nbConcepts = count($conceptSearched);
 		foreach($listeArticlesReferencesScore as $key => $value){
-			$listeArticlesReferencesScore[$key]['score'] = round($listeArticlesReferencesScore[$key]['score']/$nbConcepts, 1);
+			$listeArticlesReferencesScore[$key]['score'] = round($listeArticlesReferencesScore[$key]['score']*100/$nbConcepts, 1);
 		}
 
 		$data['articlesRefScore'] = $listeArticlesReferencesScore;
