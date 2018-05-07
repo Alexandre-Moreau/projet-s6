@@ -22,13 +22,17 @@ define("_FORMERROR","Il y a des erreurs dans le formulaire");
 
 // Shared (errors)
 define("_ERROR","Erreur");
+define("_ERRORFORMHANDLING","Erreur lors du traitement du formulaire");
+define("_WATCHLOGS","Regardez les logs pour plus d\'information");
 define("_NOFILEERROR","Aucun fichier choisi");
 define("_PARSEERROR","Erreur lors du parsing (le fichier n\'est pas correct)");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
 define("_UNKNOWNERROR","Erreur inconnue");
-define("_MISSINGINFORM1","aucun ");
+define("_MISSINGINFORM1","Aucun ");
 define("_MISSINGINFORM2"," n'a été spécifié");
 function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
+define("_ERRORLANGUAGES","Aucune langue trouvée dans la base de données");
+define("_IMPORTONTO","Essayez d'importer une ontoterminologie pour régler le problème");
 
 // Header
 define("_RECHERCHER","Rechercher");

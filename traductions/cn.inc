@@ -22,6 +22,8 @@ define("_FORMERROR","Error in form");
 
 // Shared (errors)
 define("_ERROR","Erreur");
+define("_ERRORFORMHANDLING","Error in form handling");
+define("_WATCHLOGS","Watch logs for more information");
 define("_NOFILEERROR","Aucun fichier choisi");
 define("_PARSEERROR","Erreur lors du parsing");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
@@ -29,6 +31,8 @@ define("_UNKNOWNERROR","Erreur inconnue");
 define("_MISSINGINFORM1","Aucun ");
 define("_MISSINGINFORM2"," n'a été spécifié");
 function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
+define("_ERRORLANGUAGES","No languages found in database");
+define("_IMPORTONTO","Try importing an ontoterminology to solve the problem");
 
 // Header
 define("_RECHERCHER","搜索");

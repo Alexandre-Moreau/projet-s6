@@ -28,10 +28,11 @@
 									}else{
 										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
 									}
-									
 								}
-							?>
-							<option value="null">autre (le texte ne sera pas référencé)</option>
+								if($data['langues'] == []){
+									echo '<option value="-1">'._ERRORLANGUAGES.'</option>';
+								}
+							?>							
 						</select>
 					</div>
 					<div class="form-group form_boutons">
@@ -58,12 +59,13 @@
 						//$('#formStatus').append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 						$('#formStatus').html('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
 						$('#formStatus').append('<ul/>');
-						if($.isArray(formAnswer['erreursSaisie'])){
+						if($.isArray(formAnswer['erreursSaisie']) && formAnswer['erreursSaisie'].length != 0){
 							formAnswer['erreursSaisie'].forEach(function(element){
 								$('#formStatus ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
 							});
 						}else{
 							console.log(formAnswer);
+							$('#formStatus').html('<span id="statusMessage"><strong><?php echo _ERRORFORMHANDLING;?>.</strong> <?php echo _WATCHLOGS;?></span>');
 						}
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
@@ -139,6 +141,8 @@
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
+								formAnswer['statut'] = 'echec';
+								formAnswer['erreursSaisie'].length = 0;
 								refreshDivFormStatus();
 							}
 						});

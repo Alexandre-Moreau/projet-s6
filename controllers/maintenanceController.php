@@ -9,6 +9,7 @@ class MaintenanceController extends Controller{
 	}
 
 	public function ajaxTestStatut(){
+		
 		return true;
 	}
 
@@ -29,9 +30,9 @@ class MaintenanceController extends Controller{
 			if(sizeof($_FILES) > 1){
 				array_push($data['erreursForm'],'trop de fichiers');
 			}else{
-				$fileType = explode('/', $_FILES['0']['type'])[1];
+				$fileType = $_FILES['0']['type'];
 				// .sql ou .txt
-				if($fileType != 'sql' && $fileType != 'plain'){
+				if($fileType != 'application/sql' && $fileType != 'text/plain' && $fileType != 'application/octet-stream'){
 					array_push($data['erreursForm'], 'format de fichier incorrect ('.$fileType.')');
 				}else{
 					// Faire une sauvegarde de la base de données pour faire un rollback si le fichier est foireux?

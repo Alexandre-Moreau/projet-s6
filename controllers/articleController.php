@@ -18,6 +18,9 @@ class ArticleController extends Controller{
 		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
 			array_push($data['erreursSaisie'],_composeMisingError(_NAME));
 		}
+		if(Langue::findAll() == []){
+			array_push($data['erreursSaisie'], _ERRORLANGUAGES.'. '._IMPORTONTO.'.');
+		}
 		if($_FILES == []){
 			array_push($data['erreursSaisie'],_composeMisingError(_FILE));
 		}else{
