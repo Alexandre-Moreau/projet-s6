@@ -79,6 +79,11 @@ class Reference extends Model{
 		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE id=".$reference->id);
 		$query->execute();
 	}
+
+	static public function deleteFromArticle($article){
+		$query = db()->prepare("DELETE FROM ".self::$tableName." WHERE article_id=".$article->id);
+		$query->execute();
+	}
 	
 	static public function deleteAll(){
 		$query = db()->prepare("DELETE FROM ".self::$tableName);

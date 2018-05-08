@@ -1,4 +1,46 @@
-$(document).ready(function() {
+	// Gestion des erreurs de saisie des formulaires			
+	function refreshDivFormStatus(formAnswer){
+		console.log(formAnswer);
+		$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
+		$('#formStatus #statusMessage').remove();
+		$('#formStatus ul').remove();
+		
+		if(formAnswer['statut'] == 'echec'){
+			$('#formStatus').addClass('alert alert-danger');
+			//$('#formStatus').append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
+			$('#formStatus').html('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
+			$('#formStatus').append('<ul/>');
+			if($.isArray(formAnswer['erreursSaisie']) && formAnswer['erreursSaisie'].length != 0){
+				formAnswer['erreursSaisie'].forEach(function(element){
+					$('#formStatus ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
+				});
+			}else{
+				console.log(formAnswer);
+				$('#formStatus').html('<span id="statusMessage"><strong><?php echo _ERRORFORMHANDLING;?>.</strong> <?php echo _WATCHLOGS;?></span>');
+			}
+		}else if(formAnswer['statut'] == 'succes'){
+			$('#formStatus').addClass('alert alert-success');
+			$('#formStatus').html(formAnswer['info']);
+		}else if(formAnswer['statut'] == 'warning'){
+			$('#formStatus').addClass('alert alert-warning');
+			$('#formStatus').html(formAnswer['info']);
+		}
+	}
+
+	function onKonamiCode(cb) {
+		var input = '';
+		var key = '38384040373937396665';
+		document.addEventListener('keydown', function (e) {
+			input += ("" + e.keyCode);
+			if (input === key) {
+				return cb();
+			}
+			if (!key.indexOf(input)) return;
+			input = ("" + e.keyCode);
+		});
+	}
+
+	$(document).ready(function() {
 
 	// Gestion de l'onglet actif dans la navbar
 	var r = new URL(window.location.href).searchParams.get("r");
@@ -56,18 +98,7 @@ $(document).ready(function() {
 		window.history.back();
 	});
 
-	function onKonamiCode(cb) {
-		var input = '';
-		var key = '38384040373937396665';
-		document.addEventListener('keydown', function (e) {
-			input += ("" + e.keyCode);
-			if (input === key) {
-				return cb();
-			}
-			if (!key.indexOf(input)) return;
-			input = ("" + e.keyCode);
-		});
-	}
+	
 
 	var a = new Audio('js/audio.js');
 	onKonamiCode(function () {

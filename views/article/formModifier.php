@@ -21,7 +21,7 @@
 									
 								}
 							?>
-							<option value="null"><?php echo _OTHERLANGUAGE?></option>
+							<!--<option value="null"><?php echo _OTHERLANGUAGE?></option>-->
 						</select>
 					</div>
 					<div class="form-group form_boutons">
@@ -31,39 +31,14 @@
 				</form>
 			</div>
 			<script>
-				var formAnswer = [];
-				formAnswer['erreursSaisie'] = [];
-				
-				$(document).ready(function () {
-					function refreshDivFormStatus(){
-						$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
-						$('#formStatus #statusMessage').remove();
-						$('#formStatus ul').remove();
-						
-						if(formAnswer['statut'] == 'echec'){
-							$('#formStatus').addClass('alert alert-danger');
-							$('#formStatus').append('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
-							$('#formStatus').append('<ul/>');
-							if($.isArray(formAnswer['erreursSaisie'])){
-								formAnswer['erreursSaisie'].forEach(function(element){
-									$('#formStatus ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
-								});
-							}else{
-								console.log(formAnswer);
-							}
-						}else if(formAnswer['statut'] == 'succes'){
-							$('#formStatus').addClass('alert alert-success');
-							$('#formStatus').append('<span id="statusMessage" <strong><?php echo _EDITSUCCES;?></strong> <a href=".?r=article/showById&id=' + <?php echo $_GET['id']; ?> + '">Accéder à l\'article</a></span>');
-						}else if(formAnswer['statut'] == 'warning'){
-							$('#formStatus').addClass('alert alert-warning');
-							$('#formStatus').append(formAnswer['info']);
-						}
-					}
-					
-					function askRedirect(articleId){
-						
-					}
-					refreshDivFormStatus();
+				$(document).ready(function(){
+					var formAnswer = [];
+					var article_nom =  $('#nom').val();
+					var article_id = <?php echo $_GET['id']; ?>;
+					var article_langue = $('#langue').find(":selected").text();
+					formAnswer['erreursSaisie'] = [];
+
+					refreshDivFormStatus(formAnswer);
 					
 					var form = $('form');
 					
@@ -72,9 +47,13 @@
 						erreursForm = [];
 						var data = new FormData();
 						
-						data.append('nom', $('#nom').val());
-						data.append('id', <?php echo $_GET['id']; ?>);
-						// data.append('langue', $('#langue').find(":selected").text());
+						data.append('nom', article_nom);
+						data.append('id', article_id);
+						data.append('langue', article_langue);
+
+						formAnswer['statut'] = 'warning';
+						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
+						refreshDivFormStatus(formAnswer);
 					
 						e.preventDefault();
 						$.ajax({
@@ -90,11 +69,11 @@
 								if(reponse['log'].length != 0){
 									console.log(reponse['log']);
 								}
-								if(reponse['statut'] == "succes"){
-									askRedirect(reponse['articleId']);							
-								}
 								formAnswer = reponse;
-								refreshDivFormStatus();
+								if(reponse['statut'] == 'succes'){
+									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + article_id + '">Accéder à l\'article</a></span>';
+								}
+								refreshDivFormStatus(formAnswer);
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
@@ -102,7 +81,5 @@
 							}
 						});
 					});
-					
-				});
-				
+				});				
 			</script>

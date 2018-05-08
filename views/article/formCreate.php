@@ -55,33 +55,6 @@
 				var formAnswer = [];
 				formAnswer['erreursSaisie'] = [];
 				
-				function refreshDivFormStatus(){
-					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
-					$('#formStatus #statusMessage').remove();
-					$('#formStatus ul').remove();
-					
-					if(formAnswer['statut'] == 'echec'){
-						$('#formStatus').addClass('alert alert-danger');
-						//$('#formStatus').append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-						$('#formStatus').html('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
-						$('#formStatus').append('<ul/>');
-						if($.isArray(formAnswer['erreursSaisie']) && formAnswer['erreursSaisie'].length != 0){
-							formAnswer['erreursSaisie'].forEach(function(element){
-								$('#formStatus ul').append('<li>' + element + '</li>'); //On ajoute l'erreur dans la liste de la div
-							});
-						}else{
-							console.log(formAnswer);
-							$('#formStatus').html('<span id="statusMessage"><strong><?php echo _ERRORFORMHANDLING;?>.</strong> <?php echo _WATCHLOGS;?></span>');
-						}
-					}else if(formAnswer['statut'] == 'succes'){
-						$('#formStatus').addClass('alert alert-success');
-						$('#formStatus').html('<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
-					}else if(formAnswer['statut'] == 'warning'){
-						$('#formStatus').addClass('alert alert-warning');
-						$('#formStatus').html(formAnswer['info']);
-					}
-				}
-				
 				function resetForm(){
 					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
 					$('#formStatus #statusMessage').remove();
@@ -105,7 +78,7 @@
 						}
 					});
   
-					refreshDivFormStatus();
+					refreshDivFormStatus(formAnswer);
 					
 					var form = $('form');
 					
@@ -126,7 +99,7 @@
 
 						formAnswer['statut'] = 'warning';
 						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
-						refreshDivFormStatus();
+						refreshDivFormStatus(formAnswer);
 					
 						e.preventDefault();
 						$.ajax({
@@ -143,7 +116,10 @@
 									console.log(reponse['log']);
 								}
 								formAnswer = reponse;
-								refreshDivFormStatus();
+								if(reponse['statut'] == 'success'){
+									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + article_id + '">Accéder à l\'article</a></span>';
+								}
+								refreshDivFormStatus(formAnswer);
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);

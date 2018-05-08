@@ -11,48 +11,6 @@
 	</div>
 
 </form>
-<!--
-<div >
-	<?php
-				
-		function printRecursive2($concept, $callStack)
-		{
-			// Pourquoi changer une visualisation qui est juste là dans l'attente de l'ontoterminologie que vous avancez depuis 2 semaines?
-			// Ah oui et personne touche à mon indentation et mes accolades dans mon code (le printRecursive() de plus bas)
-			//   - Alexandre
-			echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
-			if($callStack == 0)
-			{
-				echo'<div style="color:black; background-color:yellow;height:50px; width:100px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
-			}
-			else if($callStack == 1)
-			{
-				echo'<div style="color:black; background-color:#00FF00;height:50px; width:250px; margin-left:50px; border:3px solid gray"><p style="text-align:center;padding: 10px 10px;">'.$concept->nom.'</p></div>';
-			}
-			else if($callStack == 2)
-			{
-				echo'<div style="color:black; background-color:red;height:50px; width:330px;text-align:center;margin-left:100px;border:3px solid gray"><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
-			}
-			else if($callStack == 3)
-			{
-				echo'<div style="color:black; background-color:pink; height:50px; width:450px; margin-left:150px; border:3px solid gray;><p style="text-align:center; padding:10px 10px;">'.$concept->nom.'</p></div>';
-			}
-			$callStack++;
-			foreach($concept->conceptsFils as $fils)
-			{
-				printRecursive2($fils, $callStack);
-			}
-		}
-
-		foreach($data['onto'] as $conceptRacine)
-		{
-			printRecursive2($conceptRacine, 0);
-		}
-	?>
-		
-</div>
--->
-
 
 <div class="third">
 	<ul class="tabs">

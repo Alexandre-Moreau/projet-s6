@@ -75,31 +75,53 @@ class ArticleController extends Controller{
 	
 	public function modifier(){
 		$data = [];
-		$data['langues'] = Langue::FindAll();
- 		$data['article'] = Article::FindById($_GET['id']);
+		$data['langues'] = Langue::findAll();
+ 		$data['article'] = Article::findById($_GET['id']);
 		$this->render("formModifier", $data, ['backButton']);
 	}
 
 	public function ajaxModifier(){
 		header('Content-type: application/json');
 		$data = [];
+		$data['articleId'] = $_POST['id'];
 		$data['erreursSaisie']=[];
-		$data['log'] = $_POST;
-		$article = Article::FindById($_POST['id']);
-		
-		//print_r($f)
+		$data['log'] = [];
+		$article = Article::findById($_POST['id']);
+		$langue = Langue::findByName($_POST['langue']);
 		
 		//controle de saisie
 		if(!isset($_POST['nom']) || $_POST['nom'] == ''){
 			array_push($data['erreursSaisie'],'aucun nom n\'a été spécifié');
 		}
-		if($data['erreursSaisie']!=[]){
+		if(Langue::findAll() == []){
+			array_push($data['erreursSaisie'], _ERRORLANGUAGES.'. '._IMPORTONTO.'.');
+		}else if($langue == null){
+			array_push($data['erreursSaisie'], 'langue null');
+		}
+		if($data['erreursSaisie'] != []){
 			$data['statut'] = 'echec';
 			echo(json_encode($data));
 		}else{
 			//modification du nom de l'objet article
 			$article->nom = $_POST['nom'];
 			//utilisation de article::update
+			if($article->langue != $langue){
+				$article->langue = $langue;
+				$text = processContent($article);
+				if($text == 'encoding_error'){
+					$data['statut'] = 'echec';
+					array_push($data['erreursSaisie'], _ENCODINGERROR);
+				}else if($text == 'parsing_error'){
+					$data['statut'] = 'echec';
+					array_push($data['erreursSaisie'], _PARSEERROR);
+				}else{
+					Reference::deleteFromArticle($article);
+					$log = self::reference($text, $_POST['langue'], $article);
+					foreach($log as $l){
+						array_push($data['log'], $l);
+					}
+				}
+			}
 			Article::update($article);
 			$data['statut'] = 'succes';
 			echo(json_encode($data));

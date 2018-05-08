@@ -67,7 +67,7 @@ class Terme extends Model{
 		$requete = "SELECT id FROM ".self::$tableName." WHERE langue_id=".$langue->id;
 		$i = 0;
 		$len = count($textArray);
-		$requete .= " AND";
+		$requete .= " AND (";
 		if($len == 0){
 			$requete .= "1 = 2"; //Ne retourne aucun élément
 		}
@@ -78,6 +78,7 @@ class Terme extends Model{
 			}
 			$i++;
 		}
+		$requete .= ")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
@@ -95,7 +96,7 @@ class Terme extends Model{
 		$requete = "SELECT id FROM ".self::$tableName." WHERE langue_id=".$langue->id;
 		$i = 0;
 		$len = count($textArray);
-		$requete .= " AND";
+		$requete .= " AND (";
 		if($len == 0){
 			$requete .= "1 = 2"; //Ne retourne aucun élément
 		}
@@ -106,6 +107,7 @@ class Terme extends Model{
 			}
 			$i++;
 		}
+		$requete .= ")";
 		//echo $requete;
 		$query = db()->prepare($requete);
 		$query->execute();
