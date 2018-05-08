@@ -32,8 +32,16 @@
 						printRecursive($fils, $callStack);
 					}
 				}
+				function printRecursiveJSON($concept){
+					echo $concept->id.' '.$concept->nom;
+					foreach($concept->conceptsFils as $fils){
+						printRecursiveJSON($fils);
+					}
+				}
 				foreach($data['onto'] as $conceptRacine) {
 					printRecursive($conceptRacine, 0);
+					//printRecursiveJSON($conceptRacine);
+					//print_r(json_encode(Model::toArray($conceptRacine), JSON_UNESCAPED_UNICODE));
 				}
 			?>
 		</div>
