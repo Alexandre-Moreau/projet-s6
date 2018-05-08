@@ -14,7 +14,7 @@
 							<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
 						</div>
 						<div class="file-field input-field inline col s12 m6">
-							<div class="btn primary waves-effect waves-light">
+							<div class="btn primary">
 								<span><?php echo _CHOOSEFILE;?><i class="material-icons right">file_upload</i></span>
 								<input type="file" name="file" id="file" accept=".pdf,.html,.htm,.txt">
 							</div>

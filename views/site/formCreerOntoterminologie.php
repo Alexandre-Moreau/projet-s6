@@ -10,7 +10,7 @@
 					<input type="file" name='file' id='file' accept=".xml, .ote" class="form-control">
 				</div> -->
 				<div class="file-field input-field col s12">
-					<div class="btn primary waves-effect waves-light">
+					<div class="btn primary">
 						<span><?php echo _CHOOSEFILE;?><i class="material-icons right">file_upload</i></span>
 						<input type="file" name="file" id="file" accept=".xml, .ote">
 					</div>
