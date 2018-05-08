@@ -48,12 +48,14 @@
 	</div>
 </div>
 <div class="third" id="articlesList">
-	<div class="collection">
-	</div>
+	<h4><?php echo _LISTARTICLES;?></h4>
+	<ul class="collection">
+	</ul>
 </div>
 <div class="third" id="referencesList">
-	<div class="collection">
-	</div>
+	<h4><?php echo _LISTREFERENCES;?></h4>
+	<ul class="collection">
+	</ul>
 </div>
 
 <script>
@@ -140,7 +142,7 @@
 						var row = reponse['articlesRefsScore'][i]
 						var article = row['article'];
 						var score = row['score'];
-						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="list-group-item list-group-item-action justify-content-between"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge badge-default badge-pill">' + score + '</span></li>');
+						$('#articlesList ul').append('<li id="liArticle'+article.id+'" class="collection-item"><a href="./?r=article/showById&id=' + article.id + '">' + article.nom + '</a><span class="badge grey white-text">' + score + '</span></li>');
 
 						
 						references[article.id] = [];
@@ -168,7 +170,7 @@
 									var regex = /(\|\|)(.*)(\|\|)/;
 									ref.contexte = ref.contexte.replace(regex, "<b>$2</b>");
 
-									$('#referencesList ul').append('<li class="list-group-item list-group-item-action justify-content-between animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
+									$('#referencesList ul').append('<li class="collection-item animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
 								}
 								
 							}else{

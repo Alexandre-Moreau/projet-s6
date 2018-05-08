@@ -61,6 +61,8 @@ define("_VECTOR","Vector images by");
 define("_SEARCH","Search");
 define("_CONCEPTS","Concepts");
 define("_TERMS","Terms");
+define("_LISTARTICLES","Articles found");
+define("_LISTREFERENCES","References");
 
 // Create article
 define("_CREATEARTICLE","Create a new article");

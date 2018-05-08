@@ -216,3 +216,7 @@ span.nav-link.active{
 	color: #8a6d3b;
 	background-color: #fcf8e3;
 }
+
+.badge{
+	border-radius: 4px;
+}
