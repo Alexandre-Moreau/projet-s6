@@ -39,10 +39,17 @@ $(document).ready(function() {
 	});
 
 	// Gestion des tabs
-	$('.tabs').tabs();
+	//$('.tabs').tabs();
+	$('ul.tabs').tabs({
+		swipeable: 'true',
+		responsiveThreshold: 'Infinity'
+	});
 
 	// Gestion des select
 	$('select').formSelect();
+
+	// Gestion des modaux
+	$('.modal').modal();
 
 	// Gestion du retour
 	$('button#backButton').click(function(){

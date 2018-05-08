@@ -30,7 +30,7 @@ define("_FORMERROR","Il y a des erreurs dans le formulaire");
 // Shared (errors)
 define("_ERROR","Erreur");
 define("_NOFILEERROR","Aucun fichier choisi");
-define("_PARSEERROR","Erreur lors du parsing (le fichier n'est pas correct)");
+define("_PARSEERROR","Erreur lors du parsing (le fichier n\'est pas correct)");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
 define("_UNKNOWNERROR","Erreur inconnue");
 define("_MISSINGINFORM1","aucun ");
@@ -69,7 +69,7 @@ define("_LINKARTICLE","Accéder à l\'article");
 // Create onto
 define("_CREATEONTO","Créer une nouvelle ontoterminologie");
 define("_ASKREPLACE","Êtes-vous sûr de vouloir charger une nouvelle ontoterminologie? Cela entraînera la suppression totale de l'ancienne.");
-define("_COMFIRM","Confirmation");
+define("_CONFIRM","Confirmation");
 
 // Show article
 define("_REFERENCE","Références");

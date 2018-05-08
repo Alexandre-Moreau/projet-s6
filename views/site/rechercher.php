@@ -3,11 +3,11 @@
 <!-- 	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>"> -->
 	<div class="row">
 		<div class="input-field inline col s6 m5 l4">
-			<input id="queryInput" name="queryInput" type="text" class="validate">
+			<input id="queryInput" name="queryInput" type="text">
 			<label for="queryInput"><?php echo _SEARCH;?></label>
 		</div>
 		<div class="input-field inline">
-			<button class="btn waves-effect waves-light" type="submit"><?php echo _SEARCH;?></button>
+			<button class="btn success waves-effect waves-light" type="submit"><?php echo _SEARCH;?></button>
 		</div>
 	</div>
 	
@@ -51,7 +51,7 @@ body.append('h1')    //向 body元素中插入 h1标签
 				}
 			?>
 		</div>
-		<div class="contentDiv" id="terms" style="display: none;">
+		<div class="contentDiv" id="terms">
 			<?php
 				foreach($data['termes'] as $terme){
 					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';					

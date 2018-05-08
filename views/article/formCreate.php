@@ -1,7 +1,7 @@
 			<div class="container">
 				<h3><?php echo _CREATEARTICLE;?></h3>
 				<hr><br>
-				<div id="formStatus" class="alert-dismissible fade show" role="alert">
+				<div id="formStatus">
 					<div id="">
 						
 					</div>
@@ -9,13 +9,13 @@
 				<div class="row">
 					<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
 						<div class="input-field inline col s12 m6">
-							<i class="material-icons prefix">mode_edit</i>
+							<!-- <i class="material-icons prefix text-primary">mode_edit</i> -->
 							<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
 							<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
 						</div>
 						<div class="file-field input-field inline col s12 m6">
-							<div class="btn waves-effect waves-light">
-								<span>Choisir un fichier <i class="material-icons right">file_upload</i></span>
+							<div class="btn primary waves-effect waves-light">
+								<span><?php echo _CHOOSEFILE;?><i class="material-icons right">file_upload</i></span>
 								<input type="file" name="file" id="file" accept=".pdf,.html,.htm,.txt">
 							</div>
 							<div class="file-path-wrapper">
@@ -41,8 +41,8 @@
 						</div>
 						<br>
 						<div class="center col s12">
-							<button id="submit" type="submit" class="btn primary-color waves-effect"><?php echo _FORMSUBMIT;?></button>
-							<button id="reset" type="reset" class="btn waves-effect waves-light"><?php echo _FORMRESET;?></button>
+							<button id="submit" type="submit" class="btn success waves-effect"><?php echo _FORMSUBMIT;?></button>
+							<button id="reset" type="reset" class="btn danger waves-effect waves-light"><?php echo _FORMRESET;?></button>
 						</div>
 					</form>
 				</div>

@@ -69,7 +69,7 @@ define("_LINKARTICLE","To the article");
 // Create onto
 define("_CREATEONTO","Create a new ontoterminology");
 define("_ASKREPLACE","Are you sure you want to load a new ontoterminology? That will cause the suppression of the last one.");
-define("_COMFIRM","Confirmation");
+define("_CONFIRM","Confirmation");
 
 // Show Article
 define("_REFERENCE","引用");
