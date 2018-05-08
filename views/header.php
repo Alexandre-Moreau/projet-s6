@@ -11,9 +11,9 @@
 		<!-- Tether 1.3.3 -->
 		<script src="lib/tether/tether.min.js"></script>
 
-		<!-- Bootstrap 4.0 -->
-		<link rel="stylesheet" href="lib/bootstrap4/css/bootstrap.min.css">
-		<script src="lib/bootstrap4/js/bootstrap.min.js"></script>
+		<!-- Materialize -->
+		<link rel="stylesheet" href="lib/materialize/css/materialize.min.css">
+		<script src="lib/materialize/js/materialize.min.js"></script>
 
 		<!-- Styles -->
 		<link rel="stylesheet" type="text/css" href="css/main.css">
@@ -22,56 +22,90 @@
 		<!-- Animate -->
 		<link rel="stylesheet" type="text/css" href="lib/animate/animate.css">
 
+		<!-- Material Icons -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 	</head>
 
 	<body>
 		<header>
 
-			<nav id="nav" class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<a class="navbar-brand" href=".?r=site/index">BTG</a>
+			<nav id="nav" class="primary-dark">
 
-				<div class="collapse navbar-collapse" id="navbarToggler">
-					<ul class="navbar-nav mr-auto mt-2 mt-md-0">
-						<li class="nav-item">
-							<a class="nav-link" href=".?r=site/index"><?php echo _ACCUEIL;?> <span class="sr-only">(current)</span></a>
+				<div class="nav-wrapper" id="navbarToggler">
+					<a class="brand-logo" href=".?r=site/index"><img id="headerImage" src="./images/favicon-big.png">BTG</a>
+					<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li>
+							<a class="nav-link" href=".?r=site/index"><?php echo _ACCUEIL;?> <span class="sr-only"></span></a>
 						</li>
-						<li class="nav-item">
+						<li>
 							<a class="nav-link" href=".?r=site/rechercher"><?php echo _RECHERCHER;?></a>
 						</li>
-						<li class="nav-item">
+						<li>
 							<a class="nav-link" href=".?r=article/showAll"><?php echo _ARTICLES;?></a>
 						</li>
-						<li class="nav-item">
+						<li>
 							<a class="nav-link" href=".?r=article/create"><?php echo _ARTICLES_NEW;?></a>
 						</li>
-						<li class="nav-item">
+						<li>
 							<a class="nav-link" href=".?r=site/creerOntoterminologie"><?php echo _ONTO_NEW;?></a>
 						</li>
-						<li class="nav-item">
+						<li>
 							<a class="nav-link" href=".?r=maintenance/index"><?php echo _MAINTENANCE;?></a>
 						</li>
+						<!-- Dropdown Trigger -->
+						<li>
+							<a class="dropdown-trigger" href="#!" data-target="dropdownLanguesNavbar">
+								<?php echo '<img class="flags" src="images/langues/'.$_SESSION['langue'].'.svg"/> '.$_SESSION['langue'];?>
+								<i class="material-icons right">arrow_drop_down</i>
+							</a>
+						</li>
+						<!-- Dropdown Structure -->
+						<ul id="dropdownLanguesNavbar" class="dropdown-content">
+							<li><a id="btn-fr"><img class="flags" src="images/langues/fr.svg"/> fr</a></li>
+							<li><a id="btn-en"><img class="flags" src="images/langues/en.svg"/> en</a></li>
+							<li><a id="btn-cn"><img class="flags" src="images/langues/cn.svg"/> cn</a></li>
+						</ul>
 					</ul>
-					
-
-					<div class="dropdown" id="dropdownLangues">
-						<a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLangues" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<?php
-							echo '<img src="images/langues/'.$_SESSION['langue'].'.svg"/> '.$_SESSION['langue'];
-						?>
-						</a>
-
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuLangues">
-							<button id="btn-fr" class="dropdown-item"><img src="images/langues/fr.svg"/> fr</button>
-							<button id="btn-en" class="dropdown-item"><img src="images/langues/en.svg"/> en</button>
-							<button id="btn-cn" class="dropdown-item"><img src="images/langues/cn.svg"/> cn</button>
-						</div>
-					</div>
-
 				</div>
+
 			</nav>
+
+			<ul id="mobile-demo" class="sidenav">
+				<li>
+					<a class="nav-link" href=".?r=site/index"><?php echo _ACCUEIL;?> <span class="sr-only"></span></a>
+				</li>
+				<li>
+					<a class="nav-link" href=".?r=site/rechercher"><?php echo _RECHERCHER;?></a>
+				</li>
+				<li>
+					<a class="nav-link" href=".?r=article/showAll"><?php echo _ARTICLES;?></a>
+				</li>
+				<li>
+					<a class="nav-link" href=".?r=article/create"><?php echo _ARTICLES_NEW;?></a>
+				</li>
+				<li>
+					<a class="nav-link" href=".?r=site/creerOntoterminologie"><?php echo _ONTO_NEW;?></a>
+				</li>
+				<li>
+					<a class="nav-link" href=".?r=maintenance/index"><?php echo _MAINTENANCE;?></a>
+				</li>
+				<!-- Dropdown Trigger -->
+				<li>
+					<a class="dropdown-trigger" href="#!" data-target="dropdownLanguesSidebar">
+						<?php echo '<img class="flags" src="images/langues/'.$_SESSION['langue'].'.svg"/> '.$_SESSION['langue'];?>
+						<i class="material-icons right">arrow_drop_down</i>
+					</a>
+				</li>
+				<!-- Dropdown Structure -->
+				<ul id="dropdownLanguesSidebar" class="dropdown-content">
+					<li><a id="btn-fr"><img class="flags" src="images/langues/fr.svg"/> fr</a></li>
+					<li><a id="btn-en"><img class="flags" src="images/langues/en.svg"/> en</a></li>
+					<li><a id="btn-cn"><img class="flags" src="images/langues/cn.svg"/> cn</a></li>
+				</ul>
+			</ul>
 
 		</header>
 		<?php

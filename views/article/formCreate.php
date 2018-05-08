@@ -1,45 +1,51 @@
 			<div class="container">
 				<h3><?php echo _CREATEARTICLE;?></h3>
 				<hr><br>
-				<div id="formStatus" class="alert-dismissible fade show" role="alert">
+				<div id="formStatus">
 					<div id="">
 						
 					</div>
 				</div>
-				<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
-					<div class="form-group">
-						<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
-						<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
-					</div>
-					<div class="form-group">
-						<input type="file" name='file' id='file' accept=".pdf,.html,.htm,.txt" class="form-control">
-						<!--<label class="custom-file">
-							<input type="file" id="file" name="file" accept=".pdf,.html,.htm,.txt" class="form-control custom-file-input">
-							<span class="custom-file-control"></span>
-						</label>-->
-					</div>
-					<div class="form-group">
-						<label for="langue"><?php echo _LANGUAGE;?> :</label>
-						<select id="langue">
-							<?php
-								foreach($data['langues'] as $langue){
-									if($langue->nom == $data['langueDefaut']){
-										echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
-									}else{
-										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+				<div class="row">
+					<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
+						<div class="input-field inline col s12 m6">
+							<!-- <i class="material-icons prefix text-primary">mode_edit</i> -->
+							<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
+							<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
+						</div>
+						<div class="file-field input-field inline col s12 m6">
+							<div class="btn primary waves-effect waves-light">
+								<span><?php echo _CHOOSEFILE;?><i class="material-icons right">file_upload</i></span>
+								<input type="file" name="file" id="file" accept=".pdf,.html,.htm,.txt">
+							</div>
+							<div class="file-path-wrapper">
+								<input class="file-path validate" type="text">
+							</div>
+						</div>
+						<br>
+						<div class="input-field col s12">
+							<select id="langue" name="langue">
+								<?php
+									foreach($data['langues'] as $langue){
+										if($langue->nom == $data['langueDefaut']){
+											echo '<option value="'.$langue->nom.'" selected>'.$langue->nom.'</option>';
+										}else{
+											echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
+										}
+										
 									}
-								}
-								if($data['langues'] == []){
-									echo '<option value="-1">'._ERRORLANGUAGES.'</option>';
-								}
-							?>							
-						</select>
-					</div>
-					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT;?>" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" value="<?php echo _FORMRESET;?>" class="btn btn-secondary"></input>
-					</div>
-				</form>
+								?>
+								<option value="null"><?php echo _OTHERLANGUAGE;?></option>
+							</select>
+							<label for="langue"><?php echo _LANGUAGE;?> :</label>
+						</div>
+						<br>
+						<div class="center col s12">
+							<button id="submit" type="submit" class="btn success waves-effect"><?php echo _FORMSUBMIT;?></button>
+							<button id="reset" type="reset" class="btn danger waves-effect waves-light"><?php echo _FORMRESET;?></button>
+						</div>
+					</form>
+				</div>
 				<!--<progress></progress>-->
 				<br>
 				<span class="requis">*</span> <?php echo _FORMREQUESTED;?>
@@ -69,7 +75,7 @@
 						}
 					}else if(formAnswer['statut'] == 'succes'){
 						$('#formStatus').addClass('alert alert-success');
-						$('#formStatus').html('<span id="statusMessage" <strong>L\'article a été créé avec succès</strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
+						$('#formStatus').html('<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>');
 					}else if(formAnswer['statut'] == 'warning'){
 						$('#formStatus').addClass('alert alert-warning');
 						$('#formStatus').html(formAnswer['info']);

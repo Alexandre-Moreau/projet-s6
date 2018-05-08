@@ -3,17 +3,117 @@ html, body{
 	width: 100%;
 	background-color: white;
 }
+/*
+#nav{
+	background-image: url(../images/background-nav.png);
+}
 
-#dropdownLangues img{
+footer{
+	background-image: url(../images/background-footer.png);
+}
+*/
+
+/* Couleurs de fond */
+.primary{
+	background-color: #006AD9 !important;
+}
+.primary-dark{
+	background-color: #093BAD !important;
+}
+.primary-light{
+	background-color: #4A97E5 !important;
+}
+.secondary{
+	background-color: #D1DFEE !important;
+}
+.success{
+	background-color: green !important;
+}
+.danger{
+	background-color: red !important;
+}
+.warning{
+	background-color: orange !important;
+}
+/* Couleurs de texte */
+.text-primary{
+	color: #006AD9 !important;
+}
+.text-primary-dark{
+	color: #093BAD !important;
+}
+.text-primary-light{
+	color: #4A97E5 !important;
+}
+.text-secondary{
+	color: #D1DFEE !important;
+}
+.text-success{
+	color: green !important;
+}
+.text-danger{
+	color: red !important;
+}
+.text-warning{
+	color: orange !important;
+}
+
+
+/* Couleurs des inputs */
+.input-field input:focus + label {
+	color: #006AD9 !important;
+}
+.row .input-field input:focus {
+	border-bottom: 1px solid #006AD9 !important;
+	box-shadow: 0 1px 0 0 #006AD9 !important
+}
+
+
+/* Couleurs de texte des Tabs */
+.tabs .tab a{
+	color:#000;
+}
+/* Couleur de fond au passage de la souris */
+.tabs .tab a:hover {
+	background-color:#eee;
+	color:#000;
+}
+/* Couleur de fond et de texte de l'onglet actif */
+.tabs .tab a.active {
+	background-color: #e1e3e2 !important;
+	color:#000;
+}
+/* Couleur de soulignement */
+.tabs .indicator {
+	background-color: #006AD9;
+}
+
+
+.icon-block {
+  padding: 0 15px;
+}
+
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+.flags{
 	height: 18px;
 	border-radius: 3px;
+}
+
+#headerImage{
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 6px;
+	vertical-align: middle;
 }
 
 #content{
 	width: 100%;
 	display: inline-block;
 	padding: 16px;
-	min-height: 66vh;
+	min-height: 58vh;
 }
 
 div.spaced *{
@@ -21,7 +121,7 @@ div.spaced *{
 }
 
 .container hr{
-	border-top: 3px double grey;
+	border-top: 1px solid grey;
 }
 
 object{
@@ -95,6 +195,24 @@ span.nav-link.active{
 	padding: 10px;
 }
 
-div.form-group.form_boutons{
-	text-align: center;
+.alert{
+	padding: 12px 20px 12px 20px;
+	margin-bottom: 20px;
+	border-radius: 2px;
+}
+.alert strong{
+	font-weight: bold;
+	font-size: 20px;
+}
+.alert-danger{
+	color: #a94442;
+	background-color: #f2dede;
+}
+.alert-success{
+	color: #3c763d;
+	background-color: #dff0d8;
+}
+.alert-warning{
+	color: #8a6d3b;
+	background-color: #fcf8e3;
 }

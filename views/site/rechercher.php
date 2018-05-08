@@ -1,9 +1,15 @@
-
-
 <form method="post" action =".?r=Article/ajaxRechercher" enctype="multipart/form-data" class="form-inline my-2 my-lg-0">
 
-	<input class="form-control mr-sm-2" type="text" id="queryInput" placeholder="<?php echo _SEARCH;?>">
-	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><?php echo _SEARCH;?></button>
+	<div class="row">
+		<div class="input-field inline col s6 m5 l4">
+			<input id="queryInput" name="queryInput" type="text">
+			<label for="queryInput"><?php echo _SEARCH;?></label>
+		</div>
+		<div class="input-field inline">
+			<button class="btn success waves-effect waves-light" type="submit"><?php echo _SEARCH;?></button>
+		</div>
+	</div>
+
 </form>
 <!--
 <div >
@@ -49,16 +55,17 @@
 
 
 <div class="third">
-	<ul class="nav nav-tabs">
-		<li class="nav-item">
-			<span class="nav-link active" id="tab1"><?php echo _CONCEPTS;?></span>
+	<ul class="tabs">
+		<li class="tab">
+			<a class="active" id="tab1" href="#concepts"><?php echo _CONCEPTS;?></a>
 		</li>
-		<li class="nav-item">
-			<span class="nav-link" id="tab2"><?php echo _TERMS;?></span>
+		<li class="tab">
+			<a id="tab2" href="#terms"><?php echo _TERMS;?></a>
 		</li>
 	</ul>
+
 	<div id="contentDivs">
-		<div class="contentDiv" id="content1">
+		<div class="contentDiv" id="concepts">
 			<?php
 				function printRecursive($concept, $callStack){
 					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
@@ -72,10 +79,8 @@
 				}
 			?>
 		</div>
-				
 
-
-		<div class="contentDiv" id="content2" style="display: none;">
+		<div class="contentDiv" id="terms">
 			<?php
 				foreach($data['termes'] as $terme){
 					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';					
