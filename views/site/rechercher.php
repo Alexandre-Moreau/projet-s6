@@ -83,32 +83,25 @@
 		<div class="contentDiv" id="terms">
 			<?php
 				foreach($data['termes'] as $terme){
-					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';					
+					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';
 				}
 			?>
 		</div>
 	</div>
 </div>
 <div class="third" id="articlesList">
-	<ul class="list-group">
-	</ul>
+	<div class="collection">
+	</div>
 </div>
 <div class="third" id="referencesList">
-	<ul class="list-group" id="tab02">
-	</ul>
+	<div class="collection">
+	</div>
 </div>
 
 <script>
 	var form = $('form');
 	var answer;
 	$(document).ready(function () {
-		
-		$('ul.nav.nav-tabs li.nav-item span.nav-link').click(function(e){
-			$('div#contentDivs div.contentDiv').hide();
-			$('div#contentDivs div.contentDiv#content'+e.target.id.split('tab')[1]).show();
-			$('ul.nav.nav-tabs li.nav-item span.nav-link').removeClass('active');
-			$('ul.nav.nav-tabs li.nav-item span.nav-link#tab'+e.target.id.split('tab')[1]).addClass('active');
-		});		
 		
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
@@ -117,6 +110,7 @@
 			}else{
 				$('#queryInput').val(contenuElementClique);
 			}
+			$('#queryInput').focus();
 			form.submit();
 		});
 		
@@ -130,6 +124,7 @@
 			}else{
 				$('#queryInput').val(contenuElementClique);
 			}
+			$('#queryInput').focus();
 			form.submit();
 		});
 		
