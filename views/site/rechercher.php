@@ -12,6 +12,9 @@
 
 </form>
 
+
+
+
 <div class="third">
 	<ul class="tabs">
 		<li class="tab">
@@ -24,6 +27,76 @@
 
 	<div id="contentDivs">
 		<div class="contentDiv" id="concepts">
+			<!-- <link   rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'> -->
+			<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script> -->
+			<!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script> -->
+			<script src="https://d3js.org/d3.v4.js"></script>
+			<!-- <script src="d3v4-brush-lite.js"></script> -->
+			<!-- <script src="d3v4-selectable-force-directed-graph.js"></script> -->
+
+			<!-- <svg align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 600px; margin-bottom: 12px; stroke='black' ">
+			<svg /> -->
+			
+			<!-- <svg width="800" height="600" fill="yellow" stroke="orange"><svg />
+			<circle cx="250" cy="250" r="25" fill="green" stroke="yellow" stroke-width="5"/></circle>
+			<text x="250" y="25" fill="green" >Easy-peasy</text>
+			<line x1="0" y1="0" x2="500" y2="50" stroke="orange"/>
+			<rect x="0" y="0" width="30" height="30" fill="purple"/>
+			<rect x="20" y="5" width="30" height="30" fill="blue"/>
+			<rect x="40" y="10" width="30" height="30" fill="green"/>
+			<rect x="60" y="15" width="30" height="30" fill="yellow"/>
+			<rect x="80" y="20" width="30" height="30" fill="red"/> -->
+			<style>
+				.link line {
+				stroke: #696969;
+				}
+
+				.link line.separator {
+				stroke: #fff;
+				stroke-width: 2px;
+				}
+
+				.node circle {
+				stroke: rgb(0, 0, 0);
+				stroke-width: 1.5px;
+				}
+
+				.node text {
+				font: 10px sans-serif;
+				pointer-events: none;
+				}
+			</style>
+
+			<script>
+
+				var width = 800,
+					height = 500;
+
+				var svg = d3.select("body").append("svg")
+					.attr("width", width)
+					.attr("height", height);
+				
+				var dataset = [ 5, 10, 15, 20, 25 ];
+
+				var circles = svg.selectAll("circle")
+					.data(dataset)
+					.enter()
+					.append("circle");
+
+				circles.attr("cx", function(d, i) {
+						return (i * 100) + 25;
+					})
+					.attr("cy", 100/2)
+					.attr("r", function(d) {
+						return d*2;
+				});
+
+				
+			</script>
+
+
+
+
 			<?php
 				function printRecursive($concept, $callStack){
 					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
@@ -55,6 +128,10 @@
 		</div>
 	</div>
 </div>
+
+
+
+
 <div class="third" id="articlesList">
 	<div class="collection">
 	</div>
@@ -63,6 +140,9 @@
 	<div class="collection">
 	</div>
 </div>
+
+
+
 
 <script>
 	var form = $('form');
@@ -193,3 +273,59 @@
 	});
 
 </script>
+
+<!-- <div style="color:black; background-color:pink; height:50px; width:450px; ">
+</div> -->
+
+
+
+
+
+<!-- var concepts = 
+				{
+					"nom" : "siège",
+					"concepts_fils" : 
+					[
+						{
+							"nom" : "siège avec bras",
+							"concepts_fils" : 
+							[
+								{
+									"nom" : "siège avec bras et dossier",
+									"concepts_fils" : []
+								},
+								{
+									"nom" : "siège avec bras sans dossier",
+									"concepts_fils" : []
+								},
+							]
+						},
+						{
+							"nom" : "siège sans bras",
+							"concepts_fils" : 
+							[
+								{
+									"nom" : "siège sans bras avec dossier",
+									"concepts_fils" : []
+								},
+								{
+									"nom" : "siège sans bras sans dossier",
+									"concepts_fils" : []
+								},
+							]
+						}
+					]
+				}; -->
+
+
+
+
+
+
+
+
+
+
+
+
+
