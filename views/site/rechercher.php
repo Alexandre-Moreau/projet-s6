@@ -14,7 +14,6 @@
 
 
 
-
 <div class="third">
 	<ul class="tabs">
 		<li class="tab">
@@ -27,74 +26,273 @@
 
 	<div id="contentDivs">
 		<div class="contentDiv" id="concepts">
-			<!-- <link   rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'> -->
-			<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script> -->
-			<!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script> -->
+			<!-- partie de definition de style et import des bibliotheques -->
 			<script src="https://d3js.org/d3.v4.js"></script>
-			<!-- <script src="d3v4-brush-lite.js"></script> -->
-			<!-- <script src="d3v4-selectable-force-directed-graph.js"></script> -->
-
-			<!-- <svg align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 600px; margin-bottom: 12px; stroke='black' ">
-			<svg /> -->
-			
-			<!-- <svg width="800" height="600" fill="yellow" stroke="orange"><svg />
-			<circle cx="250" cy="250" r="25" fill="green" stroke="yellow" stroke-width="5"/></circle>
-			<text x="250" y="25" fill="green" >Easy-peasy</text>
-			<line x1="0" y1="0" x2="500" y2="50" stroke="orange"/>
-			<rect x="0" y="0" width="30" height="30" fill="purple"/>
-			<rect x="20" y="5" width="30" height="30" fill="blue"/>
-			<rect x="40" y="10" width="30" height="30" fill="green"/>
-			<rect x="60" y="15" width="30" height="30" fill="yellow"/>
-			<rect x="80" y="20" width="30" height="30" fill="red"/> -->
+			<script src="http://d3js.org/d3.v3.min.js"></script>
 			<style>
-				.link line {
-				stroke: #696969;
+				.node text 
+				{
+					font: 12px sans-serif;
 				}
-
-				.link line.separator {
-				stroke: #fff;
-				stroke-width: 2px;
-				}
-
-				.node circle {
-				stroke: rgb(0, 0, 0);
-				stroke-width: 1.5px;
-				}
-
-				.node text {
-				font: 10px sans-serif;
-				pointer-events: none;
+				.link 
+				{
+					fill: none;
+					stroke: #ccc;
+					stroke-width: 2px;
 				}
 			</style>
 
+			<!-- partie script pour creer la graphe -->
 			<script>
+				// variable pour tester, on prend ce type de variables pour creer un graphe
+				var concepts = 
+				{
+					"nom": "Monde",
+					"children":
+					[	
+						{
+							"nom": "siège",
+							"children": 
+							[
+								{
+									"nom": "siège avec bras",
+									"children": 
+									[
+										{
+											"nom": "siège avec bras et dossier yes or no you can duo"
+										},
+										{
+											"nom" : "siège avec bras sans dossier",
+										},
+									]
 
-				var width = 800,
-					height = 500;
+								},
 
+								{
+									"nom": "siège sans bras",
+									"children": 
+									[
+										{
+											"nom" : "siège sans bras avec dossier",
+											"children":[]
+										},
+										{
+											"nom" : "siège sans bras sans dossier",
+											"children":[]
+										}
+									]
+								},
+							]
+						},
+						{
+							"nom": "Matière",
+							"children": 
+							[
+								{
+									"nom": "Matière artificielle",
+									"children":[]
+								},
+								{
+									"nom": "Matière composite",
+									"children":[]
+								},								
+								{
+									"nom": "Matière naturelle",
+									"children":
+									[
+										{
+											"nom": "Matière naturelle minérale",
+											"children":[]
+										},
+										{
+											"nom": "Matière naturelle végétale",
+											"children":[]
+										}
+									]
+								},
+							]
+						}
+					]
+				};
+				
+				// deuxieme variable pour tester ------------------------------
+				var concepts2 = {
+					nom : "siège",
+					"children" : [
+						{
+							"nom" : "siège avec bras",
+							"children" : [
+								{
+									"nom" : "siège avec bras et dossier",
+									"children" : []
+								},
+								{
+									"nom" : "siège avec bras sans dossier",
+									"children" : []
+								},
+							]
+						},
+						
+						{
+							nom : "siège sans bras",
+							"children" : [
+								{
+									"nom" : "siège sans bras avec dossier",
+									"children" : []
+								},
+								{
+									"nom" : "siège sans bras sans dossier",
+									"children" : []
+								},
+							]
+						}
+					]
+				};
+
+				// gestion du diagram -----------------------------------------
+				var margin = {top: 20, right: 120, bottom: 20, left: 120},
+					width = 1260 - margin.right - margin.left,
+					height = 800 - margin.top - margin.bottom;
+				var i = 0, duration = 750, root; // duration : temps de duree de la reaction
+				var tree = d3.layout.tree()
+					.size([height, width]);
+				var diagonal = d3.svg.diagonal()
+					.projection(function(d) { return [d.y, d.x]; });
+
+				// le canvas --------------------------------------------------
 				var svg = d3.select("body").append("svg")
-					.attr("width", width)
-					.attr("height", height);
-				
-				var dataset = [ 5, 10, 15, 20, 25 ];
+					.attr("width" , width  + margin.right + margin.left)
+					.attr("height", height + margin.top   + margin.bottom)
+					.append("g")
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+				root = concepts;// le premier noeud, modifier la variable pour tester
+				root.x0 = height / 2;
+				root.y0 = 0;
+				update(root);
+				d3.select(self.frameElement).style("height", "500px");
 
-				var circles = svg.selectAll("circle")
-					.data(dataset)
-					.enter()
-					.append("circle");
+				// fonction pricipale pour dessiner le graphe -----------------
+				function update(source) 
+				{
+					// Compute the new tree layout.
+					var nodes = tree.nodes(root).reverse(),
+						links = tree.links(nodes);
+						nodes.forEach(function(d) { d.y = d.depth * 180; });// Normalize for fixed-depth.
 
-				circles.attr("cx", function(d, i) {
-						return (i * 100) + 25;
-					})
-					.attr("cy", 100/2)
-					.attr("r", function(d) {
-						return d*2;
-				});
+					// Update the nodes
+					var node = svg.selectAll("g.node")
+						.data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-				
+					// Enter any new nodes at the parent's previous position.
+					var nodeEnter = node.enter().append("g") 
+						.attr("class", "node")
+						.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+						.on("click", click);
+
+						nodeEnter.append("rect")
+							.attr("x",-23)
+							.attr("y", -10)
+							.attr("width",70)
+							.attr("height",22)
+							.attr("rx",10)
+							.style("fill", "#357CAE");
+
+						//ajouter le text
+						nodeEnter.append("text")
+							.attr("x", function(d) { return d.children || d._children ? 13 : 13; })
+							.attr("dy", "8")
+							.attr("text-anchor", "middle")//_children
+							.text(function(d) { return d.nom; })
+							.style("fill", "black")
+							.style("fill-opacity", 1e-6);
+
+					// Transition nodes to their new position
+					var nodeUpdate = node.transition()
+						.duration(duration)
+						.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+						nodeUpdate.select("rect")
+									.attr("x",-23)
+									.attr("y", -18)
+									.attr("width",70)
+									.attr("height",42)
+									.attr("rx",40)
+									.style("fill", "#357CAE");
+
+						nodeUpdate.select("text")
+							.attr("text-anchor", "middle")
+							.style("fill-opacity", 1);
+					
+					// Transition exiting nodes to the parent's new position.。
+					var nodeExit = node.exit().transition()
+						.duration(duration)
+						.attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+						.remove();
+
+						nodeExit.select("rect")
+								.attr("x",-23)
+								.attr("y", -10)
+								.attr("width",70)
+								.attr("height",22)
+								.attr("rx",10)
+								.style("fill", "#357CAE");
+
+						nodeExit.select("text")
+							.attr("text-anchor", "middle")
+							.style("fill-opacity", 1e-6);
+
+					// Update the links
+					var link = svg.selectAll("path.link")
+						.data(links, function(d) { return d.target.id; });
+
+						// Enter any new links at the parent's previous position.
+						link.enter().insert("path", "g")
+							.attr("class", "link")
+							.attr("d", function(d) {
+								var o = {x: source.x0, y: source.y0};
+								return diagonal({source: o, target: o});
+							})
+							.attr('marker-end', 'url(#arrow)');
+
+						// Transition links to their new position.
+						link.transition()
+							.duration(duration)
+							.attr("d", diagonal);
+
+						// Transition exiting nodes to the parent's new position.
+						link.exit()
+							.transition()
+							.duration(duration)
+							.attr("d", function(d) 
+							{
+								var o = {x: source.x, y: source.y};
+								return diagonal({source: o, target: o});
+							})
+							.remove();
+
+					// Stash the old positions for transition.
+					nodes.forEach(function(d) 
+					{
+						d.x0 = d.x;
+						d.y0 = d.y;
+					});
+				}
+
+				// fonction cliquer pour cacher un noeud avec ses fils
+				function click(d) 
+				{
+					if (d.children) 
+					{
+						d._children = d.children;
+						d.children = null;
+					} else 
+					{
+						d.children = d._children;
+						d._children = null;
+					}
+					update(d);
+				}
 			</script>
-
-
 
 
 			<?php
@@ -149,7 +347,8 @@
 	var answer;
 	$(document).ready(function () {
 		
-		$('div.ontoTerminologieElement span').click(function(event){
+		$('div.ontoTerminologieElement span').click(function(event)
+		{
 			var contenuElementClique = $('#'+event.target.id).html();
 			if(event.ctrlKey && $('#queryInput').val() != ""){
 				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
@@ -281,41 +480,7 @@
 
 
 
-<!-- var concepts = 
-				{
-					"nom" : "siège",
-					"concepts_fils" : 
-					[
-						{
-							"nom" : "siège avec bras",
-							"concepts_fils" : 
-							[
-								{
-									"nom" : "siège avec bras et dossier",
-									"concepts_fils" : []
-								},
-								{
-									"nom" : "siège avec bras sans dossier",
-									"concepts_fils" : []
-								},
-							]
-						},
-						{
-							"nom" : "siège sans bras",
-							"concepts_fils" : 
-							[
-								{
-									"nom" : "siège sans bras avec dossier",
-									"concepts_fils" : []
-								},
-								{
-									"nom" : "siège sans bras sans dossier",
-									"concepts_fils" : []
-								},
-							]
-						}
-					]
-				}; -->
+
 
 
 
