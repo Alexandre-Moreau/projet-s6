@@ -81,11 +81,11 @@
 	});
 
 	// Gestion des tabs
-	//$('.tabs').tabs();
-	$('ul.tabs').tabs({
+	$('.tabs').tabs();
+	/*$('ul.tabs').tabs({
 		swipeable: 'true',
 		responsiveThreshold: 'Infinity'
-	});
+	});*/
 
 	// Gestion des select
 	$('select').formSelect();

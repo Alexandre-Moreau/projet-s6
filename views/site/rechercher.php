@@ -79,7 +79,6 @@
 			}
 
 			</style>
-			<body>
 			<script>
 
 			var concepts =
@@ -226,15 +225,15 @@
 
 
 			//la graphe
-			var width = 1200,
-			    height = 1000;
+			var width = 684,
+			    height = 800;
 
 			var color = d3.scale.category20();
 
 			var radius = d3.scale.sqrt()
 			    .range([0, 6]);
 
-			var svg = d3.select("body").append("svg")
+			var svg = d3.select("#concepts").append("svg")
 			    .attr("width", width)
 			    .attr("height", height);
 
@@ -493,7 +492,7 @@
 									var regex = /(\|\|)(.*)(\|\|)/;
 									ref.contexte = ref.contexte.replace(regex, "<b>$2</b>");
 
-									$('#referencesList ul').append('<li class="collection-item animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
+									$('#referencesList ul').append('<li class="collection-item animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">[...] ' + ref.contexte + ' [...]</li>');
 								}
 
 							}else{
