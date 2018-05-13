@@ -212,10 +212,10 @@
 						.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
 						nodeUpdate.select("rect")
-									.attr("x",-23)
-									.attr("y", -18)
-									.attr("width",70)
-									.attr("height",42)
+									.attr("x",-38)
+									.attr("y", -20)
+									.attr("width",100)
+									.attr("height",50)
 									.attr("rx",40)
 									.style("fill", "#357CAE");
 
