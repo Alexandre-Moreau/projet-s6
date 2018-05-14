@@ -5,6 +5,7 @@ env.php
 !articles/index.html
 
 # Filtre MAC
+.DS_Store
 **/.DS_Store
 views/.DS_Store
 views/.DS_Store
