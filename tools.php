@@ -42,8 +42,6 @@ function json_encode_v2($value){
 		}else{
 			if(is_string($a)){
 				echo '\''.$a.'\'';
-			}else if(is_object($a)){
-				echo $printRecursiveJsVar($a);
 			}else{
 				echo $a;
 			}

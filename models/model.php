@@ -22,6 +22,12 @@ abstract class Model{
 		foreach ($object as $key => $value) {
 			if(is_object($value)){
 				$arr[$key] = self::toArray($value);
+			if(is_array($value)){
+				$arr[$key] = [];
+				foreach($value as $k => $v){
+					array_push($arr[$key], self::toArray($v));
+				}
+			}
 			}else{
 				$arr[$key] = $value;
 			}
