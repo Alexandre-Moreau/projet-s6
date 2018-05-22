@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<title>BTG</title>
+
+		<meta charset="UTF-8">
+		
 		<link rel="shortcut icon" type="image/png" href="./images/favicon.png"/>
 		<!-- https://www.flaticon.com/packs/space-3 -->
 	

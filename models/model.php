@@ -20,14 +20,13 @@ abstract class Model{
 	public static function toArray($object){
 		$arr = [];
 		foreach ($object as $key => $value) {
-			if(is_object($value)){
+			if(is_object($value) || gettype($value) === "object"){
 				$arr[$key] = self::toArray($value);
-			if(is_array($value)){
+			}else if(is_array($value) || gettype($value) === "array"){
 				$arr[$key] = [];
 				foreach($value as $k => $v){
 					array_push($arr[$key], self::toArray($v));
 				}
-			}
 			}else{
 				$arr[$key] = $value;
 			}

@@ -14,9 +14,6 @@
 
 </form>
 
-
-
-
 <div class="third">
 	<ul class="tabs">
 		<li class="tab">
@@ -61,11 +58,7 @@
 				?>
 			</div>
 			<div id="concepts1">
-				<?php
-					foreach($data['onto'] as $conceptRacine) {
-						print_r(Model::toArray($conceptRacine));
-					}
-				?>
+
 			</div>
 		</div>
 		<div class="contentDiv" id="terms">
@@ -77,9 +70,6 @@
 		</div>
 	</div>
 </div>
-
-
-
 
 <div class="third" id="articlesList">
 	<h4><?php echo _LISTARTICLES;?></h4>
@@ -93,9 +83,49 @@
 </div>
 
 <script>
+
+	<?php
+		$i = 0;
+		echo 'var dataOnto = [';
+		foreach($data['onto'] as $conceptRacine) {
+			//printJsVar('racine'.$i++, );
+			json_encode_v2(Model::toArray($conceptRacine));
+			if(++$i != count($data['onto'])){ echo ', '; }
+		}
+		echo "]\n";
+	?>
+
+	var conceptIdSelection = null;
+
 	var form = $('form');
 	var answer;
+
+	function getConcept(id){
+		var concept = {"id" : 0, "nom" : "racine", "conceptsFils" : []};
+		for (i = 0; i < dataOnto.length; i++) {
+			concept.conceptsFils.push(dataOnto[i])
+		}
+		console.log(concept);
+		return concept;
+	}
+
+	function selectConceptCarre(conceptId){
+		// Il y a très probablement moyen de faire mieux avec des variables jquerry
+		var contentDivConcepts1 = '';
+		var concept = getConcept(conceptId);
+		for (i = 0; i < concept.conceptsFils.length; i++) {
+			contentDivConcepts1 += ('<div>' + concept.conceptsFils[i].nom + '</div>');
+			/*for (j = 0; j < concept.conceptsFils[i].conceptsFils.length; j++) {
+				contentDivConcepts1 += ('<div>-' + concept.conceptsFils[i].conceptsFils[j].nom + '</div>');
+			}*/
+		}
+		$('div#concepts1').html($(contentDivConcepts1));
+	}
+
 	$(document).ready(function () {
+
+		//$('div#concepts1').html('a');
+		selectConceptCarre(conceptIdSelection)
 
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
