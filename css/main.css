@@ -116,10 +116,6 @@ footer{
 	min-height: 58vh;
 }
 
-div.spaced *{
-	margin: 5px;
-}
-
 .container hr{
 	border-top: 1px solid grey;
 }

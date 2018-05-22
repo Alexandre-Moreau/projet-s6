@@ -18,7 +18,7 @@
 
 
 <div class="third">
-	<ul class="tabs">
+	<ul id="rechercherTabs" class="tabs tabs-fixed-width" style="overflow: hidden;">
 		<li class="tab">
 			<a class="active" id="tab1" href="#concepts"><?php echo _CONCEPTS;?></a>
 		</li>
@@ -29,307 +29,277 @@
 
 	<div id="contentDivs">
 		<div class="contentDiv" id="concepts">
-			<!-- <link   rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'> -->
-			<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script> -->
-			<!-- <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script> -->
-			<script src="https://d3js.org/d3.v4.js"></script>
+			<!-- <script src="https://d3js.org/d3.v4.js"></script>
 			<script src="https://d3js.org/d3.v3.min.js"></script>
-			<!-- <script src="word_wrap.js"></script> -->
-			<!-- <script src="d3v4-brush-lite.js"></script> -->
-			<!-- <script src="d3v4-selectable-force-directed-graph.js"></script> -->
-
-			<!-- <svg align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 600px; margin-bottom: 12px; stroke='black' ">
-			<svg /> -->
-
-			<!-- <svg width="800" height="600" fill="yellow" stroke="orange"><svg />
-			<circle cx="250" cy="250" r="25" fill="green" stroke="yellow" stroke-width="5"/></circle>
-			<text x="250" y="25" fill="green" >Easy-peasy</text>
-			<line x1="0" y1="0" x2="500" y2="50" stroke="orange"/>
-			<rect x="0" y="0" width="30" height="30" fill="purple"/>
-			<rect x="20" y="5" width="30" height="30" fill="blue"/>
-			<rect x="40" y="10" width="30" height="30" fill="green"/>
-			<rect x="60" y="15" width="30" height="30" fill="yellow"/>
-			<rect x="80" y="20" width="30" height="30" fill="red"/> -->
-
 			<style>
+				.link line {
+				  stroke: #696969;
+				}
 
-			.link line {
-			  stroke: #696969;
-			}
+				.link line.separator {
+				  stroke: #fff;
+				  stroke-width: 2px;
+				}
 
-			.link line.separator {
-			  stroke: #fff;
-			  stroke-width: 2px;
-			}
+				.node circle {
+				  stroke: #000;
+				  stroke-width: 1px;
+				}
 
-			.node circle {
-			  stroke: #000;
-			  stroke-width: 1px;
-			}
+				.node text {
+				  font: 10px arial,sans-serif;
+				  pointer-events: none;
+				}
 
-			.node text {
-			  font: 10px arial,sans-serif;
-			  pointer-events: none;
-			}
+				.node ellipse {
+				  stroke: #000;
+				  stroke-width: 1px;
 
-			.node ellipse {
-			  stroke: #000;
-			  stroke-width: 1px;
-
-			}
-
+				}
 			</style>
 			<script>
+				var concepts =
+								{
+									"nom" : "Siège",
+									"concepts_fils" :
+									[
+										{
+											"nom" : "Siège avec bras",
+											"concepts_fils" :
+											[
+												{
+													"nom" : "Siège avec bras et dossier",
+													"concepts_fils" : []
+												},
+												{
+													"nom" : "Siège avec bras sans dossier",
+													"concepts_fils" : []
+												},
+											]
+										},
+										{
+											"nom" : "Siège sans bras",
+											"concepts_fils" :
+											[
+												{
+													"nom" : "Siège sans bras avec dossier",
+													"concepts_fils" : []
+												},
+												{
+													"nom" : "Siège sans bras sans dossier",
+													"concepts_fils" : []
+												},
+											]
+										}
+									]
+								};
 
-			var concepts =
-							{
-								"nom" : "1siège",
-								"concepts_fils" :
-								[
-									{
-										"nom" : "2siège avec bras",
-										"concepts_fils" :
-										[
-											{
-												"nom" : "3siège avec bras et dossier",
-												"concepts_fils" : []
-											},
-											{
-												"nom" : "4siège avec bras sans dossier",
-												"concepts_fils" : []
-											},
-										]
-									},
-									{
-										"nom" : "5siège sans bras",
-										"concepts_fils" :
-										[
-											{
-												"nom" : "6siège sans bras avec dossier",
-												"concepts_fils" : []
-											},
-											{
-												"nom" : "7siège sans bras sans dossier",
-												"concepts_fils" : []
-											},
-										]
-									}
-								]
-							};
+				//transform conceptes to data.json
+				const size = [50, 100, 200]
+				const bond = 1
+				var data = {
+					"nodes" : [],
+					"links" : []
+				}
 
-			//transform conceptes to data.json
-			const size = [50, 100, 200]
-			const bond = 1
-			var data = {
-				"nodes" : [],
-				"links" : []
-			}
+				function push(_atom, _size, pere, indice){
+					// var i = data.nodes.indexOf(pere)
+					data.nodes.push({
+						atom : _atom,
+						size : size[_size]
+					})
+					data.links.push({
+						source : indice,
+						target : pere,
+						bond
+					})
+				}
 
-			function push(_atom, _size, pere, indice){
-				// var i = data.nodes.indexOf(pere)
-				data.nodes.push({
-					atom : _atom,
-					size : size[_size]
-				})
-				data.links.push({
-					source : indice,
-					target : pere,
-					bond
-				})
-			}
+				push("BTG", size.length - 1, 0, 0)//FIXME
 
-			push("BTG", size.length - 1, 0, 0)//FIXME
-
-			var indice = 1
-			function transformToJson(_concepts){
 				var indice = 1
-				aux_transformToJson(_concepts, size.length - 1, 1)
-			}
+				function transformToJson(_concepts){
+					var indice = 1
+					aux_transformToJson(_concepts, size.length - 1, 1)
+				}
 
-			function aux_transformToJson( _concepts,_size, _pere) {
-				console.log(indice, _pere)
-				push(_concepts.nom, _size, _pere, indice)
+				function aux_transformToJson( _concepts,_size, _pere) {
+					console.log(indice, _pere)
+					push(_concepts.nom, _size, _pere, indice)
 
-				var next_size = _size > 0 ? _size - 1 : 0;
-				var next_pere = indice
-				indice = indice + 1
+					var next_size = _size > 0 ? _size - 1 : 0;
+					var next_pere = indice
+					indice = indice + 1
 
-				_concepts.concepts_fils.forEach(e => {
-					aux_transformToJson(e, next_size, next_pere)
-					// indice = indice + 1
-				})
-			}
+					_concepts.concepts_fils.forEach(e => {
+						aux_transformToJson(e, next_size, next_pere)
+						// indice = indice + 1
+					})
+				}
 
-			transformToJson(concepts)
+				transformToJson(concepts)
 
-			console.log("data : ============")
-			console.log(data)
-			console.log("============")
+				console.log("data : ============")
+				console.log(data)
+				console.log("============")
 
-			var str_data = JSON.stringify(data)
-
-
-			// fonction word_wrap
-			d3.util = d3.util || {};
-
-			d3.util.wrap = function(_wrapW) {
-			    return function(d, i) {
-			        var that = this;
-
-			        function tspanify() {
-			            var lineH = this.node().getBBox().height;
-			            this.text('')
-			                .selectAll('tspan')
-			                .data(lineArray)
-			                .enter()
-			                .append('tspan')
-			                .attr({
-			                    x: 0,
-			                    y: function(d, i) {
-			                        return (i + 1) * lineH;
-			                    },
-			                })
-			                .text(function(d, i) {
-			                    return d.join(' ');
-			                });
-			        }
-
-			        function checkW(_text) {
-			            var textTmp = that.style({ visibility: 'hidden' }).text(_text);
-			            var textW = textTmp.node().getBBox().width;
-			            that.style({ visibility: 'visible' }).text(text);
-			            return textW;
-			        }
-
-			        var text = this.text();
-			        var parentNode = this.node().parentNode;
-			        var textSplitted = text.split(' ');
-			        var lineArray = [[]];
-			        var count = 0;
-			        textSplitted.forEach(function(d, i) {
-			            if (
-			                checkW(lineArray[count].concat(d).join(' '), parentNode) >=
-			                _wrapW
-			            ) {
-			                count++;
-			                lineArray[count] = [];
-			            }
-			            lineArray[count].push(d);
-			        });
-
-			        this.call(tspanify);
-			    };
-			};
+				var str_data = JSON.stringify(data)
 
 
+				// fonction word_wrap
+				d3.util = d3.util || {};
 
+				d3.util.wrap = function(_wrapW) {
+					return function(d, i) {
+						var that = this;
 
-			//la graphe
-			var width = 684,
-			    height = 800;
+						function tspanify() {
+							var lineH = this.node().getBBox().height;
+							this.text('')
+								.selectAll('tspan')
+								.data(lineArray)
+								.enter()
+								.append('tspan')
+								.attr({
+									x: 0,
+									y: function(d, i) {
+										return (i + 1) * lineH;
+									},
+								})
+								.text(function(d, i) {
+									return d.join(' ');
+								});
+						}
 
-			var color = d3.scale.category20();
+						function checkW(_text) {
+							var textTmp = that.style({ visibility: 'hidden' }).text(_text);
+							var textW = textTmp.node().getBBox().width;
+							that.style({ visibility: 'visible' }).text(text);
+							return textW;
+						}
 
-			var radius = d3.scale.sqrt()
-			    .range([0, 6]);
+						var text = this.text();
+						var parentNode = this.node().parentNode;
+						var textSplitted = text.split(' ');
+						var lineArray = [[]];
+						var count = 0;
+						textSplitted.forEach(function(d, i) {
+							if (
+								checkW(lineArray[count].concat(d).join(' '), parentNode) >=
+								_wrapW
+							) {
+								count++;
+								lineArray[count] = [];
+							}
+							lineArray[count].push(d);
+						});
 
-			var svg = d3.select("#concepts").append("svg")
-			    .attr("width", width)
-			    .attr("height", height);
-
-			var force = d3.layout.force()
-			    .size([width, height])
-			    .charge(-1300)
-			    .linkDistance(function(d) { return (radius(d.source.size) + radius(d.target.size) + 50* d.bond)  });
-			d3.json("graph.json", function(error, graph) {
-
-			  if (error) throw error;
-
-			  console.log(graph)
-				graph = data
-
-			  force
-			      .nodes(graph.nodes)
-			      .links(graph.links)
-			      .on("tick", tick)
-			      .start();
-
-			  var link = svg.selectAll(".link")
-			      .data(graph.links)
-			    .enter().append("g")
-			      .attr("class", "link");
-
-			  link.append("line")
-			      .style("stroke-width", function(d) { return (d.bond * 2 - 1) * 2 + "px"; });
-
-			  link.filter(function(d) { return d.bond > 1; }).append("line")
-			      .attr("class", "separator");
-
-			  var node = svg.selectAll(".node")
-			      .data(graph.nodes)
-			    .enter().append("g")
-			      .attr("class", "node")
-			      .call(force.drag);
-
-
-			  node.append("ellipse")
-			      .attr("rx",80)
-			      .attr("ry",  function(d) { return radius(d.size); })
-			      //.attr("r", function(d) { return radius(d.size); })
-			      .style("fill", function(d) { return color(d.atom); })
-
-
-
-			  node.append("text")
-			      .attr("dy", ".35em")
-			      .attr("text-anchor", "middle")
-			      .text(function(d) { return d.atom; })
-			      .call(wrap, 150) //TODO
-						
-
-
-			  function tick() {
-			    link.selectAll("line")
-			        .attr("x1", function(d) { return d.source.x; })
-			        .attr("y1", function(d) { return d.source.y; })
-			        .attr("x2", function(d) { return d.target.x; })
-			        .attr("y2", function(d) { return d.target.y; });
-
-			    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-			  }
-			});
-
-			function wrap(text, width) {
-			  text.each(function() {
-			    var text = d3.select(this),
-			        words = text.text().split(/\s+/).reverse(),
-			        word,
-			        line = [],
-			        lineNumber = 0,
-			        lineHeight = 0.5, // ems
-			        y = text.attr("y"),
-			        dy = parseFloat(text.attr("dy")),
-			        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
-			    while (word = words.pop()) {
-			      line.push(word);
-			      tspan.text(line.join(" "));
-			      if (tspan.node().getComputedTextLength() > width) {
-			        line.pop();
-			        tspan.text(line.join(" "));
-			        line = [word];
-			        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-			      }
-			    }
-			  });
-			}
-			</script>
+						this.call(tspanify);
+					};
+				};
 
 
 
 
+				//la graphe
+				var width = 684,
+					height = 800;
+
+				var color = d3.scale.category20();
+
+				var radius = d3.scale.sqrt()
+					.range([0, 6]);
+
+				var svg = d3.select("#concepts").append("svg")
+					.attr("width", width)
+					.attr("height", height);
+
+				var force = d3.layout.force()
+					.size([width, height])
+					.charge(-1300)
+					.linkDistance(function(d) { return (radius(d.source.size) + radius(d.target.size) + 50* d.bond)  });
+				d3.json("graph.json", function(error, graph) {
+
+				  if (error) throw error;
+
+				  console.log(graph)
+					graph = data
+
+				  force
+					  .nodes(graph.nodes)
+					  .links(graph.links)
+					  .on("tick", tick)
+					  .start();
+
+				  var link = svg.selectAll(".link")
+					  .data(graph.links)
+					.enter().append("g")
+					  .attr("class", "link");
+
+				  link.append("line")
+					  .style("stroke-width", function(d) { return (d.bond * 2 - 1) * 2 + "px"; });
+
+				  link.filter(function(d) { return d.bond > 1; }).append("line")
+					  .attr("class", "separator");
+
+				  var node = svg.selectAll(".node")
+					  .data(graph.nodes)
+					.enter().append("g")
+					  .attr("class", "node")
+					  .call(force.drag);
+
+
+				  node.append("ellipse")
+					  .attr("rx",80)
+					  .attr("ry",  function(d) { return radius(d.size); })
+					  //.attr("r", function(d) { return radius(d.size); })
+					  .style("fill", function(d) { return color(d.atom); })
 
 
 
+				  node.append("text")
+					  .attr("dy", ".35em")
+					  .attr("text-anchor", "middle")
+					  .text(function(d) { return d.atom; })
+					  .call(wrap, 150) //TODO
+							
+
+
+				  function tick() {
+					link.selectAll("line")
+						.attr("x1", function(d) { return d.source.x; })
+						.attr("y1", function(d) { return d.source.y; })
+						.attr("x2", function(d) { return d.target.x; })
+						.attr("y2", function(d) { return d.target.y; });
+
+					node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+				  }
+				});
+
+				function wrap(text, width) {
+				  text.each(function() {
+					var text = d3.select(this),
+						words = text.text().split(/\s+/).reverse(),
+						word,
+						line = [],
+						lineNumber = 0,
+						lineHeight = 0.5, // ems
+						y = text.attr("y"),
+						dy = parseFloat(text.attr("dy")),
+						tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+					while (word = words.pop()) {
+					  line.push(word);
+					  tspan.text(line.join(" "));
+					  if (tspan.node().getComputedTextLength() > width) {
+						line.pop();
+						tspan.text(line.join(" "));
+						line = [word];
+						tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+					  }
+					}
+				  });
+				}
+			</script> -->
 
 			<?php
 				function printRecursive($concept, $callStack){

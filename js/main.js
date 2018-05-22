@@ -98,7 +98,10 @@
 		window.history.back();
 	});
 
-	
+	// Gestion des collapsibles
+	$(document).ready(function(){
+		$('.collapsible').collapsible();
+	});
 
 	var a = new Audio('js/audio.js');
 	onKonamiCode(function () {
