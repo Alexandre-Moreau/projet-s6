@@ -93,7 +93,7 @@
 					<?php printJsVar('fichiersNCD', $data['fichiersNonCorrespondantsDisque']); ?>
 					
 					<?php printJsVar('fichiersNCB', Model::toArray($data['fichiersNonCorrespondantsBdd']));?>
-					
+
 					
 					if($('#nbArticles').html() == 0){
 						$('#nbArticles').removeClass('grey');
@@ -112,6 +112,7 @@
 					for(var key in articlesNRef){
 						$('div#articlesNRef').append('<span class="badge warning white-text">'+articlesNRef[key]+'</span>');
 					}
+
 					if($('#nbNoncorrespondancesFichiersDisque').html() > 0){
 						if(Object.keys(fichiersNCB).length>0){
 							$('#nbNoncorrespondancesFichiersDisque').removeClass('grey');
@@ -126,23 +127,28 @@
 						$('#nbNoncorrespondancesFichiersDisque').removeClass('grey');
 						$('#nbNoncorrespondancesFichiersDisque').addClass('success');
 					}
+
 					if(Object.keys(fichiersNCB).length>0){
 						$('div#fichiersNCB').append('Fichiers manquant sur le disque:');
 						for(var key in fichiersNCB){
+							console.log(fichiersNCB);
 							$('div#fichiersNCB').append('<span class="badge danger">'+fichiersNCB[key].chemin+' ('+fichiersNCB[key].nom+')</span>');
 						}
 					}
+
 					if(Object.keys(fichiersNCD).length>0){
 						$('div#fichiersNCD').append('Fichiers en trop sur le disque:');
 						for(var key in fichiersNCD){
 							$('div#fichiersNCD').append('<span class="badge warning white-text">'+fichiersNCD[key]+'</span>');
 						}
 					}
+
 					if($('#nbracinesOnto').html() == 0){
 						$('#nbracinesOnto').removeClass('grey');
 						$('#nbracinesOnto').addClass('warning');
 						statutOnto['warning'] = true;
 					}
+
 					if(statutArticle['erreur']){
 						$('h2#titleArticle').append('<span style="font-size: 18px; vertical-align: text-top" class="badge danger white-text">!</span>');
 					}else if(statutArticle['warning']){
@@ -150,6 +156,7 @@
 					}else{
 						$('h2#titleArticle').append('<span style="font-size: 18px; vertical-align: text-top" class="badge success white-text">&#x2713;</span>');
 					}
+
 					if(statutOnto['erreur']){
 						$('h2#titleOnto').append('<span style="font-size: 18px; vertical-align: text-top" class="badge danger white-text">!</span>');
 					}else if(statutOnto['warning']){
@@ -157,5 +164,6 @@
 					}else{
 						$('h2#titleOnto').append('<span style="font-size: 18px; vertical-align: text-top" class="badge success white-text">&#x2713;</span>');
 					}
+
 				});
 			</script>
