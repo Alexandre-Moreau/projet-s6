@@ -92,7 +92,7 @@
 					
 					<?php printJsVar('fichiersNCD', $data['fichiersNonCorrespondantsDisque']); ?>
 					
-					<?php printJsVar('fichiersNCB', $data['fichiersNonCorrespondantsBdd']);?>
+					<?php printJsVar('fichiersNCB', Model::toArray($data['fichiersNonCorrespondantsBdd']));?>
 					
 					
 					if($('#nbArticles').html() == 0){
