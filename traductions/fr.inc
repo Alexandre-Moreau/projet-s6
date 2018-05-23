@@ -91,6 +91,8 @@ define("_EDITARTICLE","Modifier l'article");
 define("_EDITSUCCES","L\'article a été modifié avec succès");
 
 // Maintenance
+define("_STATUS","Statut");
+define("_DATABASE_MANAGEMENT","Gérer BDD");
 define("_ONTO","Ontoterminologie");
 define("_ADVANCED","Avancé");
 define("_SYSTEM", "Système");

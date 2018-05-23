@@ -1,5 +1,5 @@
 			<div class="row">
-				<div class="col l6 m6">
+				<div class="col l6 m6 s12">
 					<ul class="collection with-header">
 						<li class="collection-header">
 							<h2 id='titleArticle'><?php echo _ARTICLES;?></h2>
@@ -26,7 +26,7 @@
 					</ul>
 				</div>
 				
-				<div class="col l6 m6">
+				<div class="col l6 m6 s12">
 					<ul class="collection with-header">
 						<li class="collection-header">
 							<h2 id='titleOnto'><?php echo _ONTO;?></h2>

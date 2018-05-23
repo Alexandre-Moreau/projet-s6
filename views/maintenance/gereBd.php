@@ -1,27 +1,51 @@
-			<h2 id='titleDb'><?php echo _DATABASE;?></h2>
-			<div class="card">
-				<div class="card-body"><?php echo _SERVER_CONNECTION; ?> : <span class="badge badge-default" id="nbArticles"><?php echo $data['statut']['reussite']; ?></span></div>
-				<div id="infoSupConnexionBdd"></div>
-			</div>
-			</br>
-			<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#formLoadFichiers"><?php echo _ADVANCED?></button>
-			<div id="formLoadFichiers" class="collapse">
-				<div id="formStatus" class="alert-dismissible fade show" role="alert">
-					<div id="">
-						
-					</div>
+			<div class="row">
+				<div class="col l12 m12 s12">
+					<ul class="collection with-header">
+						<li class="collection-header">
+							<h2 id='titleDb'><?php echo _DATABASE;?></h2>
+						</li>
+						<li class="collection-item">
+							<?php echo _SERVER_CONNECTION; ?> : 
+							<span class="badge grey white-text" id="nbArticles"><?php echo $data['statut']['reussite']; ?></span>
+						</li>
+						<div id="infoSupConnexionBdd"></div>
+					</ul>
 				</div>
-				<form method="post" action ="">
-					<div class="form-group">
-						<label for="fichierCreate"><?php echo _FILE.' create.sql';?> : <span class="requis">*</span></label>
-						<input type="file" name='fichierCreate' id='fichierCreate' accept=".sql" class="form-control">
-					</div>
-					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT;?>" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" value="<?php echo _FORMRESET;?>" class="btn btn-secondary"></input>
-					</div>
-				</form>
 			</div>
+
+			<ul class="collapsible popout col l12 m12 s12">
+				<li>
+					<div class="collapsible-header">
+						<i class="material-icons">build</i>
+						<?php echo _ADVANCED?>
+					</div>
+					<div class="collapsible-body">
+						<div class="row">
+							<div id="formStatus" class="alert fade show">
+								<div id=""></div>
+							</div>
+							<form method="post" action ="">
+								<div class="file-field input-field col s12">
+									<div class="btn primary">
+										<span><?php echo _FILE.' create.sql';?><i class="material-icons right">file_upload</i></span>
+										<input type="file" name="fichierCreate" id="fichierCreate" accept=".sql">
+									</div>
+									<div class="file-path-wrapper">
+										<input class="file-path validate" type="text">
+									</div>
+								</div>
+
+								<div class="input-field center col s12">
+									<button type="submit" class="btn success waves-effect" ><?php echo _FORMSUBMIT; ?></button>
+									<button id="reset" type="reset" class="btn danger waves-effect waves-light"><?php echo _FORMRESET;?></button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			
 			<script>
 				<?php printJsVar('statut', $data['statut']);?>
 				$(document).ready(function(){
@@ -29,18 +53,18 @@
 					
 					if($('#nbArticles').html() == '2'){
 						$('#nbArticles').html('&#x2713;');
-						$('#nbArticles').removeClass('badge-default');
-						$('#nbArticles').addClass('badge-success');
+						$('#nbArticles').removeClass('grey');
+						$('#nbArticles').addClass('success');
 					}else if($('#nbArticles').html() == '1'){
 						$('#nbArticles').html('!');
-						$('#nbArticles').removeClass('badge-default');
-						$('#nbArticles').addClass('badge-warning');
-						$('#infoSupConnexionBdd').append('<span class="badge badge-warning">'+'<?php echo 'base de données inconnue';?></span>');
+						$('#nbArticles').removeClass('grey');
+						$('#nbArticles').addClass('warning');
+						$('#infoSupConnexionBdd').append('<span class="badge warning">'+'<?php echo 'base de données inconnue';?></span>');
 					}else{
 						$('#nbArticles').html('!');
-						$('#nbArticles').removeClass('badge-default');
-						$('#nbArticles').addClass('badge-danger');
-						$('#infoSupConnexionBdd').append('<span class="badge badge-danger">'+'<?php echo $data['statut']['message'];?></span>');
+						$('#nbArticles').removeClass('grey');
+						$('#nbArticles').addClass('danger');
+						$('#infoSupConnexionBdd').append('<span class="badge danger">'+'<?php echo $data['statut']['message'];?></span>');
 					}
 					
 					var form = $('form');

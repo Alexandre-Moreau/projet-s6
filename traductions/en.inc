@@ -91,6 +91,8 @@ define("_EDITARTICLE","Edit article");
 define("_EDITSUCCES","The article was succesfully edited");
 
 // Maintenance
+define("_STATUS","Status");
+define("_DATABASE_MANAGEMENT","Database management");
 define("_ONTO","Ontoterminology");
 define("_ADVANCED","Advanced");
 define("_SYSTEM", "System");
