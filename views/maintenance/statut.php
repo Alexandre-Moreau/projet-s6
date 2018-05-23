@@ -20,7 +20,11 @@
 						<li class="collection-item">
 							<?php echo _ERROR_DISK_FILE;?>
 							<span class="badge grey white-text" id="nbNoncorrespondancesFichiersDisque"><?php echo count($data['fichiersNonCorrespondantsDisque'])+count($data['fichiersNonCorrespondantsBdd']); ?></span>
+						</li>
+						<li class="collection-item">
 							<div id="fichiersNCB"></div>
+						</li>
+						<li class="collection-item">
 							<div id="fichiersNCD"></div>
 						</li>
 					</ul>
@@ -131,8 +135,7 @@
 					if(Object.keys(fichiersNCB).length>0){
 						$('div#fichiersNCB').append('Fichiers manquant sur le disque:');
 						for(var key in fichiersNCB){
-							console.log(fichiersNCB);
-							$('div#fichiersNCB').append('<span class="badge danger">'+fichiersNCB[key].chemin+' ('+fichiersNCB[key].nom+')</span>');
+							$('div#fichiersNCB').append('<span class="badge danger white-text">'+fichiersNCB[key][1]+'.'+fichiersNCB[key][3]+'</span>');
 						}
 					}
 
