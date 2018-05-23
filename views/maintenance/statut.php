@@ -133,7 +133,7 @@
 					if(Object.keys(fichiersNCB).length>0){
 						$('div#fichiersNCB').append('Fichiers manquant sur le disque:');
 						for(var key in fichiersNCB){
-							$('div#fichiersNCB').append('<span class="badge danger white-text">'+fichiersNCB[key].chemin+' ('+fichiersNCB[key].nom+')</span>');
+							$('div#fichiersNCB').append('<span class="badge danger white-text">'+fichiersNCB[key][1]+'.'+fichiersNCB[key][3]+'</span>');
 						}
 					}
 					if(Object.keys(fichiersNCD).length>0){
