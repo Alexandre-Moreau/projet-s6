@@ -45,25 +45,26 @@
 	}
 ?>
 <div>
-	<h3 class="display-5">
-		<?php echo _REFERENCE; ?>
-	</h3>
-	<ul class="list-group">
-	<?php
-		$refsAffichees = [];
-		foreach($data['references'] as $reference){
-			if(!isset($refsAffichees[$reference->concept->nom])){
-				$refsAffichees[$reference->concept->nom] = 1;
-			}else{
-				$refsAffichees[$reference->concept->nom] = $refsAffichees[$reference->concept->nom] + 1;
+	
+	<ul class="collection with-header">
+		<li class="collection-header">
+			<h3><?php echo _REFERENCE; ?></h3>
+		</li>
+		<?php
+			$refsAffichees = [];
+			foreach($data['references'] as $reference){
+				if(!isset($refsAffichees[$reference->concept->nom])){
+					$refsAffichees[$reference->concept->nom] = 1;
+				}else{
+					$refsAffichees[$reference->concept->nom] = $refsAffichees[$reference->concept->nom] + 1;
+				}
 			}
-		}
-		// tri par nombre référence décroissant
-		arsort($refsAffichees);
-		foreach($refsAffichees as $nom => $valeur){
-			echo '<li class="list-group-item justify-content-between" style="width: 40%">'.$nom.'<span class="badge badge-default badge-pill">'.$valeur.'</span></li>';
-		}
-	?>
+			// tri par nombre référence décroissant
+			arsort($refsAffichees);
+			foreach($refsAffichees as $nom => $valeur){
+				echo '<li class="collection-item">'.$nom.'<span class="badge grey white-text">'.$valeur.'</span></li>';
+			}
+		?>
 	</ul>
 	<div>
 	</div>
