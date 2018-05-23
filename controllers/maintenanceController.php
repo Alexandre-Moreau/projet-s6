@@ -113,11 +113,15 @@ class MaintenanceController extends Controller{
 			$data['ipClient'] = 'localhost';
 		}
 		
-		$data['ipServeur'] = $_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'];
-		
-		if($_SERVER['SERVER_ADDR'] == '::1'){
-			//$data['ipServeur'] .= ' (localhost)';
-			$data['ipServeur'] = 'localhost'.':'.$_SERVER['SERVER_PORT'];
+		if (isset($_SERVER['SERVER_ADDR'])) {
+			$data['ipServeur'] = $_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT'];
+			
+			if($_SERVER['SERVER_ADDR'] == '::1'){
+				//$data['ipServeur'] .= ' (localhost)';
+				$data['ipServeur'] = 'localhost'.':'.$_SERVER['SERVER_PORT'];
+			}
+		}else{
+			$data['ipServeur'] = '?';
 		}
 		
 		// - Articles dans la bdd mais pas sur le disque

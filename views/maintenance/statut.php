@@ -110,7 +110,7 @@
 						}
 					}
 					for(var key in articlesNRef){
-						$('div#articlesNRef').append('<span class="badge warning">'+articlesNRef[key]+'</span>');
+						$('div#articlesNRef').append('<span class="badge warning white-text">'+articlesNRef[key]+'</span>');
 					}
 					if($('#nbNoncorrespondancesFichiersDisque').html() > 0){
 						if(Object.keys(fichiersNCB).length>0){
