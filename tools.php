@@ -25,7 +25,7 @@ use Fukuball\Jieba\Finalseg;
 function printJsVar($name, $value){
 	echo 'var '.$name.' = ';
 	echo json_encode_v2($value);
-	echo ';';
+	echo ";\n";
 }
 
 function json_encode_v2($value){
@@ -33,17 +33,17 @@ function json_encode_v2($value){
 	$printRecursiveJsVar = function($a) use(&$printRecursiveJsVar) {
 		if(is_array($a)){
 			echo '{';
+			$i = 0;
+			$c = count($a);
 			foreach($a as $key=>$value){
 				echo $key.': ';
 				$printRecursiveJsVar($value);
-				echo ', ';
+				if(++$i != $c){ echo ', '; }
 			}
 			echo '}';
 		}else{
 			if(is_string($a)){
 				echo '\''.$a.'\'';
-			}else if(is_object($a)){
-				echo $printRecursiveJsVar($a);
 			}else{
 				echo $a;
 			}

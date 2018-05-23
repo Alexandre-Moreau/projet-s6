@@ -14,9 +14,6 @@
 
 </form>
 
-
-
-
 <div class="third">
 	<ul id="rechercherTabs" class="tabs tabs-fixed-width" style="overflow: hidden;">
 		<li class="tab">
@@ -300,29 +297,42 @@
 				  });
 				}
 			</script> -->
+			
+			<ul class="tabs">
+				<li class="tab">
+					<a class="active" id="tab1" href="#concepts0"><?php echo _ONTO;?></a>
+				</li>
+				<li class="tab">
+					<a id="tab2" href="#concepts1"><?php echo 'carrés';?></a>
+				</li>
+			</ul>
+			<div id="concepts0">
+				<?php
+					function printRecursive($concept, $callStack){
+						echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
+						$callStack++;
+						foreach($concept->conceptsFils as $fils){
+							printRecursive($fils, $callStack);
+						}
+					}
 
-			<?php
-				function printRecursive($concept, $callStack){
-					echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
-					$callStack++;
-					foreach($concept->conceptsFils as $fils){
-						printRecursive($fils, $callStack);
+					function printRecursiveJSON($concept){
+						echo $concept->id.' '.$concept->nom;
+						foreach($concept->conceptsFils as $fils){
+							printRecursiveJSON($fils);
+						}
 					}
-				}
-				function printRecursiveJSON($concept){
-					echo $concept->id.' '.$concept->nom;
-					foreach($concept->conceptsFils as $fils){
-						printRecursiveJSON($fils);
+
+					foreach($data['onto'] as $conceptRacine) {
+						printRecursive($conceptRacine, 0);
 					}
-				}
-				foreach($data['onto'] as $conceptRacine) {
-					printRecursive($conceptRacine, 0);
-					//printRecursiveJSON($conceptRacine);
-					//print_r(json_encode(Model::toArray($conceptRacine), JSON_UNESCAPED_UNICODE));
-				}
-			?>
+				?>
+			</div>
+			<div id="concepts1" style="text-align: center;">
+				<div id="blockRoot"></div>
+				<div id="blockContent" style="overflow: hidden;"></div>
+			</div>
 		</div>
-
 		<div class="contentDiv" id="terms">
 			<?php
 				foreach($data['termes'] as $terme){
@@ -332,9 +342,6 @@
 		</div>
 	</div>
 </div>
-
-
-
 
 <div class="third" id="articlesList">
 	<h4><?php echo _LISTARTICLES;?></h4>
@@ -347,13 +354,62 @@
 	</ul>
 </div>
 
-
-
-
 <script>
+
+	<?php
+		$i = 0;
+		echo 'var dataOnto = [';
+		foreach($data['onto'] as $conceptRacine) {
+			//printJsVar('racine'.$i++, );
+			json_encode_v2(Model::toArray($conceptRacine));
+			if(++$i != count($data['onto'])){ echo ', '; }
+		}
+		echo "]\n";
+	?>
+
+	var conceptIdSelection = null;
+
 	var form = $('form');
 	var answer;
+
+	function getConcept(id){
+		var concept = {"id" : 0, "nom" : "", "conceptsFils" : []};
+		for (i = 0; i < dataOnto.length; i++) {
+			concept.conceptsFils.push(dataOnto[i])
+		}
+		if(id == null){
+			return concept
+		}else{
+			for (i = 0; i < concept.conceptsFils.length; i++) {
+				if(concept.conceptsFils[i].id == id){
+
+				}
+			}
+		}
+		//console.log(concept);
+	}
+
+	function selectConceptCarre(conceptId){
+		// Il y a très probablement moyen de faire mieux avec des variables jquerry pour contentDivConcepts1
+		var contentDivConcepts1 = '';
+		var concept = getConcept(conceptId);
+
+		$('div#concepts1 div#blockRoot').html('<b>' + concept.nom + '</b>');
+
+		for (i = 0; i < concept.conceptsFils.length; i++) {
+			contentDivConcepts1 += ('<div style="float: left;">' + '<span concept_id="x">' + concept.conceptsFils[i].nom + '</span>');
+			for (j = 0; j < Object.size(concept.conceptsFils[i].conceptsFils); j++) {
+				contentDivConcepts1 += ('<div><span concept_id="x" style="font-size: 0.8em;">' + concept.conceptsFils[i].conceptsFils[j].nom + '</span></div>');
+			}
+			contentDivConcepts1 += '</div>';
+		}
+		$('div#concepts1 div#blockContent').html($(contentDivConcepts1));
+	}
+
 	$(document).ready(function () {
+
+		//$('div#concepts1').html('a');
+		selectConceptCarre(conceptIdSelection)
 
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
@@ -368,6 +424,20 @@
 
 		$('div.ontoTerminologieElementTerme span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).attr('concept');
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else if(event.altKey){
+				console.log('alt key pressed');
+				$('#queryInput').val(contenuElementClique);
+			}else{
+				$('#queryInput').val(contenuElementClique);
+			}
+			$('#queryInput').focus();
+			form.submit();
+		});
+
+		$('div#concepts1 div#blockContent span').click(function(event){
+			var contenuElementClique = $(event.target).html();
 			if(event.ctrlKey && $('#queryInput').val() != ""){
 				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
 			}else if(event.altKey){
@@ -462,7 +532,7 @@
 									var regex = /(\|\|)(.*)(\|\|)/;
 									ref.contexte = ref.contexte.replace(regex, "<b>$2</b>");
 
-									$('#referencesList ul').append('<li class="collection-item animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">[...] ' + ref.contexte + ' [...]</li>');
+									$('#referencesList ul').append('<li class="collection-item animated fadeIn"><span class="refConcept" id="ontoTerminologieElementName' + ref.concept.id + '">' + ref.contexte + '</li>');
 								}
 
 							}else{
@@ -480,5 +550,3 @@
 
 </script>
 
-<!-- <div style="color:black; background-color:pink; height:50px; width:450px; ">
-</div> -->
