@@ -57,8 +57,9 @@
 					}
 				?>
 			</div>
-			<div id="concepts1">
-
+			<div id="concepts1" style="text-align: center;">
+				<div id="blockRoot"></div>
+				<div id="blockContent" style="overflow: hidden;"></div>
 			</div>
 		</div>
 		<div class="contentDiv" id="terms">
@@ -101,25 +102,37 @@
 	var answer;
 
 	function getConcept(id){
-		var concept = {"id" : 0, "nom" : "racine", "conceptsFils" : []};
+		var concept = {"id" : 0, "nom" : "", "conceptsFils" : []};
 		for (i = 0; i < dataOnto.length; i++) {
 			concept.conceptsFils.push(dataOnto[i])
 		}
-		console.log(concept);
-		return concept;
+		if(id == null){
+			return concept
+		}else{
+			for (i = 0; i < concept.conceptsFils.length; i++) {
+				if(concept.conceptsFils[i].id == id){
+
+				}
+			}
+		}
+		//console.log(concept);
 	}
 
 	function selectConceptCarre(conceptId){
-		// Il y a très probablement moyen de faire mieux avec des variables jquerry
+		// Il y a très probablement moyen de faire mieux avec des variables jquerry pour contentDivConcepts1
 		var contentDivConcepts1 = '';
 		var concept = getConcept(conceptId);
+
+		$('div#concepts1 div#blockRoot').html('<b>' + concept.nom + '</b>');
+
 		for (i = 0; i < concept.conceptsFils.length; i++) {
-			contentDivConcepts1 += ('<div>' + concept.conceptsFils[i].nom + '</div>');
-			/*for (j = 0; j < concept.conceptsFils[i].conceptsFils.length; j++) {
-				contentDivConcepts1 += ('<div>-' + concept.conceptsFils[i].conceptsFils[j].nom + '</div>');
-			}*/
+			contentDivConcepts1 += ('<div style="float: left;">' + '<span concept_id="x">' + concept.conceptsFils[i].nom + '</span>');
+			for (j = 0; j < Object.size(concept.conceptsFils[i].conceptsFils); j++) {
+				contentDivConcepts1 += ('<div><span concept_id="x" style="font-size: 0.8em;">' + concept.conceptsFils[i].conceptsFils[j].nom + '</span></div>');
+			}
+			contentDivConcepts1 += '</div>';
 		}
-		$('div#concepts1').html($(contentDivConcepts1));
+		$('div#concepts1 div#blockContent').html($(contentDivConcepts1));
 	}
 
 	$(document).ready(function () {
@@ -140,6 +153,20 @@
 
 		$('div.ontoTerminologieElementTerme span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).attr('concept');
+			if(event.ctrlKey && $('#queryInput').val() != ""){
+				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
+			}else if(event.altKey){
+				console.log('alt key pressed');
+				$('#queryInput').val(contenuElementClique);
+			}else{
+				$('#queryInput').val(contenuElementClique);
+			}
+			$('#queryInput').focus();
+			form.submit();
+		});
+
+		$('div#concepts1 div#blockContent span').click(function(event){
+			var contenuElementClique = $(event.target).html();
 			if(event.ctrlKey && $('#queryInput').val() != ""){
 				$('#queryInput').val($('#queryInput').val() + ", " + contenuElementClique)
 			}else if(event.altKey){

@@ -1,6 +1,6 @@
 	// Gestion des erreurs de saisie des formulaires			
 	function refreshDivFormStatus(formAnswer){
-		console.log(formAnswer);
+		//console.log(formAnswer);
 		$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
 		$('#formStatus #statusMessage').remove();
 		$('#formStatus ul').remove();
@@ -26,6 +26,14 @@
 			$('#formStatus').html(formAnswer['info']);
 		}
 	}
+	
+	Object.size = function(obj) {
+		var size = 0, key;
+		for (key in obj) {
+			if (obj.hasOwnProperty(key)) size++;
+		}
+		return size;
+	};
 
 	function onKonamiCode(cb) {
 		var input = '';
