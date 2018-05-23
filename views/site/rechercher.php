@@ -13,7 +13,6 @@
 </form>
 
 
-
 <div class="third">
 	<ul class="tabs">
 		<li class="tab">
@@ -26,9 +25,11 @@
 
 	<div id="contentDivs">
 		<div class="contentDiv" id="concepts">
+			
 			<!-- partie de definition de style et import des bibliotheques -->
 			<script src="https://d3js.org/d3.v4.js"></script>
 			<script src="http://d3js.org/d3.v3.min.js"></script>
+			
 			<style>
 				.node text 
 				{
@@ -39,6 +40,10 @@
 					fill: none;
 					stroke: #ccc;
 					stroke-width: 2px;
+				}
+				button
+				{
+  					padding: 10px 20px;
 				}
 			</style>
 
@@ -159,23 +164,29 @@
 				var diagonal = d3.svg.diagonal()
 					.projection(function(d) { return [d.y, d.x]; });
 
+				var zoom = d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+
 				// le canvas --------------------------------------------------
 				var svg = d3.select("body").append("svg")
 					.attr("width" , width  + margin.right + margin.left)
 					.attr("height", height + margin.top   + margin.bottom)
 					.append("g")
+					.call(zoom)
+					.append("g")
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-				root = concepts;// le premier noeud, modifier la variable pour tester
+				
+				root = concepts2;// le premier noeud, modifier la variable pour tester
 				root.x0 = height / 2;
 				root.y0 = 0;
-				update(root);
+				update(concepts2);
 				d3.select(self.frameElement).style("height", "500px");
-
+				
+				
 				// fonction pricipale pour dessiner le graphe -----------------
 				function update(source) 
 				{
 					// Compute the new tree layout.
-					var nodes = tree.nodes(root).reverse(),
+					var nodes = tree.nodes(concepts).reverse(),
 						links = tree.links(nodes);
 						nodes.forEach(function(d) { d.y = d.depth * 180; });// Normalize for fixed-depth.
 
@@ -199,7 +210,7 @@
 
 						//ajouter le text
 						nodeEnter.append("text")
-							.attr("x", function(d) { return d.children || d._children ? 13 : 13; })
+							//.attr("x", function(d) { return d.children || d._children ? 13 : 13; })
 							.attr("dy", "8")
 							.attr("text-anchor", "middle")//_children
 							.text(function(d) { return d.nom; })
@@ -292,8 +303,61 @@
 					}
 					update(d);
 				}
+
+				function zoomed() 
+				{
+    				svg.attr("transform", "translate(" + zoom.translate() + ")" + "scale(" + zoom.scale() + ")" );
+				}
+
+				function interpolateZoom (translate, scale) 
+				{
+    				var self = this;
+    				return d3.transition().duration(350).tween("zoom", function () 
+					{
+        				var iTranslate = d3.interpolate(zoom.translate(), translate),
+            			iScale = d3.interpolate(zoom.scale(), scale);
+        				return function (t) 
+						{
+            				zoom
+                			.scale(iScale(t))
+                			.translate(iTranslate(t));
+				            zoomed();
+        				};
+    				});
+				}
+
+				function zoomClick() 
+				{
+					var clicked = d3.event.target,
+						direction = 1,
+						factor = 0.2,
+						target_zoom = 1,
+						center = [width / 2, height / 2],
+						extent = zoom.scaleExtent(),
+						translate = zoom.translate(),
+						translate0 = [],
+						l = [],
+						view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+					d3.event.preventDefault();
+					direction = (this.id === 'zoom_in') ? 1 : -1;
+					target_zoom = zoom.scale() * (1 + factor * direction);
+
+					if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+					translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+					view.k = target_zoom;
+					l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+					view.x += center[0] - l[0];
+					view.y += center[1] - l[1];
+
+					interpolateZoom([view.x, view.y], view.k);
+				}
+				d3.selectAll('button').on('click', zoomClick);
 			</script>
 
+			
 
 			<?php
 				function printRecursive($concept, $callStack){
@@ -315,6 +379,7 @@
 					//print_r(json_encode(Model::toArray($conceptRacine), JSON_UNESCAPED_UNICODE));
 				}
 			?>
+			
 		</div>
 
 		<div class="contentDiv" id="terms">
@@ -323,8 +388,12 @@
 					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';
 				}
 			?>
-		</div>
+			
+		</div>	
+		<button id="zoom_in">+</button>
+		<button id="zoom_out">-</button>
 	</div>
+
 </div>
 
 
@@ -473,8 +542,6 @@
 
 </script>
 
-<!-- <div style="color:black; background-color:pink; height:50px; width:450px; ">
-</div> -->
 
 
 
