@@ -59,9 +59,7 @@
 			<script>
 				$(document).ready(function(){
 					var formAnswer = [];
-					var article_nom =  $('#nom').val();
 					var article_id = <?php echo $_GET['id']; ?>;
-					var article_langue = $('#langue').find(":selected").text();
 					formAnswer['erreursSaisie'] = [];
 
 					var messageFormError = "<?php echo _FORMERROR; ?>";
@@ -75,8 +73,10 @@
 					form.on('submit', function(e) {
 						
 						erreursForm = [];
+						var article_nom =  $('#nom').val();
+						var article_langue = $('#langue').find(":selected").text();
 						var data = new FormData();
-						
+
 						data.append('nom', article_nom);
 						data.append('id', article_id);
 						data.append('langue', article_langue);
