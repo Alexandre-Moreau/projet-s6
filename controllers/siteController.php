@@ -7,6 +7,13 @@ class SiteController extends Controller{
 		$this->render("index");
 	}
 
+	public function test(){
+		$text = parseContentText("La chaise est un véhicule hippomobile privé, destiné à une ou deux personnes. Appellation probablement dérivée de la chaise à porteurs, c'est le moyen le plus simple de transporter une personne : un siège posé sur deux brancards, avec deux roues à l'arrière, tiré par un homme. Certaines chaises pouvaient du reste être portées avec des brancards, ou être équipées de roues et d'un brancard. Ces chaises étaient appelées vinaigrettes. Une autre chaise appelée brouette, dont le brevet fut déposé par un Monsieur Dupin, comportait une suspension avec des ressorts en bois, l'essieu pouvant coulisser le long de fentes verticale pratiquées dans le bas de la caisse. Il n'a fallu que peu de modifications pour remplacer la traction humaine par la traction à cheval.");	
+		//var_dump($text);
+		$langue = Langue::findByName('fr');
+		ArticleController::reference($text, 'fr', new Article('nom', 'chemin', 'pdf', 42, $langue));
+	}
+
 	public function ajaxChangeLanguage(){
 		$_SESSION['langue'] = $_POST['langue'];
 	}

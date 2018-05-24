@@ -64,6 +64,7 @@ class Terme extends Model{
 	
 	//Basé sur le findAll (résultats multiples possibles)
 	static public function FindByMotCleLangue($textArray, $langue){
+
 		$requete = "SELECT id FROM ".self::$tableName." WHERE langue_id=".$langue->id;
 		$i = 0;
 		$len = count($textArray);
@@ -72,6 +73,9 @@ class Terme extends Model{
 			$requete .= "1 = 2"; //Ne retourne aucun élément
 		}
 		foreach($textArray as $word){
+			if(substr($word, -1) == '.'){
+				$word = substr($word, 0, -1);
+			}
 			$requete .= " LOWER(motCle) = LOWER('".addslashes($word)."')";
 			if($i != $len-1){
 				$requete .= " OR";
@@ -101,6 +105,9 @@ class Terme extends Model{
 			$requete .= "1 = 2"; //Ne retourne aucun élément
 		}
 		foreach($textArray as $word){
+			if(substr($word, -1) == '.'){
+				$word = substr($word, 0, -1);
+			}
 			$requete .= " LOWER(motCle) LIKE LOWER('".addslashes($word)." %')";
 			if($i != $len-1){
 				$requete .= " OR";

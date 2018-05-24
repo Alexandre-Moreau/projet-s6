@@ -82,7 +82,7 @@ function keepOnlyText($pText){
 	$text = str_replace(["'","&#39;"], "\' ", $pText); // on ajoute un ' ' derrière les "'" (avec le caractère html)
 	$text = preg_replace('/\n+/', '', $text); // on efface les retours à la ligne
 	$text = preg_replace('(\(|\))', '', $text); // on efface les parenthèses
-	$text = str_replace('.', '' , $text); // on efface les points / ================================================================== changement ici
+	//$text = str_replace('.', '' , $text); // on efface les points / ================================================================== changement ici
 	//$text = str_replace('.', ' . ' , $text);
 	$text = str_replace(',', '' , $text); // on efface les virgules
 	return $text;
