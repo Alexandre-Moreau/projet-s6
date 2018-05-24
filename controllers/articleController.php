@@ -75,8 +75,10 @@ class ArticleController extends Controller{
 	
 	public function modifier(){
 		$data = [];
+		$article = Article::findById($_GET['id']);
 		$data['langues'] = Langue::findAll();
- 		$data['article'] = Article::findById($_GET['id']);
+ 		$data['article'] = $article;
+ 		$data['references'] = Reference::findByArticle($article);
 		$this->render("formModifier", $data, ['backButton']);
 	}
 
@@ -306,8 +308,8 @@ class ArticleController extends Controller{
 		}
 
 		foreach($references as $reference){
-			//Reference::insert($reference);
-			var_dump($reference);
+			Reference::insert($reference);
+			//var_dump($reference);
 		}
 		
 		// Ajouter un correcteur de référence?
