@@ -75,8 +75,10 @@ class ArticleController extends Controller{
 	
 	public function modifier(){
 		$data = [];
+		$article = Article::findById($_GET['id']);
 		$data['langues'] = Langue::findAll();
- 		$data['article'] = Article::findById($_GET['id']);
+ 		$data['article'] = $article;
+ 		$data['references'] = Reference::findByArticle($article);
 		$this->render("formModifier", $data, ['backButton']);
 	}
 
@@ -180,7 +182,7 @@ class ArticleController extends Controller{
 		header("Location: .?r=article/showAll");
 	}
 	
-	private static function reference($text, $pLangue, $article){
+	public static function reference($text, $pLangue, $article){
 		$log = [];
 		if($article->langue->nom == 'cn'){
 			$textArray = separeMotsChinois($text);
@@ -200,6 +202,10 @@ class ArticleController extends Controller{
 		$references = [];
 		
 		$i = 0;
+
+		//echo $text;
+
+		//echo "||||\n\n\n";
 		
 		while($i < count($textArray)){
 			
@@ -213,27 +219,58 @@ class ArticleController extends Controller{
 				$j = 0;				
 				foreach(explode(' ', $termeEspace->motCle) as $motCourantTermeEspace){
 					// si chaque mot du terme avec des espace concorde avec le texte depuis $mot
-					if($i+$j < count($textArray) && strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace)){						
+					$bool1 = strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace);
+					// même condition en enlevant le point final si il y en a un
+					$bool2 = ( $i+$j == count($textArray)-1 ) && ( strtolower( substr($textArray[$i+$j], -1) ) == '.' ) && ( strtolower( substr($textArray[$i+$j], 0, -1) ) == strtolower($motCourantTermeEspace) );
+					if($i+$j < count($textArray) && ($bool1 || $bool2)){
 						// si on a réussi à faire concorder jusqu'à la fin du terme
 						if($j == count(explode(' ', $termeEspace->motCle))-1){
-							/*
-							// on ajoute $termeEspace aux concepts si il n'y est pas deja, on incrémente le compteur sinon 
-							if(!isset($concepts[$termeEspace->concept->id])){
-								$concepts[$termeEspace->concept->id] = 1;
-							}else{
-								$concepts[$termeEspace->concept->id] = $termeEspace[$terme->concept->id]+1;
+
+							$contexte = '';
+							$nbMotsAvant = 0;
+							$nbMotsApres = 0;
+							//Si on a coupé à cause de la longueur, on va donc mettre ... au début
+							$coupureLongueurAvant = false;
+							$coupureLongueurApres = false;
+
+							//Création du contexte
+
+							if($coupureLongueurAvant){
+								$contexte .= '...';
 							}
-							// On sort, on a identifié le mot, on va sauter j prochains mots
-							$i = $i+$j;
-							$motEspaceTraite = true;
-							break;*/
-							$contexte = '||'. $termeEspace->motCle .'||';
+
+							// On ajoute les mots précédents au contexte
+							for($l = $nbMotsAvant; $l>0; $l--){
+								$contexte .= $textArray[$i-$l].' ';
+							}
+
+							$contexte .= '||';
+
+							for($k=$i; $k<=($i+$j); $k++){
+								//$contexte .= $textArray[$k].'_';
+								$contexte .= $textArray[$k];
+								if($k != ($i+$j)){
+									$contexte .= ' ';
+								}
+							}
+
+							$contexte .= '||';
+
+							// On ajoute les mots suivants au contexte
+							for($l = 1; $l<=$nbMotsApres; $l++){
+								$contexte .= ' '.$textArray[$i+$l];
+							}
+
+							if($coupureLongueurApres){
+								$contexte .= '...';
+							}
+
 							array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
 							// On sort, on a identifié le mot, on va sauter j prochains mots
 							$i = $i+$j;
 							$motEspaceTraite = true;
 						}
-						$j++;						
+						$j++;
 					}else{
 						// On sort, le mot n' a pas été identifié
 						break;
@@ -244,19 +281,37 @@ class ArticleController extends Controller{
 			// Traitement des termes sans espace
 			if(!$motEspaceTraite){
 				foreach($termes as $terme){
-					if (strtolower($mot) == strtolower($terme->motCle)){
+					// Si le mot corrrespond ou si le mot se finit par un '.' et si on le retire le mot correspond
+					if ( strtolower($mot) == strtolower($terme->motCle) || ( substr($mot, -1) == '.' && strtolower(substr($mot, 0, -1)) == strtolower($terme->motCle) ) ){
 						$contexte = '';
 						$nbMotsAvant = 0;
 						$nbMotsApres = 0;
+						//Si on a coupé à cause de la longueur, on va donc mettre ... au début
+						$coupureLongueurAvant = true;
+						$coupureLongueurApres = true;
 						$k = 0;
 
 						// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
-						while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && $textArray[$nbMotsAvant]!='.' && $textArray[$nbMotsAvant]!='。'){
+						while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && substr($textArray[$i-$nbMotsAvant-1], -1)!='.' && substr($textArray[$i-$nbMotsAvant-1], -1)!='。'){
 							$nbMotsAvant++;
 						}
 
-						while($nbMotsApres<MAX_WORDS_AFTER && $i+$nbMotsApres<count($textArray)-1 && $textArray[$nbMotsApres]!='.' && $textArray[$nbMotsApres]!='。'){
+						if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>=0){
+							$coupureLongueurAvant = false;
+						}
+
+						while($nbMotsApres<MAX_WORDS_AFTER && $i+$nbMotsApres<count($textArray)-1 && substr($textArray[$i+$nbMotsApres], -1)!='.' && substr($textArray[$i+$nbMotsApres], -1)!='。'){
 							$nbMotsApres++;
+						}
+
+						if($nbMotsApres<MAX_WORDS_AFTER && $i+$nbMotsApres<count($textArray)-1){
+							$coupureLongueurApres = false;
+						}
+
+						//Création du contexte
+
+						if($coupureLongueurAvant){
+							$contexte .= '...';
 						}
 
 						// On ajoute les mots précédents au contexte
@@ -271,6 +326,10 @@ class ArticleController extends Controller{
 							$contexte .= ' '.$textArray[$i+$l];
 						}
 
+						if($coupureLongueurApres){
+							$contexte .= '...';
+						}
+
 						$k = 1;
 
 						array_push($references, new Reference($i, 1, $contexte, $article, $terme->concept));
@@ -281,9 +340,10 @@ class ArticleController extends Controller{
 			
 			$i++;
 		}
-		
+
 		foreach($references as $reference){
 			Reference::insert($reference);
+			//var_dump($reference);
 		}
 		
 		// Ajouter un correcteur de référence?

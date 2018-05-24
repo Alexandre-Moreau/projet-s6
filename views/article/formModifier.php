@@ -31,8 +31,29 @@
 						<button id="reset" type="reset" class="btn danger waves-effect waves-light"><?php echo _FORMRESET;?></button>
 					</div>
 				</form>
+
 				<br>
 				<span class="requis">*</span> <?php echo _FORMREQUESTED;?>
+				<br><br>
+				
+				<div>
+					<ul class="collection with-header">
+						<li class="collection-header">
+							<h2><?php echo _REFERENCE;?></h2>
+						</li>						
+						<?php
+							foreach($data['references'] as $reference){
+								echo '<li class="collection-item">';
+								echo $reference->concept->nom.':<br/>';
+								$pattern = '/(\|\|)(.*)(\|\|)/';
+								$replacement = '<b>$2</b>';
+								echo preg_replace($pattern, $replacement, $reference->contexte);
+								echo '</li>';
+							}
+						?>
+					</ul>
+				</div>
+
 			</div>
 
 			<script>
