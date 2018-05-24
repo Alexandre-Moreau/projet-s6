@@ -222,21 +222,55 @@ class ArticleController extends Controller{
 					$bool1 = strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace);
 					// même condition en enlevant le point final si il y en a un
 					$bool2 = ( $i+$j == count($textArray)-1 ) && ( strtolower( substr($textArray[$i+$j], -1) ) == '.' ) && ( strtolower( substr($textArray[$i+$j], 0, -1) ) == strtolower($motCourantTermeEspace) );
-					if($i+$j < count($textArray) && ($bool1 || $bool2)){						
+					if($i+$j < count($textArray) && ($bool1 || $bool2)){
 						// si on a réussi à faire concorder jusqu'à la fin du terme
 						if($j == count(explode(' ', $termeEspace->motCle))-1){
 
-							// TODO faire les contextes
-							$contexte = '||'. $termeEspace->motCle .'||';
-							
+							$contexte = '';
+							$nbMotsAvant = 0;
+							$nbMotsApres = 0;
+							//Si on a coupé à cause de la longueur, on va donc mettre ... au début
+							$coupureLongueurAvant = false;
+							$coupureLongueurApres = false;
 
+							//Création du contexte
+
+							if($coupureLongueurAvant){
+								$contexte .= '...';
+							}
+
+							// On ajoute les mots précédents au contexte
+							for($l = $nbMotsAvant; $l>0; $l--){
+								$contexte .= $textArray[$i-$l].' ';
+							}
+
+							$contexte .= '||';
+
+							for($k=$i; $k<=($i+$j); $k++){
+								//$contexte .= $textArray[$k].'_';
+								$contexte .= $textArray[$k];
+								if($k != ($i+$j)){
+									$contexte .= ' ';
+								}
+							}
+
+							$contexte .= '||';
+
+							// On ajoute les mots suivants au contexte
+							for($l = 1; $l<=$nbMotsApres; $l++){
+								$contexte .= ' '.$textArray[$i+$l];
+							}
+
+							if($coupureLongueurApres){
+								$contexte .= '...';
+							}
 
 							array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
 							// On sort, on a identifié le mot, on va sauter j prochains mots
 							$i = $i+$j;
 							$motEspaceTraite = true;
 						}
-						$j++;						
+						$j++;
 					}else{
 						// On sort, le mot n' a pas été identifié
 						break;
@@ -262,7 +296,7 @@ class ArticleController extends Controller{
 							$nbMotsAvant++;
 						}
 
-						if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0){
+						if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>=0){
 							$coupureLongueurAvant = false;
 						}
 
