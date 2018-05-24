@@ -36,7 +36,7 @@ define("_PARSEERROR","Error during parsing (file is not correct)");
 define("_ENCODINGERROR","Encoding erro (must be in UTF-8)");
 define("_UNKNOWNERROR","Unknown error");
 define("_MISSINGINFORM1","No ");
-define("_MISSINGINFORM2"," where specified");
+define("_MISSINGINFORM2"," were specified");
 function _composeMisingError($m){return _MISSINGINFORM1.strtolower($m)._MISSINGINFORM2;}
 define("_ERRORLANGUAGES","No languages found in database");
 define("_IMPORTONTO","Try importing an ontoterminology to solve the problem");

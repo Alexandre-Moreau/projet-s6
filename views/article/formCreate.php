@@ -10,7 +10,7 @@
 					<form method="post" action =".?r=Article/ajaxCreate" enctype="multipart/form-data">
 						<div class="input-field inline col s12 m6">
 							<!-- <i class="material-icons prefix text-primary">mode_edit</i> -->
-							<input type="text" name="nom" id="nom" class="form-control" placeholder="<?php echo _CHOOSENAME;?>" />
+							<input type="text" name="nom" id="nom" placeholder="<?php echo _CHOOSENAME;?>" />
 							<label for="nom"><?php echo _NAME;?> : <span class="requis">*</span></label>
 						</div>
 						<div class="file-field input-field inline col s12 m6">
@@ -32,7 +32,6 @@
 										}else{
 											echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
 										}
-										
 									}
 								?>
 								<option value="null"><?php echo _OTHERLANGUAGE;?></option>
@@ -55,6 +54,10 @@
 				var formAnswer = [];
 				formAnswer['erreursSaisie'] = [];
 				
+				var messageFormError = "<?php echo _FORMERROR; ?>";
+				var messageErrorFormHandling = "<?php echo _ERRORFORMHANDLING; ?>";
+				var messageWatchLogs = "<?php echo _WATCHLOGS; ?>";
+
 				function resetForm(){
 					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
 					$('#formStatus #statusMessage').remove();
@@ -77,8 +80,8 @@
 							$('input#nom').focus();
 						}
 					});
-  
-					refreshDivFormStatus(formAnswer);
+
+					refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 					
 					var form = $('form');
 					
@@ -99,7 +102,7 @@
 
 						formAnswer['statut'] = 'warning';
 						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
-						refreshDivFormStatus(formAnswer);
+						refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 					
 						e.preventDefault();
 						$.ajax({
@@ -116,16 +119,16 @@
 									console.log(reponse['log']);
 								}
 								formAnswer = reponse;
-								if(reponse['statut'] == 'success'){
-									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + article_id + '">Accéder à l\'article</a></span>';
+								if(reponse['statut'] == 'succes'){
+									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _CREATESUCCES;?>.</strong> <a href=".?r=article/showById&id=' + formAnswer['articleId'] + '">Accéder à l\'article</a></span>';
 								}
-								refreshDivFormStatus(formAnswer);
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
 								formAnswer['statut'] = 'echec';
 								formAnswer['erreursSaisie'].length = 0;
-								refreshDivFormStatus();
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							}
 						});
 					});

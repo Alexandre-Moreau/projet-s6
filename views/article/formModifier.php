@@ -1,15 +1,17 @@
 			<div class="container">
 				<h3><?php echo _EDITARTICLE?></h3>
 				<hr><br>
-				<div id="formStatus" >
+				<div id="formStatus">
+					<div id="">
+						
+					</div>
 				</div>
 				<form method="post" action =".?r=Article/ajaxModifier" enctype="multipart/form-data">
-					<div class="form-group">
-						<label for="nom"><?php echo _NAME?> :</label>
-						<input type="text" name="nom" id="nom" class="form-control" value="<?php echo $data['article']->nom; ?>" />
+					<div class="input-field">
+						<input type="text" name="nom" id="nom" placeholder="<?php echo _CHOOSENAME;?>" value="<?php echo $data['article']->nom; ?>" />
+						<label for="nom"><?php echo _NAME?> : <span class="requis">*</span></label>
 					</div>
-					<div class="form-group">
-						<label for="langue"><?php echo _LANGUAGE?> :</label>
+					<div class="input-field">
 						<select id="langue">
 							<?php
 								foreach($data['langues'] as $langue){
@@ -18,18 +20,21 @@
 									}else{
 										echo '<option value="'.$langue->nom.'">'.$langue->nom.'</option>';
 									}
-									
 								}
 							?>
-							<!--<option value="null"><?php echo _OTHERLANGUAGE?></option>-->
+							<option value="null"><?php echo _OTHERLANGUAGE?></option>
 						</select>
+						<label for="langue"><?php echo _LANGUAGE?> :</label>
 					</div>
-					<div class="form-group form_boutons">
-						<input id="submit" type="submit" value="<?php echo _FORMSUBMIT?>" class="btn btn-primary"><!--
-						--><input id="reset" type="reset" value="<?php echo _FORMRESET?>" class="btn btn-secondary"></input>
+					<div class="center">
+						<button id="submit" type="submit" class="btn success waves-effect"><?php echo _FORMSUBMIT;?></button>
+						<button id="reset" type="reset" class="btn danger waves-effect waves-light"><?php echo _FORMRESET;?></button>
 					</div>
 				</form>
+				<br>
+				<span class="requis">*</span> <?php echo _FORMREQUESTED;?>
 			</div>
+
 			<script>
 				$(document).ready(function(){
 					var formAnswer = [];
@@ -38,7 +43,11 @@
 					var article_langue = $('#langue').find(":selected").text();
 					formAnswer['erreursSaisie'] = [];
 
-					refreshDivFormStatus(formAnswer);
+					var messageFormError = "<?php echo _FORMERROR; ?>";
+					var messageErrorFormHandling = "<?php echo _ERRORFORMHANDLING; ?>";
+					var messageWatchLogs = "<?php echo _WATCHLOGS; ?>";
+
+					refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 					
 					var form = $('form');
 					
@@ -53,7 +62,7 @@
 
 						formAnswer['statut'] = 'warning';
 						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
-						refreshDivFormStatus(formAnswer);
+						refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 					
 						e.preventDefault();
 						$.ajax({
@@ -71,13 +80,13 @@
 								}
 								formAnswer = reponse;
 								if(reponse['statut'] == 'succes'){
-									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _CREATESUCCES;?></strong> <a href=".?r=article/showById&id=' + article_id + '">Accéder à l\'article</a></span>';
+									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _EDITSUCCES;?></strong> <a href=".?r=article/showById&id=' + article_id + '">Accéder à l\'article</a></span>';
 								}
-								refreshDivFormStatus(formAnswer);
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
-								refreshDivFormStatus();
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							}
 						});
 					});

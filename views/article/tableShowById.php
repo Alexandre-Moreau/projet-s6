@@ -13,18 +13,16 @@
 		if(file_exists($data['article']->chemin)){
 			echo ('
 			<object data="'.$data['article']->chemin.'" type="application/pdf">
-				<p><?php echo _NO_PDF; ?><a href="'.$data['article']->chemin.'"><?php echo _PDF_DL; ?></a>.</p>
+				<p>'._NO_PDF.'<a href="'.$data['article']->chemin.'">'._PDF_DL.'</a>.</p>
 			</object>
 			');
 			
 		}else{
 			echo '<div class="object">
-			<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong><?php echo _FILE_NOT_FOUND; ?></strong><?php echo _WHY_ERROR; ?>
-</div></div>';
+				<div class="alert alert-danger">
+					<strong>'._FILE_NOT_FOUND.'</strong><br/>'._WHY_ERROR.
+				'</div>
+			</div>';
 		}
 	}else{
 		echo('
@@ -34,12 +32,9 @@
 		');
 		echo '<div class="object">';
 		if((@include($data['article']->chemin)) === false){
-			echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  <strong><?php echo _FILE_NOT_FOUND; ?></strong><?php echo _WHY_ERROR; ?>
-</div>';
+			echo '<div class="alert alert-danger">
+				<strong>'._FILE_NOT_FOUND.'</strong><br/>'._WHY_ERROR.
+			'</div>';
 		}
 		echo '</div>';
 	}

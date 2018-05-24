@@ -1,5 +1,5 @@
 	// Gestion des erreurs de saisie des formulaires			
-	function refreshDivFormStatus(formAnswer){
+	function refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs){
 		//console.log(formAnswer);
 		$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
 		$('#formStatus #statusMessage').remove();
@@ -8,7 +8,7 @@
 		if(formAnswer['statut'] == 'echec'){
 			$('#formStatus').addClass('alert alert-danger');
 			//$('#formStatus').append('<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
-			$('#formStatus').html('<strong id="statusMessage"><?php echo _FORMERROR;?></strong>');
+			$('#formStatus').html('<strong id="statusMessage">' + messageFormError + '</strong>');
 			$('#formStatus').append('<ul/>');
 			if($.isArray(formAnswer['erreursSaisie']) && formAnswer['erreursSaisie'].length != 0){
 				formAnswer['erreursSaisie'].forEach(function(element){
@@ -16,11 +16,13 @@
 				});
 			}else{
 				console.log(formAnswer);
-				$('#formStatus').html('<span id="statusMessage"><strong><?php echo _ERRORFORMHANDLING;?>.</strong> <?php echo _WATCHLOGS;?></span>');
+				$('#formStatus').html('<span id="statusMessage"><strong>' + messageErrorFormHandling + '.</strong> ' + messageWatchLogs + '</span>');
 			}
 		}else if(formAnswer['statut'] == 'succes'){
 			$('#formStatus').addClass('alert alert-success');
 			$('#formStatus').html(formAnswer['info']);
+			console.log('succes');
+			console.log(formAnswer);
 		}else if(formAnswer['statut'] == 'warning'){
 			$('#formStatus').addClass('alert alert-warning');
 			$('#formStatus').html(formAnswer['info']);

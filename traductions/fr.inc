@@ -30,7 +30,7 @@ define("_FORMERROR","Il y a des erreurs dans le formulaire");
 // Shared (errors)
 define("_ERROR","Erreur");
 define("_ERRORFORMHANDLING","Erreur lors du traitement du formulaire");
-define("_WATCHLOGS","Regardez les logs pour plus d\'information");
+define("_WATCHLOGS","Regardez les logs pour plus d'information");
 define("_NOFILEERROR","Aucun fichier choisi");
 define("_PARSEERROR","Erreur lors du parsing (le fichier n\'est pas correct)");
 define("_ENCODINGERROR","Erreur d'encodage (UTF-8 nécessaire)");
@@ -84,7 +84,7 @@ define("_DELETE","Supprimer");
 define("_NO_PDF","Ce navigateur ne permet pas de visualiser les pdf: ");
 define("_PDF_DL","Télécharger le pdf");
 define("_FILE_NOT_FOUND","Fichier introuvable sur le disque.");
-define("_WHY_ERROR"," Aller dans l\'onglet Maintenance pour plus d\'information.");
+define("_WHY_ERROR"," Aller dans l'onglet Maintenance pour plus d'information.");
 
 // Edit articles
 define("_EDITARTICLE","Modifier l'article");

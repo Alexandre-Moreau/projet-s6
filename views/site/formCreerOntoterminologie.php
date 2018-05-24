@@ -99,7 +99,7 @@
 									}else{
 										error = '<?php echo _UNKNOWNERROR;?>';
 									}
-									$('#formStatus').append('<div class="alert alert-danger"><strong><?php echo _ERROR; ?>:</strong> ' + error + '</div>');
+									$('#formStatus').html('<div class="alert alert-danger"><strong><?php echo _ERROR; ?>:</strong> ' + error + '</div>');
 								}
 							},
 							error: function (xhr, textStatus, errorThrown) {						
