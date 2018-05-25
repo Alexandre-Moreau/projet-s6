@@ -46,7 +46,7 @@ class ArticleController extends Controller{
 		}else{
 			if(move_uploaded_file($_FILES['0']['tmp_name'], GLOB_ARTICLESFODER . $newName)){
 				if($fileType == 'plain'){$fileType = 'txt';}
-				$newArticle = new Article($_POST['nom'], GLOB_ARTICLESFODER . '\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
+				$newArticle = new Article($_POST['nom'], GLOB_ARTICLESFODER . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
 				$text = processContent($newArticle);
 				if($text == 'encoding_error'){
 					$data['statut'] = 'echec';
