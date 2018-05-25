@@ -381,12 +381,19 @@
 			return concept
 		}else{
 			for (i = 0; i < concept.conceptsFils.length; i++) {
-				if(concept.conceptsFils[i].id == id){
-
-				}
+				console.log(findConcept(concept.conceptsFils[i]), id);
 			}
 		}
 		//console.log(concept);
+	}
+
+	function findConcept(concept, id){
+		var i = 0;
+		console.log(concept.conceptsFils);
+		while(concept.id != id && i < Object.size(concept.conceptsFils)){
+			concept = findConcept(concept.conceptsFils[i], id);
+		}
+		return concept;
 	}
 
 	function selectConceptCarre(conceptId){

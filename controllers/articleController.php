@@ -197,6 +197,14 @@ class ArticleController extends Controller{
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 
+		foreach($termes as $key => $value){
+			$termes[$key]->motCle = preg_replace('/\\\\{2,}/', '\\', $termes[$key]->motCle);
+		}
+
+		foreach($termesEspace as $key => $value){
+			$termesEspace[$key]->motCle = preg_replace('/\\\\{2,}/', '\\', $termesEspace[$key]->motCle);
+		}
+
 		$concepts = [];
 
 		$references = [];
@@ -229,9 +237,26 @@ class ArticleController extends Controller{
 							$contexte = '';
 							$nbMotsAvant = 0;
 							$nbMotsApres = 0;
-							//Si on a coupé à cause de la longueur, on va donc mettre ... au début
-							$coupureLongueurAvant = false;
-							$coupureLongueurApres = false;
+							//Si on a coupé à cause de la longueur, on va donc mettre '...' au début
+							$coupureLongueurAvant = true;
+							$coupureLongueurApres = true;
+
+							// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
+							while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && substr($textArray[$i-$nbMotsAvant-1], -1)!='.' && substr($textArray[$i-$nbMotsAvant-1], -1)!='。'){
+								$nbMotsAvant++;
+							}
+
+							if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>=0){
+								$coupureLongueurAvant = false;
+							}
+
+							while($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray) && substr($textArray[($i+$j)+$nbMotsApres], -1)!='.' && substr($textArray[($i+$j)+$nbMotsApres], -1)!='。'){
+								$nbMotsApres++;
+							}
+
+							if($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray)){
+								$coupureLongueurApres = false;
+							}
 
 							//Création du contexte
 
@@ -258,7 +283,7 @@ class ArticleController extends Controller{
 
 							// On ajoute les mots suivants au contexte
 							for($l = 1; $l<=$nbMotsApres; $l++){
-								$contexte .= ' '.$textArray[$i+$l];
+								$contexte .= ' '.$textArray[($i+$j)+$l];
 							}
 
 							if($coupureLongueurApres){
