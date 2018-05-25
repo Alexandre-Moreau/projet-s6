@@ -109,5 +109,6 @@ define("_ERROR_BUILD","Erreurs de construction: ");
 define("_MISSING_FILES","Fichiers manquant sur le disque:");
 define("_EXCESS_FILES","Fichiers en trop sur le disque:");
 define("_SERVER_CONNECTION","Connexion au serveur");
+define("_DATABASECREATE_SUCCESS","La base de données a bien été créée");
 
 ?>

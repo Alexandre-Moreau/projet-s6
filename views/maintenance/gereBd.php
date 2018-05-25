@@ -20,8 +20,13 @@
 						<?php echo _ADVANCED?>
 					</div>
 					<div class="collapsible-body">
+						<div id="formStatus">
+							<div id="">
+								
+							</div>
+						</div>
 						<div class="row">
-							<div id="formStatus" class="alert fade show">
+							<div id="formStatus" class="alert">
 								<div id=""></div>
 							</div>
 							<form method="post" action ="">
@@ -48,8 +53,22 @@
 			
 			<script>
 				<?php printJsVar('statut', $data['statut']);?>
-				$(document).ready(function(){
+				var formAnswer = [];
+				formAnswer['erreursSaisie'] = [];
+			
+				function resetForm(){
+					$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
+					$('#formStatus #statusMessage').remove();
+					$('#formStatus ul').remove();
+
 					formAnswer = [];
+				}
+
+				$(document).ready(function(){
+					
+					var messageFormError = "<?php echo _FORMERROR; ?>";
+					var messageErrorFormHandling = "<?php echo _ERRORFORMHANDLING; ?>";
+					var messageWatchLogs = "<?php echo _WATCHLOGS; ?>";
 					
 					if($('#nbArticles').html() == '2'){
 						$('#nbArticles').html('&#x2713;');
@@ -69,6 +88,9 @@
 					
 					var form = $('form');
 					
+					refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
+
+
 					form.on('reset', function(e){
 						resetForm();
 					});
@@ -81,6 +103,10 @@
 							data.append(i, file);
 						});
 						
+						formAnswer['statut'] = 'warning';
+						formAnswer['info'] = 'Chargement... <img style="margin-left: 5px" src="images/loading.svg" width="28">';
+						refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
+
 						e.preventDefault();
 						$.ajax({
 							url: '.?r=maintenance/ajaxChargeFichiers',
@@ -97,27 +123,19 @@
 								if(formAnswer['log'].length != 0){
 									console.log(formAnswer['log']);
 								}
-								//console.log(formAnswer['erreursForm']);
-								if(formAnswer['erreursForm'] = 'reussite'){
-									
-								}else if(formAnswer['erreursForm'] = 'echec'){
-								
+								console.log(formAnswer);
+								if(formAnswer['statut'] == 'succes'){
+									formAnswer['info'] = '<span id="statusMessage" <strong><?php echo _DATABASECREATE_SUCCESS;?></strong></span>';
 								}
-								//refreshDivFormStatus();
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							},
 							error: function (xhr, textStatus, errorThrown) {
 								console.log(xhr.responseText);
-								//refreshDivFormStatus();
+								formAnswer['statut'] = 'echec';
+								formAnswer['erreursSaisie'].length = 0;
+								refreshDivFormStatus(formAnswer, messageFormError, messageErrorFormHandling, messageWatchLogs);
 							}
 						});
 					});
-					
-					function resetForm(){
-						$('#formStatus').removeClass('alert alert-success alert-warning alert-danger');
-						$('#formStatus #statusMessage').remove();
-						$('#formStatus ul').remove();
-
-						formAnswer = [];
-					}
 				});
 			</script>

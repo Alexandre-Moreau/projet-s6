@@ -50,7 +50,7 @@ class MaintenanceController extends Controller{
 						$query = db()->prepare($q);
 						$query->execute();
 					}
-					$data['statut'] = 'reussite';
+					$data['statut'] = 'succes';
 				}
 			}
 		}

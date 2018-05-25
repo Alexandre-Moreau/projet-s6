@@ -16,7 +16,7 @@
 				});
 			}else{
 				console.log(formAnswer);
-				$('#formStatus').html('<span id="statusMessage"><strong>' + messageErrorFormHandling + '.</strong> ' + messageWatchLogs + '</span>');
+				$('#formStatus').html('<span id="statusMessage"><strong>' + messageErrorFormHandling + '.</strong><br><br>' + messageWatchLogs + '</span>');
 			}
 		}else if(formAnswer['statut'] == 'succes'){
 			$('#formStatus').addClass('alert alert-success');
