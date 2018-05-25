@@ -34,7 +34,7 @@ class ArticleController extends Controller{
 				}
 				//Nom de l'article sans caractère spéciaux
 				$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
-				if(Article::findByChemin('articles\\' . $newName) != null){
+				if(Article::findByChemin(GLOB_ARTICLESFODER . $newName) != null){
 					array_push($data['erreursSaisie'],'ce fichier est déjà dans la base de données');
 				}
 			}
@@ -44,9 +44,9 @@ class ArticleController extends Controller{
 			$data['statut'] = 'echec';
 			echo(json_encode($data));
 		}else{
-			if(move_uploaded_file($_FILES['0']['tmp_name'], 'articles\\' . $newName)){
+			if(move_uploaded_file($_FILES['0']['tmp_name'], GLOB_ARTICLESFODER . $newName)){
 				if($fileType == 'plain'){$fileType = 'txt';}
-				$newArticle = new Article($_POST['nom'], 'articles\\\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
+				$newArticle = new Article($_POST['nom'], GLOB_ARTICLESFODER . '\\' . $newName, $fileType, -1, Langue::FindByName($_POST['langue']));
 				$text = processContent($newArticle);
 				if($text == 'encoding_error'){
 					$data['statut'] = 'echec';
