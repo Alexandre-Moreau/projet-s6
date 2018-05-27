@@ -1,29 +1,130 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Test D3</title>
+<meta charset="utf-8">
+<style>
+ 
+.links line {
+  stroke-opacity: 0.6;
+}
+ 
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+ 
+</style>
+<div id="content"></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+dataset =  {
+	nodes: [
+		{"name": "Root", "id":"0", "node_selected":"false"},
+		{"name": "Travis", "id": "1", "node_selected": "false"},
+		{"name": "Rake", "id": "2", "node_selected": "false"},
+		{"name": "Diana", "id": "3", "node_selected": "false"},
+		{"name": "Rachel", "id": "4", "node_selected": "false"},
+		{"name": "Shawn", "id": "5", "node_selected": "false"}
+	],
+	links: [
+		{"source": "0", "target": "1"},
+		{"source": "2", "target": "1"},
+		{"source": "0", "target": "3"},
+		{"source": "3", "target": "4"},
+		{"source": "5", "target": "3"}
+	]
+};
 
-		<link rel='stylesheet' href='d3v4-selectable-zoomable-force-directed-graph.css'>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
-		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-		<script src="https://d3js.org/d3.v4.js"></script>
-		<script src="d3v4-brush-lite.js"></script>
-		<script src="d3v4-selectable-force-directed-graph.js"></script>
-	</head>
-	<body>
-		<svg align='center' id="d3_selectable_force_directed_graph" style="width: 450px; height: 900px; margin-bottom: 12px">
-		<svg />
+width = 350;
+height = 600;
 
-		<script>
-			var svg = d3.select('#d3_selectable_force_directed_graph');
-			d3.json('data-ontoterminologie.json', function(error, graph) {
-				if (!error) {
-					//console.log('graph', graph);
-					createV4SelectableForceDirectedGraph(svg, graph);
-				} else {
-					console.error(error);
-				}
-			});
-		</script>
-	</body>
-</html>
+//create somewhere to put the force directed graph
+var svg = d3.select("#content")
+	.append("svg")
+	.attr("width", width)
+	.attr("height", height);
+ 
+//set up the simulation 
+var simulation = d3.forceSimulation().nodes(dataset.nodes);
+
+simulation
+	.force("charge_force", d3.forceManyBody().strength(-750))
+	.force("center_force", d3.forceCenter(width / 2, height / 2));
+
+//Create the link force 
+//We need the id accessor to use named sources and targets 
+var link_force =  d3.forceLink(dataset.links)
+	.id(function(d) { return d.id; });
+
+link_force.distance(20);
+
+simulation.force("links",link_force)
+
+var link = svg.append("g")
+	.attr("class", "links")
+	.selectAll("line")
+	.data(dataset.links)
+	.enter().append("line")
+	.attr("stroke-width", 2);
+
+var node = svg.append("g")
+	.attr("class", "nodes")
+	.selectAll("circle")
+	.data(dataset.nodes)
+	.enter()
+	.append("circle")
+	.attr("r", 5)
+	.attr("node_selected", "false")
+	.attr("node_id", function (d) { return d.id; });
+
+var label = svg.selectAll(null)
+	.data(dataset.nodes)
+	.enter()
+	.append("text")
+	.text(function (d) { return d.name; })
+	.style("text-anchor", "middle")
+	.style("font-family", "Arial")
+	.style("font-size", 12)
+	.attr("node_id", function (d) { return d.id; });
+
+	function tickActions() {
+		//update circle positions each tick of the simulation 
+		node
+			.attr("cx", function(d) { return d.x; })
+			.attr("cy", function(d) { return d.y; })
+			.attr("fill", function(d) {if(d.node_selected!=null && d.node_selected==true) { return "#0739d0"; } else if(d.id=="0"){ return "#ffffff"; } else { return "#404040"; } }); 
+
+		//update link positions 
+		//simply tells one end of the line to follow one node around
+		//and the other end of the line to follow the other node around
+		link
+			.attr("x1", function(d) { return d.source.x; })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; })
+			.attr("stroke", function(d) {console.log(d.source.id); if(d.source.id=="0" || d.target.id=="0"){ return "#ffffff"; } else { return "#808080"; } });
+
+		label
+			.attr("x", function(d) { return d.x; })
+			.attr("y", function(d) { return d.y+20; })
+			.attr("fill", function(d) {if(d.node_selected!=null && d.node_selected==true) { return "#0739d0"; } else if(d.id=="0"){ return "#ffffff"; } else { return "#404040"; } }); 
+	}
+
+	simulation.on("tick", tickActions);
+
+	$(document).ready(function(){
+		$("#content svg g.nodes, #content svg text").click(function(e){
+			var id = $(e.target).attr("node_id");
+			if(id!="0"){
+				Object.keys(dataset.nodes).forEach(function (key) {
+					if(key == id){
+						dataset.nodes[key].node_selected = true;
+					}else{
+						dataset.nodes[key].node_selected = false;
+					}
+				});
+			}
+			tickActions();
+		});
+	});
+
+</script>
