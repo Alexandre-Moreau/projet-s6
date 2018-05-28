@@ -1,5 +1,5 @@
 
-width = 350;
+width = 550;
 height = 600;
 var glob_node;
 var glob_link;
@@ -24,7 +24,7 @@ var glob_dataset;
 		var link_force =  d3.forceLink(dataset.links)
 			.id(function(d) { return d.id; });
 
-		link_force.distance(2);
+		link_force.distance(30);
 
 		simulation.force("links",link_force)
 
@@ -52,7 +52,7 @@ var glob_dataset;
 			.text(function (d) { return d.name; })
 			.style("text-anchor", "middle")
 			.style("font-family", "Arial")
-			.style("font-size", "0.7em")
+			.style("font-size", "0.6em")
 			.attr("node_id", function (d) { return d.id; });
 
 		simulation.on("tick", tickActions);
