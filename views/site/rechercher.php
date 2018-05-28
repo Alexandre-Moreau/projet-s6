@@ -35,26 +35,7 @@
 				</li>
 			</ul>
 			<div id="concepts0">
-				<?php
-					function printRecursive($concept, $callStack){
-						echo '<div class="ontoTerminologieElement">&#x2514;'.str_repeat('&#x2500;', $callStack).' <span class="refConcept" id="ontoTerminologieElementName'.$concept->id.'">'.$concept->nom.'</span></div>';
-						$callStack++;
-						foreach($concept->conceptsFils as $fils){
-							printRecursive($fils, $callStack);
-						}
-					}
 
-					function printRecursiveJSON($concept){
-						echo $concept->id.' '.$concept->nom;
-						foreach($concept->conceptsFils as $fils){
-							printRecursiveJSON($fils);
-						}
-					}
-
-					foreach($data['onto'] as $conceptRacine) {
-						//printRecursive($conceptRacine, 0);
-					}
-				?>
 			</div>
 			<div id="concepts1" style="text-align: center;">
 				<div id="blockRoot"></div>
@@ -83,6 +64,7 @@
 </div>
 
 <script src="js/graphe.js" type="text/javascript"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
 	<?php
@@ -95,6 +77,26 @@
 		}
 		echo "]\n";
 	?>
+
+	var dataset = {
+		"nodes":[
+			<?php 
+			foreach (Concept::findAll() as $concept) {
+				echo '{"id": "'.$concept->id.'", "name": "'.$concept->nom."\"},\n";
+			}
+			?>
+		],
+		"links":[
+			<?php
+			foreach (Relation::findAll() as $relation) {
+				echo '{"source": "'.$relation->conceptFrom->id.'", "target": "'.$relation->conceptTo->id."\"},\n";
+			}
+			?>
+			// TODO ------------------------------------------------------------------------------------------------------------------------- <===============
+			// Trouver le moyen de faire la liaison entre les 2 racines
+			{"source":"44", "target":"57"}
+		]
+	};
 
 	var conceptIdSelection = null;
 
@@ -145,7 +147,24 @@
 	$(document).ready(function () {
 
 		//$('div#concepts1').html('a');
-		selectConceptCarre(conceptIdSelection)
+		selectConceptCarre(conceptIdSelection);
+
+		createGraph(dataset, "div#concepts0");
+		//$("svg g.nodes, svg text").click(function(event){
+		$("svg g.nodes").click(function(event){
+			var id = $(event.target).attr("node_id");
+			var contenuElementClique;
+
+			Object.keys(dataset.nodes).forEach(function (key) {
+				if(dataset.nodes[key].id == id){
+					contenuElementClique = dataset.nodes[key].name;
+				}
+			});
+			
+			$('#queryInput').val(contenuElementClique);
+			$('#queryInput').focus();
+			form.submit();
+		});
 
 		$('div.ontoTerminologieElement span').click(function(event){
 			var contenuElementClique = $('#'+event.target.id).html();
@@ -205,6 +224,16 @@
 				$('.ontoTerminologieElement span.refConcept').filter(function() {return $(this).html() == currentConcept;}).addClass('selected');
 				$('.ontoTerminologieElementTerme span.refConcept').filter(function() {return $(this).attr('concept') == currentConcept;}).addClass('selected');
 			}
+
+			// Coloration de l'élément sélectionné dans le graphe
+			Object.keys(dataset.nodes).forEach(function (key) {
+				if(dataset.nodes[key].name == $('#queryInput').val()){
+					dataset.nodes[key].node_selected = true;
+				}else{
+					dataset.nodes[key].node_selected = false;
+				}
+			});
+			tickActions();
 
 			e.preventDefault();
 

@@ -1,4 +1,4 @@
-
+console.load('loaded');
 
 width = 350;
 height = 600;
@@ -7,11 +7,11 @@ var glob_link;
 var glob_label;
 var glob_dataset;
 
-	function createGraph(dataset){
+	function createGraph(dataset, placement){
 
 		glob_dataset = dataset;
 
-		var svg = d3.select("#content")
+		var svg = d3.select(placement)
 			.append("svg")
 			.attr("width", width)
 			.attr("height", height);

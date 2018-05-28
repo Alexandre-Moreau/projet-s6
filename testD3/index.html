@@ -36,7 +36,7 @@ data =  {
 };
 
 $(document).ready(function(){
-	createGraph(data);
+	createGraph(data, "#content");
 	$("#content svg g.nodes, #content svg text").click(function(e){
 		var id = $(e.target).attr("node_id");
 		if(id!="0"){
