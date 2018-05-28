@@ -73,8 +73,7 @@ var glob_dataset;
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; })
-			.attr("stroke", function(d) {if(d.source.id=="0" || d.target.id=="0"){ return "#ffffff"; } else { return "#808080"; } });
-			/* TODO colorier sauf le lien entre les 2 racines --------------------------------------------------------------------------------------------------------- <====== -------------- */
+			.attr("stroke", function(d) {if(d.type!=null || d.type=="invisible"){ return "#ffffff"; } else { return "#808080"; } });
 
 		glob_label
 			.attr("x", function(d) { return d.x; })

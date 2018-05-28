@@ -92,9 +92,15 @@
 				echo '{"source": "'.$relation->conceptFrom->id.'", "target": "'.$relation->conceptTo->id."\"},\n";
 			}
 			?>
-			// TODO ------------------------------------------------------------------------------------------------------------------------- <===============
-			// Trouver le moyen de faire la liaison entre les 2 racines
-			{"source":"44", "target":"57"}
+			<?php
+				// C FOU ça marche j'y aurai jamais cru
+				foreach(Concept::findRoots() as $key => $value){
+					if(isset(Concept::findRoots()[$key+1])){
+						echo '{"source":"'.Concept::findRoots()[$key]->id.'", "target":"'.Concept::findRoots()[$key+1]->id.'", "type":"invisible"},'."\n";
+					}
+				}
+			?>
+			
 		]
 	};
 
