@@ -73,12 +73,12 @@ var glob_dataset;
 			.attr("y1", function(d) { return d.source.y; })
 			.attr("x2", function(d) { return d.target.x; })
 			.attr("y2", function(d) { return d.target.y; })
-			.attr("stroke", function(d) {if(d.type!=null || d.type=="invisible"){ return "#ffffff"; } else { return "#808080"; } });
+			.attr("stroke", function(d) {if(d.type!=null || d.type=="invisible"){ return "#ffffff"; } else { return "#c0c0c0"; } });
 
 		glob_label
 			.attr("x", function(d) { return d.x; })
 			.attr("y", function(d) { return d.y+15; })
-			.attr("fill", function(d) {if(d.node_selected!=null && d.node_selected==true) { return "#0739d0"; } else if(d.id=="0"){ return "#ffffff"; } else { return "#404040"; } }); 
+			.attr("fill", function(d) {if(d.node_selected!=null && d.node_selected==true) { return "#0739d0"; } else if(d.id=="0"){ return "#ffffff"; } else { return "#606060"; } }); 
 	}
 
 	
