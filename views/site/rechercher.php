@@ -27,21 +27,21 @@
 
 		<div id="contentDivs">
 			<div class="contentDiv" id="concepts">			
-				<ul class="tabs">
+				<!-- <ul class="tabs">
 					<li class="tab">
 						<a class="active" id="tab1" href="#concepts0"><?php echo _ONTO;?></a>
 					</li>
 					<li class="tab">
 						<a id="tab2" href="#concepts1"><?php echo 'carrés';?></a>
 					</li>
-				</ul>
+				</ul> -->
 				<div id="concepts0">
 
 				</div>
-				<div id="concepts1" style="text-align: center;">
+				<!-- <div id="concepts1" style="text-align: center;">
 					<div id="blockRoot"></div>
 					<div id="blockContent" style="overflow: hidden;"></div>
-				</div>
+				</div> -->
 			</div>
 			<div class="contentDiv" id="terms">
 				<?php
