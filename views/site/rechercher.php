@@ -14,53 +14,55 @@
 
 </form>
 
-<div class="third">
-	<ul id="rechercherTabs" class="tabs tabs-fixed-width" style="overflow: hidden;">
-		<li class="tab">
-			<a class="active" id="tab1" href="#concepts"><?php echo _CONCEPTS;?></a>
-		</li>
-		<li class="tab">
-			<a id="tab2" href="#terms"><?php echo _TERMS;?></a>
-		</li>
-	</ul>
+<div class="row">
+	<div class="col l4 m12 s12">
+		<ul id="rechercherTabs" class="tabs tabs-fixed-width" style="overflow: hidden;">
+			<li class="tab">
+				<a class="active" id="tab1" href="#concepts"><?php echo _CONCEPTS;?></a>
+			</li>
+			<li class="tab">
+				<a id="tab2" href="#terms"><?php echo _TERMS;?></a>
+			</li>
+		</ul>
 
-	<div id="contentDivs">
-		<div class="contentDiv" id="concepts">			
-			<ul class="tabs">
-				<li class="tab">
-					<a class="active" id="tab1" href="#concepts0"><?php echo _ONTO;?></a>
-				</li>
-				<li class="tab">
-					<a id="tab2" href="#concepts1"><?php echo 'carrés';?></a>
-				</li>
-			</ul>
-			<div id="concepts0">
+		<div id="contentDivs">
+			<div class="contentDiv" id="concepts">			
+				<ul class="tabs">
+					<li class="tab">
+						<a class="active" id="tab1" href="#concepts0"><?php echo _ONTO;?></a>
+					</li>
+					<li class="tab">
+						<a id="tab2" href="#concepts1"><?php echo 'carrés';?></a>
+					</li>
+				</ul>
+				<div id="concepts0">
 
+				</div>
+				<div id="concepts1" style="text-align: center;">
+					<div id="blockRoot"></div>
+					<div id="blockContent" style="overflow: hidden;"></div>
+				</div>
 			</div>
-			<div id="concepts1" style="text-align: center;">
-				<div id="blockRoot"></div>
-				<div id="blockContent" style="overflow: hidden;"></div>
+			<div class="contentDiv" id="terms">
+				<?php
+					foreach($data['termes'] as $terme){
+						echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';
+					}
+				?>
 			</div>
-		</div>
-		<div class="contentDiv" id="terms">
-			<?php
-				foreach($data['termes'] as $terme){
-					echo '<div class="ontoTerminologieElementTerme"><span class="refConcept" id="ontoTerminologieElementTermeName'.$terme->concept->id.'" concept="'.$terme->concept->nom.'"">'.stripslashes($terme->motCle).'</span></div>';
-				}
-			?>
 		</div>
 	</div>
-</div>
 
-<div class="third" id="articlesList">
-	<h4><?php echo _LISTARTICLES;?></h4>
-	<ul class="collection">
-	</ul>
-</div>
-<div class="third" id="referencesList">
-	<h4><?php echo _LISTREFERENCES;?></h4>
-	<ul class="collection">
-	</ul>
+	<div class="col l4 m6 s12" id="articlesList">
+		<h4><?php echo _LISTARTICLES;?></h4>
+		<ul class="collection">
+		</ul>
+	</div>
+	<div class="col l4 m6 s12" id="referencesList">
+		<h4><?php echo _LISTREFERENCES;?></h4>
+		<ul class="collection">
+		</ul>
+	</div>
 </div>
 
 <script src="js/graphe.js" type="text/javascript"></script>

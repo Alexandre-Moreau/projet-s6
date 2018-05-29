@@ -152,8 +152,8 @@
 				<inflectedForm>chaises</inflectedForm>
 				<status>preferred</status>
 			</term>
-			<term name="chaise d' intérieur">
-				<inflectedForm>chaises d' intérieur</inflectedForm>
+			<term name="chaise d'intérieur">
+				<inflectedForm>chaises d'intérieur</inflectedForm>
 				<status>alternative</status>
 			</term>
 		</language>
