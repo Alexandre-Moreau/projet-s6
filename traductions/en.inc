@@ -34,6 +34,8 @@ define("_WATCHLOGS","Watch logs for more information");
 define("_NOFILEERROR","No file chosen");
 define("_PARSEERROR","Error during parsing (file is not correct)");
 define("_ENCODINGERROR","Encoding erro (must be in UTF-8)");
+define("_ERRORFILETYPE", "File format not accepted");
+define("_ERRORFILEALREADYDB","File already in database");
 define("_UNKNOWNERROR","Unknown error");
 define("_MISSINGINFORM1","No ");
 define("_MISSINGINFORM2"," were specified");

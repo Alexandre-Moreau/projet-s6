@@ -30,12 +30,12 @@ class ArticleController extends Controller{
 				$fileType = explode("/", $_FILES['0']['type'])[1]; // application/pdf -> pdf, text/html -> html
 				// html, pdf, txt (text/plain)
 				if($fileType != 'html' && $fileType != 'htm' && $fileType != 'pdf' && $fileType != 'plain' && $fileType != ''){
-					array_push($data['erreursSaisie'],"le type de fichier n'est pas reconnu (".$fileType.")");
+					array_push($data['erreursSaisie'],_ERRORFILETYPE." (".$fileType.")");
 				}
 				//Nom de l'article sans caractère spéciaux
 				$newName = cleanString(str_replace(' ', '_', $_FILES['0']['name']));
 				if(Article::findByChemin(GLOB_ARTICLESFODER . $newName) != null){
-					array_push($data['erreursSaisie'],'ce fichier est déjà dans la base de données');
+					array_push($data['erreursSaisie'], _ERRORFILEALREADYDB);
 				}
 			}
 		}
@@ -227,79 +227,86 @@ class ArticleController extends Controller{
 				$j = 0;				
 				foreach(explode(' ', $termeEspace->motCle) as $motCourantTermeEspace){
 					// si chaque mot du terme avec des espace concorde avec le texte depuis $mot
-					$bool1 = strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace);
-					// même condition en enlevant le point final si il y en a un
-					$bool2 = ( $i+$j == count($textArray)-1 ) && ( strtolower( substr($textArray[$i+$j], -1) ) == '.' ) && ( strtolower( substr($textArray[$i+$j], 0, -1) ) == strtolower($motCourantTermeEspace) );
-					if($i+$j < count($textArray) && ($bool1 || $bool2)){
-						// si on a réussi à faire concorder jusqu'à la fin du terme
-						if($j == count(explode(' ', $termeEspace->motCle))-1){
+					if(isset($textArray[$i+$j])){
+						$bool1 = strtolower($textArray[$i+$j]) == strtolower($motCourantTermeEspace);
+						// même condition en enlevant le point final si il y en a un
+						$bool2 = ( $i+$j == count($textArray)-1 ) && ( strtolower( substr($textArray[$i+$j], -1) ) == '.' ) && ( strtolower( substr($textArray[$i+$j], 0, -1) ) == strtolower($motCourantTermeEspace) );
+						if($i+$j < count($textArray) && ($bool1 || $bool2)){
+							// si on a réussi à faire concorder jusqu'à la fin du terme
+							if($j == count(explode(' ', $termeEspace->motCle))-1){
 
-							$contexte = '';
-							$nbMotsAvant = 0;
-							$nbMotsApres = 0;
-							//Si on a coupé à cause de la longueur, on va donc mettre '...' au début
-							$coupureLongueurAvant = true;
-							$coupureLongueurApres = true;
+								$contexte = '';
+								$nbMotsAvant = 0;
+								$nbMotsApres = 0;
+								//Si on a coupé à cause de la longueur, on va donc mettre '...' au début
+								$coupureLongueurAvant = true;
+								$coupureLongueurApres = true;
 
-							// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
-							while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && substr($textArray[$i-$nbMotsAvant-1], -1)!='.' && substr($textArray[$i-$nbMotsAvant-1], -1)!='。'){
-								$nbMotsAvant++;
-							}
-
-							if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>=0){
-								$coupureLongueurAvant = false;
-							}
-
-							while($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray) && substr($textArray[($i+$j)+$nbMotsApres], -1)!='.' && substr($textArray[($i+$j)+$nbMotsApres], -1)!='。'){
-								$nbMotsApres++;
-							}
-
-							if($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray)){
-								$coupureLongueurApres = false;
-							}
-
-							//Création du contexte
-
-							if($coupureLongueurAvant){
-								$contexte .= '...';
-							}
-
-							// On ajoute les mots précédents au contexte
-							for($l = $nbMotsAvant; $l>0; $l--){
-								$contexte .= $textArray[$i-$l].' ';
-							}
-
-							$contexte .= '||';
-
-							for($k=$i; $k<=($i+$j); $k++){
-								//$contexte .= $textArray[$k].'_';
-								$contexte .= $textArray[$k];
-								if($k != ($i+$j)){
-									$contexte .= ' ';
+								// On détermine nbMotsAvant et nbMotsApres (pour éviter les débordements et s'arrêter sur les points)
+								while($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>0 && substr($textArray[$i-$nbMotsAvant-1], -1)!='.' && substr($textArray[$i-$nbMotsAvant-1], -1)!='。'){
+									$nbMotsAvant++;
 								}
+
+								if($nbMotsAvant<MAX_WORDS_BEFORE && $i-$nbMotsAvant>=0){
+									$coupureLongueurAvant = false;
+								}
+
+								while($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray) && substr($textArray[($i+$j)+$nbMotsApres], -1)!='.' && substr($textArray[($i+$j)+$nbMotsApres], -1)!='。'){
+									$nbMotsApres++;
+								}
+
+								if($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray)){
+									$coupureLongueurApres = false;
+								}
+
+								//Création du contexte
+
+								if($coupureLongueurAvant){
+									$contexte .= '...';
+								}
+
+								// On ajoute les mots précédents au contexte
+								for($l = $nbMotsAvant; $l>0; $l--){
+									if(isset($textArray[$i-$l])){
+										$contexte .= $textArray[$i-$l].' ';
+									}
+								}
+
+								$contexte .= '||';
+
+								for($k=$i; $k<=($i+$j); $k++){
+									//$contexte .= $textArray[$k].'_';
+									$contexte .= $textArray[$k];
+									if($k != ($i+$j)){
+										$contexte .= ' ';
+									}
+								}
+
+								$contexte .= '||';
+
+								// On ajoute les mots suivants au contexte
+								for($l = 1; $l<=$nbMotsApres; $l++){
+									if(isset( $textArray[($i+$j)+$l] )){
+										$contexte .= ' '.$textArray[($i+$j)+$l];
+									}
+								}
+
+								if($coupureLongueurApres){
+									$contexte .= '...';
+								}
+
+								array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
+								// On sort, on a identifié le mot, on va sauter j prochains mots
+								$i = $i+$j;
+								$motEspaceTraite = true;
 							}
-
-							$contexte .= '||';
-
-							// On ajoute les mots suivants au contexte
-							for($l = 1; $l<=$nbMotsApres; $l++){
-								$contexte .= ' '.$textArray[($i+$j)+$l];
-							}
-
-							if($coupureLongueurApres){
-								$contexte .= '...';
-							}
-
-							array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
-							// On sort, on a identifié le mot, on va sauter j prochains mots
-							$i = $i+$j;
-							$motEspaceTraite = true;
+							$j++;
+						}else{
+							// On sort, le mot n' a pas été identifié
+							break;
 						}
-						$j++;
-					}else{
-						// On sort, le mot n' a pas été identifié
-						break;
 					}
+					
 				}
 			}
 			

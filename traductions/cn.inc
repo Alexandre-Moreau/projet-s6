@@ -34,6 +34,8 @@ define("_WATCHLOGS","请查看记录获得更多信息");
 define("_NOFILEERROR","文件未选择");
 define("_PARSEERROR","解析时出错 (文件不正确)");
 define("_ENCODINGERROR","编码错误 (必须是 UTF-8)");
+define("_ERRORFILETYPE", "文件格式不被接受");
+define("_ERRORFILEALREADYDB","文件已经在数据库中");
 define("_UNKNOWNERROR","未知错误");
 define("_MISSINGINFORM1","不存在 ");
 define("_MISSINGINFORM2","被指定的");
