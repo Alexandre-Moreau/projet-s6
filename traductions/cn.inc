@@ -93,6 +93,8 @@ define("_EDITARTICLE","编辑文章");
 define("_EDITSUCCES","该文章被成功编辑");
 
 // Maintenance
+define("_STATUS","状态");
+define("_DATABASE_MANAGEMENT","数据库管理");
 define("_ONTO","本体术语");
 define("_ADVANCED","高级");
 define("_SYSTEM", "系统");
