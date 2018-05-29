@@ -197,6 +197,7 @@ class ArticleController extends Controller{
 		$termes = Terme::findByMotCleLangue($textArray, $langue);
 		$termesEspace = Terme::findByMotCleLangueSpace($textArray, $langue);
 
+		// On retire les '\' multiples
 		foreach($termes as $key => $value){
 			$termes[$key]->motCle = preg_replace('/\\\\{2,}/', '\\', $termes[$key]->motCle);
 		}
@@ -255,7 +256,7 @@ class ArticleController extends Controller{
 									$nbMotsApres++;
 								}
 
-								if($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<count($textArray)){
+								if($nbMotsApres<MAX_WORDS_AFTER && ($i+$j)+$nbMotsApres<=count($textArray)){
 									$coupureLongueurApres = false;
 								}
 
@@ -295,7 +296,7 @@ class ArticleController extends Controller{
 									$contexte .= '...';
 								}
 
-								array_push($references, new Reference($i, $j, $contexte, $article, $termeEspace->concept));
+								array_push($references, new Reference($i, $j+1, $contexte, $article, $termeEspace->concept));
 								// On sort, on a identifié le mot, on va sauter j prochains mots
 								$i = $i+$j;
 								$motEspaceTraite = true;
